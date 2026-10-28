@@ -47,6 +47,21 @@ export function setupMediaSession(engine: RadioEngine): () => void {
   };
 }
 
+function getArtworkMimeType(url?: string): string {
+  if (!url) return 'image/png';
+  const cleanUrl = url.split(/[?#]/)[0].toLowerCase();
+  if (cleanUrl.endsWith('.jpg') || cleanUrl.endsWith('.jpeg')) {
+    return 'image/jpeg';
+  }
+  if (cleanUrl.endsWith('.webp')) {
+    return 'image/webp';
+  }
+  if (cleanUrl.endsWith('.svg')) {
+    return 'image/svg+xml';
+  }
+  return 'image/png';
+}
+
 /**
  * Updates W3C Media Session metadata with high-resolution artwork and track information.
  * - If music cue: Displays song title, artist name, and station name as album.
@@ -70,6 +85,7 @@ export function updateMediaSessionMetadata(
   const title = isSong ? cue.song : station.name;
   const artist = isSong ? cue.artist : (station.host || 'Live Radio');
   const album = isSong ? station.name : (station.genre || 'Grand Theft Auto');
+  const artworkType = getArtworkMimeType(station.logoUrl);
 
   try {
     navigator.mediaSession.metadata = new MediaMetadata({
@@ -77,9 +93,9 @@ export function updateMediaSessionMetadata(
       artist,
       album,
       artwork: [
-        { src: station.logoUrl, sizes: '96x96', type: 'image/png' },
-        { src: station.logoUrl, sizes: '256x256', type: 'image/png' },
-        { src: station.logoUrl, sizes: '512x512', type: 'image/png' },
+        { src: station.logoUrl, sizes: '96x96', type: artworkType },
+        { src: station.logoUrl, sizes: '256x256', type: artworkType },
+        { src: station.logoUrl, sizes: '512x512', type: artworkType },
       ],
     });
   } catch {

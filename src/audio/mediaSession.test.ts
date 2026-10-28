@@ -144,6 +144,20 @@ describe('W3C Media Session API Controller & CarPlay Integration', () => {
       ]);
     });
 
+    it('infers proper MIME types for webp, jpg, and svg station artwork', () => {
+      const webpStation = { ...mockStation, logoUrl: '/logos/station.webp' };
+      updateMediaSessionMetadata(webpStation);
+      expect(mockMediaSession.metadata.artwork[0].type).toBe('image/webp');
+
+      const jpgStation = { ...mockStation, logoUrl: '/logos/station.jpg' };
+      updateMediaSessionMetadata(jpgStation);
+      expect(mockMediaSession.metadata.artwork[0].type).toBe('image/jpeg');
+
+      const svgStation = { ...mockStation, logoUrl: '/logos/station.svg' };
+      updateMediaSessionMetadata(svgStation);
+      expect(mockMediaSession.metadata.artwork[0].type).toBe('image/svg+xml');
+    });
+
     it('formats metadata with station name and host when playing DJ banter/talk', () => {
       const talkCue: TrackCue = {
         start: 200,

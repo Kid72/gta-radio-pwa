@@ -261,6 +261,10 @@ export class RadioEngine {
       // One-time seek fallback on metadata load
       let metadataHandled = false;
       const onMetadata = () => {
+        if (reqId !== this.requestId) {
+          this.audio.removeEventListener('loadedmetadata', onMetadata);
+          return;
+        }
         if (!metadataHandled) {
           metadataHandled = true;
           try {
@@ -331,6 +335,10 @@ export class RadioEngine {
       // One-time seek fallback on metadata load (WebKit live epoch sync)
       let metadataHandled = false;
       const onMetadata = () => {
+        if (reqId !== this.requestId) {
+          this.audio.removeEventListener('loadedmetadata', onMetadata);
+          return;
+        }
         if (!metadataHandled) {
           metadataHandled = true;
           try {
