@@ -2,13 +2,14 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { GameId, Station, EngineState } from './types/radio';
 import { getGame, getStationsForGame } from './data/catalog';
 import { RadioEngine, radioEngine } from './audio/radioEngine';
-import { setupMediaSession, updateMediaSessionMetadata } from './audio/mediaSession';
+import { setupMediaSession, updateMediaSession } from './audio/mediaSession';
 import { sfx } from './audio/sfx';
+import { coverArtService } from './services/coverArtService';
 import { listCachedStationKeys, deleteCachedStationAudio } from './storage/db';
 import { downloadStationWithProgress } from './storage/downloadManager';
 import { ThemeWrapper } from './components/ThemeWrapper';
 import { GameSelector } from './components/GameSelector';
-import { RadioWheel } from './components/RadioWheel';
+import { GameRadioSelector } from './components/GameRadioSelector';
 import { CarQuickGrid } from './components/CarQuickGrid';
 import { StorageDrawer } from './components/StorageDrawer';
 import { InstallPrompt } from './components/InstallPrompt';
@@ -48,6 +49,7 @@ export default function App({
   const [sfxEnabled, setSfxEnabled] = useState<boolean>(() => sfx.isEnabled());
   const [cachedKeys, setCachedKeys] = useState<Set<string>>(new Set());
   const [downloadingKeys, setDownloadingKeys] = useState<Map<string, number>>(new Map());
+  const [coverArtUrl, setCoverArtUrl] = useState<string | null>(null);
 
   // Engine state mirror
   const [engineState, setEngineState] = useState<EngineState>(() => activeEngine.getState());
@@ -75,6 +77,39 @@ export default function App({
     activeEngine.setStations(stations);
   }, [currentGameId, activeEngine]);
 
+  // Dynamically resolve high-res cover art from iTunes Search API with fallback
+  useEffect(() => {
+    const station = engineState.currentStation;
+    const cue = engineState.currentCue;
+
+    if (!station) {
+      setCoverArtUrl(null);
+      return;
+    }
+
+    let isCancelled = false;
+    const artist = cue?.type === 'music' ? cue.artist : '';
+    const song = cue?.type === 'music' ? cue.song : '';
+    const fallback = station.logoUrl || '';
+
+    coverArtService
+      .getCoverArt(artist, song, fallback)
+      .then((artUrl) => {
+        if (!isCancelled) {
+          setCoverArtUrl(artUrl || fallback);
+        }
+      })
+      .catch(() => {
+        if (!isCancelled) {
+          setCoverArtUrl(fallback);
+        }
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [engineState.currentStation, engineState.currentCue]);
+
   // Synchronize Apple CarPlay MediaSession handlers and lock screen metadata
   useEffect(() => {
     const cleanupMediaSession = setupMediaSession(activeEngine);
@@ -85,9 +120,14 @@ export default function App({
 
   useEffect(() => {
     if (engineState.currentStation) {
-      updateMediaSessionMetadata(engineState.currentStation, engineState.currentCue);
+      updateMediaSession(
+        engineState.currentStation,
+        engineState.currentCue,
+        engineState.isPlaying,
+        coverArtUrl
+      );
     }
-  }, [engineState.currentStation, engineState.currentCue]);
+  }, [engineState.currentStation, engineState.currentCue, engineState.isPlaying, coverArtUrl]);
 
   // Refresh cached stations list from IndexedDB
   const refreshCachedKeys = useCallback(async () => {
@@ -310,12 +350,14 @@ export default function App({
       >
         {viewMode === 'wheel' ? (
           <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto my-auto py-2">
-            <RadioWheel
+            <GameRadioSelector
+              gameId={currentGameId}
               stations={currentStations}
               currentStation={currentStation}
               onSelectStation={handleSelectStation}
               isPlaying={isPlaying}
               currentCue={currentCue}
+              coverArtUrl={coverArtUrl}
             />
             <div className="mt-4 text-center">
               <span className="text-[11px] text-neutral-500 tracking-wider uppercase">
@@ -351,10 +393,10 @@ export default function App({
           {/* Current Station Info */}
           <div className="flex items-center gap-3 min-w-0 flex-1 sm:flex-initial sm:w-72">
             <div className="relative flex-shrink-0 w-11 h-11 sm:w-14 sm:h-14 rounded-xl bg-black/60 border border-white/15 overflow-hidden flex items-center justify-center shadow-lg">
-              {currentStation?.logoUrl ? (
+              {coverArtUrl || currentStation?.logoUrl ? (
                 <img
-                  src={currentStation.logoUrl}
-                  alt={currentStation.name}
+                  src={coverArtUrl || currentStation?.logoUrl}
+                  alt={currentStation ? currentStation.name : 'Radio'}
                   className="w-full h-full object-contain p-1"
                 />
               ) : (

@@ -21,6 +21,10 @@ describe('App Master Integration Suite', () => {
     });
     window.HTMLMediaElement.prototype.load = vi.fn();
 
+    if (typeof Element !== 'undefined') {
+      Element.prototype.scrollIntoView = vi.fn();
+    }
+
     engine = new RadioEngine();
   });
 
@@ -108,6 +112,29 @@ describe('App Master Integration Suite', () => {
     expect(themeWrapper).toHaveAttribute('data-theme', 'gta4');
     expect(gta4Tab).toHaveAttribute('aria-selected', 'true');
     expect(screen.getByText(/Vladivostok FM/i)).toBeInTheDocument();
+  });
+
+  it('dynamically adapts polymorphic game selector (Gta5RadialWheel -> GtaSaHorizontalReel -> Gta4VerticalTuner) in wheel view', async () => {
+    await renderApp({ initialGame: 'gta5', initialView: 'wheel' });
+
+    // GTA V Radial Wheel is active
+    expect(screen.getByTestId('gta5-radial-svg')).toBeInTheDocument();
+
+    // Switch to GTA San Andreas
+    const saTab = screen.getByRole('tab', { name: /GTA San Andreas/i });
+    await act(async () => {
+      fireEvent.click(saTab);
+    });
+    expect(screen.getByTestId('gtasa-reel-container')).toBeInTheDocument();
+    expect(screen.queryByTestId('gta5-radial-svg')).not.toBeInTheDocument();
+
+    // Switch to GTA IV
+    const gta4Tab = screen.getByRole('tab', { name: /GTA IV/i });
+    await act(async () => {
+      fireEvent.click(gta4Tab);
+    });
+    expect(screen.getByTestId('gta4-vertical-tuner')).toBeInTheDocument();
+    expect(screen.queryByTestId('gtasa-reel-container')).not.toBeInTheDocument();
   });
 
   it('tunes stations and updates audio playback and HUD metadata', async () => {

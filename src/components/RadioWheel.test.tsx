@@ -184,6 +184,46 @@ describe('BroadcastHUD Component', () => {
     expect(screen.getByText('Radio Off')).toBeInTheDocument();
     expect(screen.getByText('Select Station')).toBeInTheDocument();
   });
+
+  it('renders dynamic cover art alongside station logo when coverArtUrl is provided', () => {
+    render(
+      <BroadcastHUD
+        station={sampleStation}
+        isPlaying={true}
+        currentCue={sampleCue}
+        coverArtUrl="https://example.com/hud-artwork.jpg"
+      />
+    );
+
+    const stationLogo = screen.getByTestId('station-logo');
+    expect(stationLogo).toBeInTheDocument();
+
+    const hudCover = screen.getByTestId('hud-cover-art');
+    expect(hudCover).toBeInTheDocument();
+    expect(hudCover).toHaveAttribute('src', 'https://example.com/hud-artwork.jpg');
+
+    const vinylBadge = screen.getByTestId('hud-vinyl-badge');
+    expect(vinylBadge).toBeInTheDocument();
+  });
+
+  it('falls back to cue.coverArtUrl when coverArtUrl prop is omitted', () => {
+    const cueWithCover: TrackCue = {
+      ...sampleCue,
+      coverArtUrl: 'https://example.com/cue-artwork.jpg',
+    };
+
+    render(
+      <BroadcastHUD
+        station={sampleStation}
+        isPlaying={false}
+        currentCue={cueWithCover}
+      />
+    );
+
+    const hudCover = screen.getByTestId('hud-cover-art');
+    expect(hudCover).toBeInTheDocument();
+    expect(hudCover).toHaveAttribute('src', 'https://example.com/cue-artwork.jpg');
+  });
 });
 
 describe('RadioWheel Component', () => {

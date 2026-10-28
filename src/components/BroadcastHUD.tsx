@@ -6,6 +6,7 @@ export interface BroadcastHUDProps {
   station: Station | null;
   isPlaying?: boolean;
   currentCue?: TrackCue | null;
+  coverArtUrl?: string | null;
   className?: string;
   size?: 'sm' | 'md' | 'lg';
 }
@@ -14,6 +15,7 @@ export const BroadcastHUD: React.FC<BroadcastHUDProps> = ({
   station,
   isPlaying = false,
   currentCue = null,
+  coverArtUrl = null,
   className = '',
   size = 'md',
 }) => {
@@ -57,6 +59,8 @@ export const BroadcastHUD: React.FC<BroadcastHUDProps> = ({
     artistOrInfo = `Hosted by ${station.host}`;
   }
 
+  const effectiveCoverArt = coverArtUrl || currentCue?.coverArtUrl || null;
+
   return (
     <div
       data-testid="broadcast-hud"
@@ -93,19 +97,41 @@ export const BroadcastHUD: React.FC<BroadcastHUDProps> = ({
         />
       </div>
 
-      {/* Center: Station Logo & Name */}
+      {/* Center: Station Logo & Name (+ optional Cover Art) */}
       <div className="z-10 relative flex flex-col items-center justify-center max-w-[85%]">
-        <div className="relative mb-1">
+        <div className="relative mb-1 flex items-center justify-center gap-2">
           <img
             src={station.logoUrl}
             alt={station.name}
             data-testid="station-logo"
-            className="w-12 h-12 sm:w-16 sm:h-16 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] transition-transform duration-200 group-hover:scale-105"
+            className={`${
+              effectiveCoverArt ? 'w-10 h-10 sm:w-12 sm:h-12' : 'w-12 h-12 sm:w-16 sm:h-16'
+            } object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)] transition-transform duration-200 group-hover:scale-105`}
             onError={(e) => {
               // Graceful fallback to icon if image fails
               (e.currentTarget as HTMLElement).style.display = 'none';
             }}
           />
+          {effectiveCoverArt && (
+            <div className="relative group/cover flex-shrink-0">
+              <img
+                src={effectiveCoverArt}
+                alt={currentCue?.song || 'Cover Art'}
+                data-testid="hud-cover-art"
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg object-cover border border-white/20 shadow-[0_4px_12px_rgba(0,0,0,0.6)]"
+              />
+              <div
+                data-testid="hud-vinyl-badge"
+                className="absolute -bottom-1 -right-1 bg-black/80 rounded-full p-0.5 border border-white/20 shadow"
+              >
+                <Disc3
+                  className={`w-2.5 h-2.5 text-[var(--accent-color,#4ae891)] ${
+                    isPlaying ? 'animate-spin' : ''
+                  }`}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         <h2 className="text-xs sm:text-sm font-extrabold tracking-wide uppercase text-white truncate max-w-full drop-shadow">

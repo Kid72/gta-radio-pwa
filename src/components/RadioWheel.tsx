@@ -8,6 +8,7 @@ export interface RadioWheelProps {
   onSelectStation: (station: Station) => void;
   isPlaying?: boolean;
   currentCue?: TrackCue | null;
+  coverArtUrl?: string | null;
   className?: string;
   radius?: number;
   badgeSize?: number;
@@ -88,6 +89,7 @@ export const RadioWheel: React.FC<RadioWheelProps> = ({
   onSelectStation,
   isPlaying = false,
   currentCue = null,
+  coverArtUrl = null,
   className = '',
   radius: radiusProp,
   badgeSize: badgeSizeProp,
@@ -272,6 +274,7 @@ export const RadioWheel: React.FC<RadioWheelProps> = ({
             station={activeStation}
             isPlaying={isPlaying}
             currentCue={activeStation?.id === currentStation?.id ? currentCue : null}
+            coverArtUrl={activeStation?.id === currentStation?.id ? coverArtUrl : null}
             size={effectiveRadius < 140 ? 'sm' : 'md'}
           />
         </div>
