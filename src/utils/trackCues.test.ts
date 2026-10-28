@@ -38,4 +38,32 @@ describe('getCurrentCue', () => {
     expect(cue.artist).toBe('DJ Cara');
     expect(cue.type).toBe('talk');
   });
+
+  it('handles modulo wrap-around when currentSeconds exceeds station duration', () => {
+    // 2100 seconds wraps around duration 1000 to normalized 100 seconds
+    const cue = getCurrentCue(mockStation, 2100);
+    expect(cue.song).toBe('Music Sounds Better with You');
+    expect(cue.artist).toBe('Stardust');
+    expect(cue.type).toBe('music');
+  });
+
+  it('handles stations with duration of zero or negative duration safely', () => {
+    const zeroDurationStation: Station = { ...mockStation, duration: 0 };
+    const cueZero = getCurrentCue(zeroDurationStation, 150);
+    expect(cueZero.song).toBe('Non-Stop Pop FM');
+    expect(cueZero.artist).toBe('DJ Cara');
+    expect(cueZero.type).toBe('talk');
+    expect(cueZero.start).toBe(0);
+    expect(cueZero.end).toBe(0);
+
+    const negDurationStation: Station = { ...mockStation, duration: -500 };
+    const cueNeg = getCurrentCue(negDurationStation, 150);
+    expect(cueNeg.song).toBe('Non-Stop Pop FM');
+  });
+
+  it('falls back to genre when host is undefined on zero duration', () => {
+    const noHostStation: Station = { ...mockStation, duration: 0, host: undefined };
+    const cue = getCurrentCue(noHostStation, 10);
+    expect(cue.artist).toBe('Pop');
+  });
 });
