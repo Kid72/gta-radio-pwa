@@ -1,15 +1,17 @@
-const CACHE_NAME = 'gta-radio-shell-v1';
-const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-];
+const CACHE_NAME = 'gta-radio-shell-v2';
 
 self.addEventListener('install', (event) => {
+  const scope = self.registration.scope;
+  const staticUrls = [
+    new URL('./', scope).href,
+    new URL('./index.html', scope).href,
+    new URL('./manifest.json', scope).href,
+    new URL('./icons/icon-192.png', scope).href,
+    new URL('./icons/icon-512.png', scope).href,
+  ];
+
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(staticUrls))
   );
   self.skipWaiting();
 });
@@ -46,7 +48,7 @@ self.addEventListener('fetch', (event) => {
       }).catch((error) => {
         // If network fails (e.g. offline vehicle commute), fallback to cached index.html for page navigation
         if (event.request.mode === 'navigate') {
-          return caches.match('/index.html');
+          return caches.match(new URL('./index.html', self.registration.scope).href);
         }
         throw error;
       });

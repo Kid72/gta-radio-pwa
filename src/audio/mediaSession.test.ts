@@ -318,16 +318,18 @@ describe('W3C Media Session API Controller & CarPlay Integration', () => {
         pause: vi.fn(),
         nextStationSync: vi.fn(),
         previousStationSync: vi.fn(),
+        seek: vi.fn(),
       } as unknown as RadioEngine;
     });
 
-    it('registers handlers for play, pause, nexttrack, and previoustrack', () => {
+    it('registers handlers for play, pause, nexttrack, previoustrack, and seekto', () => {
       const cleanup = setupMediaSession(mockEngine);
 
       expect(mockMediaSession.actionHandlers.has('play')).toBe(true);
       expect(mockMediaSession.actionHandlers.has('pause')).toBe(true);
       expect(mockMediaSession.actionHandlers.has('nexttrack')).toBe(true);
       expect(mockMediaSession.actionHandlers.has('previoustrack')).toBe(true);
+      expect(mockMediaSession.actionHandlers.has('seekto')).toBe(true);
 
       cleanup();
     });
@@ -364,6 +366,16 @@ describe('W3C Media Session API Controller & CarPlay Integration', () => {
       expect(mockEngine.previousStationSync).toHaveBeenCalledTimes(1);
     });
 
+    it('routes lockscreen / CarPlay seekto action to engine.seek()', () => {
+      setupMediaSession(mockEngine);
+
+      const seekHandler = mockMediaSession.actionHandlers.get('seekto');
+      expect(typeof seekHandler).toBe('function');
+
+      seekHandler!({ seekTime: 120 } as any);
+      expect(mockEngine.seek).toHaveBeenCalledWith(120);
+    });
+
     it('unregisters all mediaSession handlers when calling the returned cleanup function', () => {
       const cleanup = setupMediaSession(mockEngine);
 
@@ -371,6 +383,7 @@ describe('W3C Media Session API Controller & CarPlay Integration', () => {
       expect(mockMediaSession.actionHandlers.get('pause')).not.toBeNull();
       expect(mockMediaSession.actionHandlers.get('nexttrack')).not.toBeNull();
       expect(mockMediaSession.actionHandlers.get('previoustrack')).not.toBeNull();
+      expect(mockMediaSession.actionHandlers.get('seekto')).not.toBeNull();
 
       cleanup();
 
@@ -378,6 +391,7 @@ describe('W3C Media Session API Controller & CarPlay Integration', () => {
       expect(mockMediaSession.actionHandlers.get('pause')).toBeNull();
       expect(mockMediaSession.actionHandlers.get('nexttrack')).toBeNull();
       expect(mockMediaSession.actionHandlers.get('previoustrack')).toBeNull();
+      expect(mockMediaSession.actionHandlers.get('seekto')).toBeNull();
     });
 
     it('safely handles missing navigator.mediaSession returning a no-op cleanup function', () => {

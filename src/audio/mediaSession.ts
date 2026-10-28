@@ -39,11 +39,18 @@ export function setupMediaSession(engine: RadioEngine): () => void {
     engine.previousStationSync();
   });
 
+  setHandler('seekto', (details) => {
+    if (details && details.seekTime !== undefined && typeof engine.seek === 'function') {
+      engine.seek(details.seekTime);
+    }
+  });
+
   return () => {
     setHandler('play', null);
     setHandler('pause', null);
     setHandler('nexttrack', null);
     setHandler('previoustrack', null);
+    setHandler('seekto', null);
   };
 }
 

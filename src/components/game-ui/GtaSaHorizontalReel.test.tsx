@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import {
   GtaSaHorizontalReel,
   getNextStationIndex,
@@ -434,6 +434,161 @@ describe('GtaSaHorizontalReel', () => {
       expect(onSelect).toHaveBeenCalledWith(mockStations[0]);
 
       nowSpy.mockRestore();
+    });
+
+    it('handles horizontal trackpad/mouse wheel (X-axis) scroll responsive navigation', () => {
+      const onSelect = vi.fn();
+      render(
+        <GtaSaHorizontalReel
+          stations={mockStations}
+          currentStation={mockStations[1]}
+          onSelectStation={onSelect}
+        />
+      );
+
+      const container = screen.getByTestId('gtasa-reel-container');
+      const nowSpy = vi.spyOn(Date, 'now');
+
+      // Horizontal swipe right (deltaX > 5) -> next station
+      nowSpy.mockReturnValue(1000);
+      fireEvent.wheel(container, { deltaX: 40, deltaY: 0 });
+      expect(onSelect).toHaveBeenCalledWith(mockStations[2]);
+
+      // Horizontal swipe left (deltaX < -5) -> previous station
+      nowSpy.mockReturnValue(2000);
+      fireEvent.wheel(container, { deltaX: -40, deltaY: 0 });
+      expect(onSelect).toHaveBeenCalledWith(mockStations[0]);
+
+      // When deltaX > deltaY, deltaX takes precedence
+      nowSpy.mockReturnValue(3000);
+      fireEvent.wheel(container, { deltaX: 60, deltaY: 10 });
+      expect(onSelect).toHaveBeenCalledWith(mockStations[2]);
+
+      // Throttling (< 90ms) ignores rapid wheel ticks
+      nowSpy.mockReturnValue(3050);
+      fireEvent.wheel(container, { deltaX: 60, deltaY: 0 });
+      expect(onSelect).toHaveBeenCalledTimes(3);
+
+      nowSpy.mockRestore();
+    });
+
+    describe('Desktop Mouse Drag Navigation', () => {
+      it('drags left to shift reel and cycle to next station on release', () => {
+        const onSelect = vi.fn();
+        render(
+          <GtaSaHorizontalReel
+            stations={mockStations}
+            currentStation={mockStations[1]}
+            onSelectStation={onSelect}
+          />
+        );
+
+        const reelTrack = screen.getByTestId('gtasa-reel-track');
+        const viewport = reelTrack.parentElement!;
+
+        // Mouse down to begin dragging at X=300
+        fireEvent.mouseDown(viewport, { button: 0, clientX: 300 });
+
+        // Mouse move to the left by 60px (diff = -60)
+        fireEvent.mouseMove(window, { clientX: 240 });
+
+        // Verify reel track transform shifted by dragOffset
+        expect(reelTrack.style.transform).toContain('-60px');
+        expect(reelTrack.style.transition).toBe('none');
+
+        // Mouse up at X=240 (diff = -60 < -25 -> cycle next)
+        fireEvent.mouseUp(window, { clientX: 240 });
+
+        expect(onSelect).toHaveBeenCalledWith(mockStations[2]);
+        expect(sfx.playClick).toHaveBeenCalled();
+        expect(navigator.vibrate).toHaveBeenCalledWith(10);
+      });
+
+      it('drags right to shift reel and cycle to previous station on release', () => {
+        const onSelect = vi.fn();
+        render(
+          <GtaSaHorizontalReel
+            stations={mockStations}
+            currentStation={mockStations[1]}
+            onSelectStation={onSelect}
+          />
+        );
+
+        const reelTrack = screen.getByTestId('gtasa-reel-track');
+        const viewport = reelTrack.parentElement!;
+
+        // Mouse down at X=200
+        fireEvent.mouseDown(viewport, { button: 0, clientX: 200 });
+
+        // Drag right to X=280 (diff = +80)
+        fireEvent.mouseMove(window, { clientX: 280 });
+        expect(reelTrack.style.transform).toContain('80px');
+
+        // Mouse up (diff = +80 > 25 -> cycle prev)
+        fireEvent.mouseUp(window, { clientX: 280 });
+
+        expect(onSelect).toHaveBeenCalledWith(mockStations[0]);
+      });
+
+      it('does not cycle station if drag distance is below 25px threshold', () => {
+        const onSelect = vi.fn();
+        render(
+          <GtaSaHorizontalReel
+            stations={mockStations}
+            currentStation={mockStations[1]}
+            onSelectStation={onSelect}
+          />
+        );
+
+        const reelTrack = screen.getByTestId('gtasa-reel-track');
+        const viewport = reelTrack.parentElement!;
+
+        fireEvent.mouseDown(viewport, { button: 0, clientX: 200 });
+        fireEvent.mouseMove(window, { clientX: 215 }); // diff = +15
+        fireEvent.mouseUp(window, { clientX: 215 });
+
+        expect(onSelect).not.toHaveBeenCalled();
+      });
+
+      it('ignores non-left mouse button clicks (e.g. right click button 2)', () => {
+        const onSelect = vi.fn();
+        render(
+          <GtaSaHorizontalReel
+            stations={mockStations}
+            currentStation={mockStations[1]}
+            onSelectStation={onSelect}
+          />
+        );
+
+        const reelTrack = screen.getByTestId('gtasa-reel-track');
+        const viewport = reelTrack.parentElement!;
+
+        fireEvent.mouseDown(viewport, { button: 2, clientX: 200 });
+        fireEvent.mouseMove(window, { clientX: 100 });
+        fireEvent.mouseUp(window, { clientX: 100 });
+
+        expect(onSelect).not.toHaveBeenCalled();
+      });
+    });
+
+    it('renders all 11 real GTA SA stations without visual clipping or errors', async () => {
+      const realSaStations = (await import('../../data/gtasa.json')).default as Station[];
+      expect(realSaStations).toHaveLength(11);
+
+      render(
+        <GtaSaHorizontalReel
+          stations={realSaStations}
+          currentStation={realSaStations[0]}
+          onSelectStation={vi.fn()}
+        />
+      );
+
+      realSaStations.forEach((station) => {
+        const item = screen.getByTestId(`gtasa-station-${station.id}`);
+        expect(item).toBeInTheDocument();
+        const img = within(item).getByAltText(station.name);
+        expect(img).toHaveAttribute('src', station.logoUrl);
+      });
     });
 
     it('handles mobile touch swipe gestures to navigate stations', () => {

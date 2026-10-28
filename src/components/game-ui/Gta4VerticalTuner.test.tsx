@@ -465,6 +465,100 @@ describe('Gta4VerticalTuner', () => {
       expect(onSelect).toHaveBeenCalledTimes(1);
     });
 
+    it('stops propagation of mouse wheel over gta4-station-list to permit natural scrolling through all stations without cycling tuner', () => {
+      const onSelect = vi.fn();
+      render(
+        <Gta4VerticalTuner
+          stations={mockStations}
+          currentStation={mockStations[1]}
+          onSelectStation={onSelect}
+          isPlaying={false}
+        />
+      );
+
+      const stationList = screen.getByTestId('gta4-station-list');
+
+      // Wheel event on station list should have stopPropagation called and NOT trigger onSelectStation
+      const wheelEvent = new WheelEvent('wheel', { deltaY: 60, bubbles: true, cancelable: true });
+      const stopPropagationSpy = vi.spyOn(wheelEvent, 'stopPropagation');
+
+      stationList.dispatchEvent(wheelEvent);
+
+      expect(stopPropagationSpy).toHaveBeenCalled();
+      expect(onSelect).not.toHaveBeenCalled();
+    });
+
+    it('invokes scrollIntoView on mount and on explicit station cycle, without locking the list during scrolling', () => {
+      const onSelect = vi.fn();
+      const { rerender } = render(
+        <Gta4VerticalTuner
+          stations={mockStations}
+          currentStation={mockStations[0]}
+          onSelectStation={onSelect}
+          isPlaying={false}
+        />
+      );
+
+      // On initial mount, active station item scrollIntoView is called with auto behavior
+      expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({
+        block: 'nearest',
+        behavior: 'auto',
+      });
+
+      vi.mocked(Element.prototype.scrollIntoView).mockClear();
+
+      // Rerendering with same active station (e.g. while scrolling through stations) does NOT call scrollIntoView
+      rerender(
+        <Gta4VerticalTuner
+          stations={mockStations}
+          currentStation={mockStations[0]}
+          onSelectStation={onSelect}
+          isPlaying={true}
+        />
+      );
+      expect(Element.prototype.scrollIntoView).not.toHaveBeenCalled();
+
+      // Explicitly cycling via ArrowDown triggers scrollIntoView on next selection
+      fireEvent.keyDown(window, { key: 'ArrowDown' });
+      expect(onSelect).toHaveBeenCalledWith(mockStations[1]);
+
+      // When parent updates currentStation after cycleStation
+      rerender(
+        <Gta4VerticalTuner
+          stations={mockStations}
+          currentStation={mockStations[1]}
+          onSelectStation={onSelect}
+          isPlaying={true}
+        />
+      );
+      expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({
+        block: 'nearest',
+        behavior: 'smooth',
+      });
+    });
+
+    it('renders all 19 real GTA IV stations with logos and frequencies', async () => {
+      const realGta4Stations = (await import('../../data/gta4.json')).default as Station[];
+      expect(realGta4Stations).toHaveLength(19);
+
+      render(
+        <Gta4VerticalTuner
+          stations={realGta4Stations}
+          currentStation={realGta4Stations[0]}
+          onSelectStation={vi.fn()}
+          isPlaying={false}
+        />
+      );
+
+      const stationList = screen.getByTestId('gta4-station-list');
+      realGta4Stations.forEach((station) => {
+        const item = within(stationList).getByTestId(`gta4-station-item-${station.id}`);
+        expect(item).toBeInTheDocument();
+        const img = within(item).getByAltText(station.name);
+        expect(img).toHaveAttribute('src', station.logoUrl);
+      });
+    });
+
     it('handles mobile touch swipe up and down gestures to navigate stations', () => {
       const onSelect = vi.fn();
       render(
