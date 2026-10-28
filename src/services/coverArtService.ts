@@ -109,8 +109,8 @@ export class CoverArtService {
           firstItem?.artworkUrl60;
 
         if (rawArtwork && typeof rawArtwork === 'string') {
-          // Upgrade 100x100 thumbnail to 600x600 high-resolution artwork
-          const highResArtwork = rawArtwork.replace('100x100bb', '600x600bb');
+          // Upgrade artwork thumbnail (e.g. 100x100bb or 60x60bb) to 600x600 high-resolution artwork
+          const highResArtwork = rawArtwork.replace(/\d+x\d+bb/, '600x600bb');
 
           this.memoryCache.set(cacheKey, highResArtwork);
           await this.saveToIdb(cacheKey, highResArtwork);

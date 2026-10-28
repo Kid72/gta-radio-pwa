@@ -105,6 +105,8 @@ export function updateMediaSession(
     if (typeof maybeCoverArtUrl === 'string') {
       coverArtUrl = maybeCoverArtUrl;
     }
+  } else if (maybeCoverArtUrl !== undefined) {
+    coverArtUrl = maybeCoverArtUrl;
   }
 
   // Also check if cue has coverArtUrl attached
@@ -182,5 +184,5 @@ export function updateMediaSessionMetadata(
   cue?: TrackCue | null,
   coverArtUrl?: string | null
 ): void {
-  updateMediaSession(station, cue, undefined, coverArtUrl);
+  updateMediaSession(station, cue, coverArtUrl);
 }

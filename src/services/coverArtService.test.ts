@@ -156,4 +156,42 @@ describe('CoverArtService', () => {
     expect(res2).toBe('https://is1-ssl.mzstatic.com/image/thumb/600x600bb.jpg');
     expect(fetchMock2).not.toHaveBeenCalled();
   });
+
+  it('upgrades any artwork dimension variant using regex', async () => {
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        results: [
+          { artworkUrl100: 'https://is1-ssl.mzstatic.com/image/thumb/512x512bb.jpg' },
+        ],
+      }),
+    });
+
+    const art = await service.getCoverArt('Artist', 'Song', 'fallback.png');
+    expect(art).toBe('https://is1-ssl.mzstatic.com/image/thumb/600x600bb.jpg');
+  });
+
+  it('aborts fetch and returns fallbackUrl when network request exceeds 2.5s timeout', async () => {
+    vi.useFakeTimers();
+
+    global.fetch = vi.fn().mockImplementation((_url, options) => {
+      return new Promise((_resolve, reject) => {
+        if (options?.signal) {
+          options.signal.addEventListener('abort', () => {
+            reject(new DOMException('The user aborted a request.', 'AbortError'));
+          });
+        }
+      });
+    });
+
+    const promise = service.getCoverArt('Slow Band', 'Neverending Song', 'fallback.png');
+
+    // Advance timers by 2600ms to trigger AbortController timeout
+    await vi.advanceTimersByTimeAsync(2600);
+
+    const art = await promise;
+    expect(art).toBe('fallback.png');
+
+    vi.useRealTimers();
+  });
 });

@@ -272,6 +272,22 @@ describe('W3C Media Session API Controller & CarPlay Integration', () => {
       expect(mockMediaSession.metadata.artwork[2].src).toBe(coverArtUrl);
     });
 
+    it('properly passes coverArtUrl through updateMediaSessionMetadata without dropping it', () => {
+      const musicCue: TrackCue = {
+        start: 0,
+        end: 200,
+        song: 'Rusty Cage',
+        artist: 'Soundgarden',
+        type: 'music',
+      };
+      const coverArtUrl = 'https://is1-ssl.mzstatic.com/image/thumb/600x600bb.jpg';
+
+      updateMediaSessionMetadata(mockStation, musicCue, coverArtUrl);
+
+      expect(mockMediaSession.metadata.artwork[1].src).toBe(coverArtUrl);
+      expect(mockMediaSession.metadata.artwork[2].src).toBe(coverArtUrl);
+    });
+
     it('updates metadata when coverArtUrl resolves asynchronously after initial tune', () => {
       const musicCue: TrackCue = {
         start: 0,
