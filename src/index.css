@@ -1,3 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Rajdhani:wght@500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --accent-color: #4ae891;
+  --accent-rgb: 74, 232, 145;
+  --theme-font: 'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --theme-border-color: rgba(74, 232, 145, 0.4);
+  --theme-glow: 0 0 20px rgba(74, 232, 145, 0.3);
+  --theme-card-bg: rgba(10, 20, 15, 0.75);
+}
+
+/* GTA V Theme: Neon emerald, dark modern gradient, sleek Vinewood styling */
+.theme-gta5 {
+  --accent-color: #4ae891;
+  --accent-rgb: 74, 232, 145;
+  --theme-font: 'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --theme-border-color: rgba(74, 232, 145, 0.4);
+  --theme-glow: 0 0 25px rgba(74, 232, 145, 0.35);
+  --theme-card-bg: rgba(10, 20, 15, 0.8);
+}
+
+/* GTA San Andreas Theme: Vintage amber/orange, 90s West Coast aesthetic */
+.theme-gtasa {
+  --accent-color: #f59e0b;
+  --accent-rgb: 245, 158, 11;
+  --theme-font: 'Pricedown', 'Impact', -apple-system, BlinkMacSystemFont, sans-serif;
+  --theme-border-color: rgba(245, 158, 11, 0.45);
+  --theme-glow: 0 0 25px rgba(245, 158, 11, 0.35);
+  --theme-card-bg: rgba(25, 18, 8, 0.85);
+}
+
+/* GTA IV Theme: Industrial yellow & slate, gritty Liberty City aesthetic */
+.theme-gta4 {
+  --accent-color: #eab308;
+  --accent-rgb: 234, 179, 8;
+  --theme-font: 'Bank Gothic', 'Rajdhani', 'Trebuchet MS', -apple-system, BlinkMacSystemFont, sans-serif;
+  --theme-border-color: rgba(234, 179, 8, 0.45);
+  --theme-glow: 0 0 25px rgba(234, 179, 8, 0.35);
+  --theme-card-bg: rgba(15, 20, 28, 0.85);
+}
+
+/* Authentic Glassmorphism and Car Display Card Styling */
+.theme-glass {
+  background: var(--theme-card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--theme-border-color);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.theme-card-glow {
+  box-shadow: var(--theme-glow);
+}
+
+/* CRT / Vehicle Radio Scanline Accent */
+.crt-scanlines {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%,
+    rgba(0, 0, 0, 0.25)
+  );
+  background-size: 100% 4px;
+}
+
+/* Custom In-Car Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-color);
+}
