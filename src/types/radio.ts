@@ -42,3 +42,16 @@ export interface CachedStationRecord {
   sizeBytes: number;
   downloadedAt: number;
 }
+
+export interface EngineState {
+  currentStation: Station | null;
+  isPlaying: boolean;
+  isLoading: boolean;
+  currentTime: number;
+  duration: number;
+  volume: number;
+  isMuted: boolean;
+  isOffline: boolean;
+  currentCue: TrackCue | null;
+  error: string | null;
+}
