@@ -16,7 +16,7 @@ export const ThemeWrapper: React.FC<ThemeWrapperProps> = ({
   showWallpaper = true,
 }) => {
   const gameMetadata: GameMetadata =
-    typeof game === 'string' ? getGame(game) : game;
+    (typeof game === 'string' ? getGame(game) : game) || getGame('gta5');
 
   const style = {
     '--accent-color': gameMetadata.theme.accentColor,

@@ -86,3 +86,20 @@
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent-color);
 }
+
+/* Audio Equalizer Bounce Animation */
+@keyframes eq-bounce {
+  0%, 100% {
+    height: 4px;
+    opacity: 0.6;
+  }
+  50% {
+    height: 18px;
+    opacity: 1;
+  }
+}
+
+.animate-eq-bounce {
+  animation: eq-bounce 0.8s ease-in-out infinite alternate;
+}
+
