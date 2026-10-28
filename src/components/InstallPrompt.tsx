@@ -14,9 +14,18 @@ interface BeforeInstallPromptEvent extends Event {
 
 const STORAGE_KEY = 'gta-radio-install-dismissed';
 
+function isDismissed(): boolean {
+  try {
+    return typeof localStorage !== 'undefined' && localStorage.getItem(STORAGE_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
+
 export function isStandaloneMode(): boolean {
   if (typeof window === 'undefined') return false;
-  const isStandaloneMedia = window.matchMedia('(display-mode: standalone)').matches;
+  const isStandaloneMedia =
+    typeof window.matchMedia === 'function' ? window.matchMedia('(display-mode: standalone)').matches : false;
   const isIosStandalone = (window.navigator as unknown as { standalone?: boolean }).standalone === true;
   return isStandaloneMedia || isIosStandalone;
 }
@@ -42,7 +51,7 @@ export const InstallPrompt: React.FC<InstallPromptProps> = ({
   const [isVisible, setIsVisible] = useState<boolean>(() => {
     if (forceShow) return true;
     if (isStandaloneMode()) return false;
-    const dismissed = typeof localStorage !== 'undefined' && localStorage.getItem(STORAGE_KEY) === 'true';
+    const dismissed = isDismissed();
     return isIOSDevice() && !dismissed;
   });
 
@@ -53,7 +62,7 @@ export const InstallPrompt: React.FC<InstallPromptProps> = ({
       return;
     }
 
-    const dismissed = typeof localStorage !== 'undefined' && localStorage.getItem(STORAGE_KEY) === 'true';
+    const dismissed = isDismissed();
     const isIosUser = isIOSDevice();
     setIsIOS(isIosUser);
 

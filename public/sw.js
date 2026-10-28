@@ -29,9 +29,21 @@ self.addEventListener('fetch', (event) => {
   // Only cache GET requests for static app shell; audio streams are handled via IndexedDB
   if (event.request.method !== 'GET') return;
   const url = new URL(event.request.url);
-  if (url.pathname.endsWith('.mp3') || url.pathname.endsWith('.aac')) return;
+  if (url.pathname.endsWith('.mp3') || url.pathname.endsWith('.aac') || url.pathname.endsWith('.m4a')) return;
 
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
+    caches.match(event.request).then((cached) => {
+      if (cached) return cached;
+      return fetch(event.request).then((response) => {
+        // Cache same-origin valid responses (e.g. hashed Vite /assets/ JS/CSS files)
+        if (response && response.status === 200 && response.type === 'basic') {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
+        }
+        return response;
+      });
+    })
   );
 });

@@ -109,7 +109,8 @@ export default function App({
       if (
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLTextAreaElement ||
-        e.target instanceof HTMLSelectElement
+        e.target instanceof HTMLSelectElement ||
+        e.target instanceof HTMLButtonElement
       ) {
         return;
       }
