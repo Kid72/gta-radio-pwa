@@ -310,6 +310,33 @@ describe('RadioWheel Component', () => {
     expect(wheelElement).toHaveAttribute('data-q-active', 'false');
   });
 
+  it('ignores Q keydown when target is an input or textarea', () => {
+    const handleSelect = vi.fn();
+    const { container } = render(
+      <div>
+        <input data-testid="test-input" />
+        <textarea data-testid="test-textarea" />
+        <RadioWheel
+          stations={gta5Stations}
+          currentStation={gta5Stations[0]}
+          onSelectStation={handleSelect}
+        />
+      </div>
+    );
+
+    const wheelElement = container.querySelector('[data-testid="radio-wheel"]')!;
+    const inputElement = screen.getByTestId('test-input');
+    const textareaElement = screen.getByTestId('test-textarea');
+
+    // Press 'q' while focused on input
+    fireEvent.keyDown(inputElement, { key: 'q' });
+    expect(wheelElement).toHaveAttribute('data-q-active', 'false');
+
+    // Press 'Q' while focused on textarea
+    fireEvent.keyDown(textareaElement, { key: 'Q' });
+    expect(wheelElement).toHaveAttribute('data-q-active', 'false');
+  });
+
   it('supports mobile touch drag and triggers haptic tick feedback', () => {
     const handleSelect = vi.fn();
     const vibrateMock = vi.fn();

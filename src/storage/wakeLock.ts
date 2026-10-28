@@ -16,6 +16,17 @@ export async function acquireWakeLock(): Promise<() => void> {
   };
 }
 
+export async function isStoragePersistent(): Promise<boolean> {
+  if (typeof navigator !== 'undefined' && navigator.storage && navigator.storage.persisted) {
+    try {
+      return await navigator.storage.persisted();
+    } catch {
+      return false;
+    }
+  }
+  return false;
+}
+
 export async function requestPersistentStorage(): Promise<boolean> {
   if (typeof navigator !== 'undefined' && navigator.storage && navigator.storage.persist) {
     try {

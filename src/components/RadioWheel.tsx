@@ -126,6 +126,7 @@ export const RadioWheel: React.FC<RadioWheelProps> = ({
     };
 
     if (radiusProp === undefined || badgeSizeProp === undefined) {
+      updateDimensions();
       window.addEventListener('resize', updateDimensions);
       return () => window.removeEventListener('resize', updateDimensions);
     }
@@ -165,6 +166,15 @@ export const RadioWheel: React.FC<RadioWheelProps> = ({
   // Desktop Keyboard 'Q' hold listener & mouse tracking
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.isContentEditable)
+      ) {
+        return;
+      }
       if (e.key === 'q' || e.key === 'Q') {
         if (e.repeat) return;
         isQActiveRef.current = true;

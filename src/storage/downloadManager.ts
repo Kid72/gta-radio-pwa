@@ -5,6 +5,7 @@ import {
   deleteCachedStationAudio,
   listCachedStationKeys,
   listCachedStationIds,
+  getAllCachedStations,
   clearAllCachedStations,
   getStorageUsageEstimate,
 } from './db';
@@ -124,6 +125,7 @@ export {
   deleteCachedStationAudio,
   listCachedStationKeys,
   listCachedStationIds,
+  getAllCachedStations,
   clearAllCachedStations,
   getStorageUsageEstimate,
   acquireWakeLock,

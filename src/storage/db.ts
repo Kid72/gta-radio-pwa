@@ -71,6 +71,11 @@ export async function listCachedStationKeys(): Promise<string[]> {
   return (await db.getAllKeys('stations')) as string[];
 }
 
+export async function getAllCachedStations(): Promise<CachedStationRecord[]> {
+  const db = await getDB();
+  return (await db.getAll('stations')) as CachedStationRecord[];
+}
+
 export async function listCachedStationIds(): Promise<string[]> {
   return listCachedStationKeys();
 }
