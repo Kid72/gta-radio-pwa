@@ -581,6 +581,7 @@ describe('RadioEngine Core Audio Player', () => {
     // Advance timer beyond 1500ms without firing 'canplay' or 'playing'
     vi.advanceTimersByTime(1600);
     expect(mockAudio.currentTime).toBe(0);
+    expect(mockAudio.removeEventListener).toHaveBeenCalledWith('loadedmetadata', expect.any(Function));
 
     engine.destroy();
     vi.useRealTimers();

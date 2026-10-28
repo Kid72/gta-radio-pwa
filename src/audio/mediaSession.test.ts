@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { setupMediaSession, updateMediaSessionMetadata } from './mediaSession';
+import { setupMediaSession, updateMediaSession, updateMediaSessionMetadata } from './mediaSession';
 import { RadioEngine } from './radioEngine';
 import { Station, TrackCue } from '../types/radio';
 
@@ -210,6 +210,86 @@ describe('W3C Media Session API Controller & CarPlay Integration', () => {
       expect(() => {
         updateMediaSessionMetadata(mockStation, mockStation.timestamps[0]);
       }).not.toThrow();
+    });
+
+    it('prioritizes dynamic coverArtUrl for 256x256 and 512x512 artwork while keeping station logo for 96x96', () => {
+      const musicCue: TrackCue = {
+        start: 0,
+        end: 200,
+        song: 'Rusty Cage',
+        artist: 'Soundgarden',
+        type: 'music',
+      };
+      const coverArtUrl = 'https://is1-ssl.mzstatic.com/image/thumb/600x600bb.jpg';
+
+      updateMediaSession(mockStation, musicCue, true, coverArtUrl);
+
+      expect(mockMediaSession.metadata.artwork).toEqual([
+        { src: '/logos/radiox.png', sizes: '96x96', type: 'image/png' },
+        { src: coverArtUrl, sizes: '256x256', type: 'image/jpeg' },
+        { src: coverArtUrl, sizes: '512x512', type: 'image/jpeg' },
+      ]);
+      expect(mockMediaSession.playbackState).toBe('playing');
+    });
+
+    it('updates playbackState to paused when isPlaying is false', () => {
+      updateMediaSession(mockStation, null, false);
+      expect(mockMediaSession.playbackState).toBe('paused');
+    });
+
+    it('reads coverArtUrl embedded directly on the TrackCue object', () => {
+      const musicCueWithCover: TrackCue = {
+        start: 0,
+        end: 200,
+        song: 'Rusty Cage',
+        artist: 'Soundgarden',
+        type: 'music',
+        coverArtUrl: 'https://is1-ssl.mzstatic.com/image/thumb/600x600bb.webp',
+      };
+
+      updateMediaSession(mockStation, musicCueWithCover);
+
+      expect(mockMediaSession.metadata.artwork).toEqual([
+        { src: '/logos/radiox.png', sizes: '96x96', type: 'image/png' },
+        { src: 'https://is1-ssl.mzstatic.com/image/thumb/600x600bb.webp', sizes: '256x256', type: 'image/webp' },
+        { src: 'https://is1-ssl.mzstatic.com/image/thumb/600x600bb.webp', sizes: '512x512', type: 'image/webp' },
+      ]);
+    });
+
+    it('supports 3-argument signature updateMediaSession(station, cue, coverArtUrl)', () => {
+      const musicCue: TrackCue = {
+        start: 0,
+        end: 200,
+        song: 'Rusty Cage',
+        artist: 'Soundgarden',
+        type: 'music',
+      };
+      const coverArtUrl = 'https://is1-ssl.mzstatic.com/image/thumb/600x600bb.jpg';
+
+      updateMediaSession(mockStation, musicCue, coverArtUrl);
+
+      expect(mockMediaSession.metadata.artwork[1].src).toBe(coverArtUrl);
+      expect(mockMediaSession.metadata.artwork[2].src).toBe(coverArtUrl);
+    });
+
+    it('updates metadata when coverArtUrl resolves asynchronously after initial tune', () => {
+      const musicCue: TrackCue = {
+        start: 0,
+        end: 200,
+        song: 'Rusty Cage',
+        artist: 'Soundgarden',
+        type: 'music',
+      };
+
+      // 1. Initial tune without dynamic cover art yet
+      updateMediaSession(mockStation, musicCue, true, null);
+      expect(mockMediaSession.metadata.artwork[1].src).toBe('/logos/radiox.png');
+
+      // 2. CoverArtService resolves art 200ms later
+      const resolvedArt = 'https://is1-ssl.mzstatic.com/image/thumb/600x600bb.jpg';
+      updateMediaSession(mockStation, musicCue, true, resolvedArt);
+      expect(mockMediaSession.metadata.artwork[1].src).toBe(resolvedArt);
+      expect(mockMediaSession.metadata.artwork[2].src).toBe(resolvedArt);
     });
   });
 

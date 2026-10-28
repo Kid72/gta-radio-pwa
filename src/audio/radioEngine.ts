@@ -34,6 +34,7 @@ export class RadioEngine {
     isMuted: false,
     isOffline: false,
     currentCue: null,
+    coverArtUrl: null,
     error: null,
   };
 
@@ -267,12 +268,36 @@ export class RadioEngine {
 
     const targetTime = instantLiveSync ? getStationCurrentSecond(station) : 0;
 
+    // One-time seek fallback on metadata load
+    let metadataHandled = false;
+    const onMetadata = () => {
+      if (reqId !== this.requestId) {
+        if (this.audio && typeof this.audio.removeEventListener === 'function') {
+          this.audio.removeEventListener('loadedmetadata', onMetadata);
+        }
+        return;
+      }
+      if (!metadataHandled) {
+        metadataHandled = true;
+        try {
+          this.audio.currentTime = targetTime;
+        } catch {}
+      }
+      if (this.audio && typeof this.audio.removeEventListener === 'function') {
+        this.audio.removeEventListener('loadedmetadata', onMetadata);
+      }
+    };
+
     // Fast-start watchdog: if seeking mid-epoch stalls > 1500ms, fall back to currentTime = 0
     if (targetTime > 0) {
       this.seekWatchdogTimer = setTimeout(() => {
         if (reqId !== this.requestId || this.isDestroyed) return;
+        this.seekWatchdogTimer = null;
         if (this.audio) {
           try {
+            if (typeof this.audio.removeEventListener === 'function') {
+              this.audio.removeEventListener('loadedmetadata', onMetadata);
+            }
             this.audio.currentTime = 0;
           } catch {}
         }
@@ -329,21 +354,6 @@ export class RadioEngine {
         this.audio.currentTime = targetTime;
       } catch {}
 
-      // One-time seek fallback on metadata load
-      let metadataHandled = false;
-      const onMetadata = () => {
-        if (reqId !== this.requestId) {
-          this.audio.removeEventListener('loadedmetadata', onMetadata);
-          return;
-        }
-        if (!metadataHandled) {
-          metadataHandled = true;
-          try {
-            this.audio.currentTime = targetTime;
-          } catch {}
-        }
-        this.audio.removeEventListener('loadedmetadata', onMetadata);
-      };
       this.audio.addEventListener('loadedmetadata', onMetadata);
 
       try {
@@ -407,12 +417,36 @@ export class RadioEngine {
 
     const targetTime = getStationCurrentSecond(station);
 
+    // One-time seek fallback on metadata load (WebKit live epoch sync)
+    let metadataHandled = false;
+    const onMetadata = () => {
+      if (reqId !== this.requestId) {
+        if (this.audio && typeof this.audio.removeEventListener === 'function') {
+          this.audio.removeEventListener('loadedmetadata', onMetadata);
+        }
+        return;
+      }
+      if (!metadataHandled) {
+        metadataHandled = true;
+        try {
+          this.audio.currentTime = targetTime;
+        } catch {}
+      }
+      if (this.audio && typeof this.audio.removeEventListener === 'function') {
+        this.audio.removeEventListener('loadedmetadata', onMetadata);
+      }
+    };
+
     // Fast-start watchdog: if seeking mid-epoch stalls > 1500ms, fall back to currentTime = 0
     if (targetTime > 0) {
       this.seekWatchdogTimer = setTimeout(() => {
         if (reqId !== this.requestId || this.isDestroyed) return;
+        this.seekWatchdogTimer = null;
         if (this.audio) {
           try {
+            if (typeof this.audio.removeEventListener === 'function') {
+              this.audio.removeEventListener('loadedmetadata', onMetadata);
+            }
             this.audio.currentTime = 0;
           } catch {}
         }
@@ -443,21 +477,6 @@ export class RadioEngine {
         this.audio.currentTime = targetTime;
       } catch {}
 
-      // One-time seek fallback on metadata load (WebKit live epoch sync)
-      let metadataHandled = false;
-      const onMetadata = () => {
-        if (reqId !== this.requestId) {
-          this.audio.removeEventListener('loadedmetadata', onMetadata);
-          return;
-        }
-        if (!metadataHandled) {
-          metadataHandled = true;
-          try {
-            this.audio.currentTime = targetTime;
-          } catch {}
-        }
-        this.audio.removeEventListener('loadedmetadata', onMetadata);
-      };
       this.audio.addEventListener('loadedmetadata', onMetadata);
 
       try {

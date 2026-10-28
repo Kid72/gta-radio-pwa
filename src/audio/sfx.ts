@@ -172,7 +172,7 @@ export class RadioSFX {
           gain.gain.cancelScheduledValues(now);
         }
         if (typeof gain.gain.setValueAtTime === 'function') {
-          gain.gain.setValueAtTime(gain.gain.value ?? 0.04, now);
+          gain.gain.setValueAtTime(Math.min(gain.gain.value ?? 0.04, 0.04), now);
         }
         if (typeof gain.gain.linearRampToValueAtTime === 'function') {
           gain.gain.linearRampToValueAtTime(0.0001, now + fadeSec);

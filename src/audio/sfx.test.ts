@@ -107,13 +107,16 @@ describe('RadioSFX enhanced static effects', () => {
     expect(mockBufferSource.start).toHaveBeenCalled();
   });
 
-  it('smoothly ramps gain down to 0 on stopStaticHiss', () => {
+  it('smoothly ramps gain down to 0 on stopStaticHiss and clamps gain anchor to avoid audio pops', () => {
     const { ctx, mockGain } = createMockAudioContext();
+    mockGain.gain.value = 1.0; // High value simulating untracked gain spike
     const sfx = new RadioSFX(ctx);
 
     sfx.startStaticHiss();
     sfx.stopStaticHiss(60);
 
+    // Clamps gain anchor to Math.min(1.0, 0.04) -> 0.04
+    expect(mockGain.gain.setValueAtTime).toHaveBeenCalledWith(0.04, 5.0);
     expect(mockGain.gain.linearRampToValueAtTime).toHaveBeenCalledWith(
       0.0001,
       5.0 + 0.06

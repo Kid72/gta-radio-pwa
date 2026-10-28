@@ -6,6 +6,7 @@ export interface TrackCue {
   song: string;
   artist: string;
   type: 'music' | 'talk' | 'ad';
+  coverArtUrl?: string | null;
 }
 
 export interface Station {
@@ -53,5 +54,6 @@ export interface EngineState {
   isMuted: boolean;
   isOffline: boolean;
   currentCue: TrackCue | null;
+  coverArtUrl?: string | null;
   error: string | null;
 }
