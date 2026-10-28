@@ -22,6 +22,7 @@ export class RadioEngine {
   private isDestroyed: boolean = false;
   private sfxInstance: RadioSFX;
   private subscribers: Set<(state: EngineState) => void> = new Set();
+  private seekWatchdogTimer: ReturnType<typeof setTimeout> | null = null;
 
   private state: EngineState = {
     currentStation: null,
@@ -85,6 +86,13 @@ export class RadioEngine {
     }
   }
 
+  private clearSeekWatchdog(): void {
+    if (this.seekWatchdogTimer !== null) {
+      clearTimeout(this.seekWatchdogTimer);
+      this.seekWatchdogTimer = null;
+    }
+  }
+
   // --- HTML5 Audio Event Handlers ---
 
   private onTimeUpdate = () => {
@@ -100,6 +108,8 @@ export class RadioEngine {
   };
 
   private onPlaying = () => {
+    this.clearSeekWatchdog();
+    this.sfxInstance.stopStaticHiss(60);
     this.state.isPlaying = true;
     this.state.isLoading = false;
     this.state.error = null;
@@ -107,6 +117,8 @@ export class RadioEngine {
   };
 
   private onPause = () => {
+    this.clearSeekWatchdog();
+    this.sfxInstance.stopStaticHiss(0);
     this.state.isPlaying = false;
     this.notify();
   };
@@ -117,11 +129,15 @@ export class RadioEngine {
   };
 
   private onCanPlay = () => {
+    this.clearSeekWatchdog();
+    this.sfxInstance.stopStaticHiss(60);
     this.state.isLoading = false;
     this.notify();
   };
 
   private onError = () => {
+    this.clearSeekWatchdog();
+    this.sfxInstance.stopStaticHiss(0);
     this.state.isPlaying = false;
     this.state.isLoading = false;
     this.state.error = this.audio.error?.message || 'Audio playback error';
@@ -224,6 +240,9 @@ export class RadioEngine {
 
     const reqId = ++this.requestId;
 
+    this.clearSeekWatchdog();
+    this.sfxInstance.stopStaticHiss(0);
+
     // Trigger authentic mechanical switch and static bursts
     this.sfxInstance.playClick();
     this.sfxInstance.playTuningStatic();
@@ -243,7 +262,27 @@ export class RadioEngine {
       return;
     }
 
+    // Mask connection latency with continuous soft static hiss
+    this.sfxInstance.startStaticHiss();
+
     const targetTime = instantLiveSync ? getStationCurrentSecond(station) : 0;
+
+    // Fast-start watchdog: if seeking mid-epoch stalls > 1500ms, fall back to currentTime = 0
+    if (targetTime > 0) {
+      this.seekWatchdogTimer = setTimeout(() => {
+        if (reqId !== this.requestId || this.isDestroyed) return;
+        if (this.audio) {
+          try {
+            this.audio.currentTime = 0;
+          } catch {}
+        }
+        this.state.currentTime = 0;
+        if (this.state.currentStation) {
+          this.state.currentCue = getCurrentCue(this.state.currentStation, 0);
+        }
+        this.notify();
+      }, 1500);
+    }
 
     // Set immediate UI state
     this.state.currentStation = station;
@@ -314,11 +353,15 @@ export class RadioEngine {
         }
         if (reqId === this.requestId) {
           this.state.isPlaying = true;
-          this.state.isLoading = false;
+          if (!this.seekWatchdogTimer) {
+            this.state.isLoading = false;
+          }
           this.notify();
         }
       } catch (err: any) {
         if (reqId === this.requestId) {
+          this.clearSeekWatchdog();
+          this.sfxInstance.stopStaticHiss(0);
           this.state.isPlaying = false;
           this.state.isLoading = false;
           this.state.error = err?.message || 'Playback failed';
@@ -338,6 +381,9 @@ export class RadioEngine {
 
     const reqId = ++this.requestId;
 
+    this.clearSeekWatchdog();
+    this.sfxInstance.stopStaticHiss(0);
+
     this.sfxInstance.playClick();
     this.sfxInstance.playTuningStatic();
 
@@ -356,7 +402,27 @@ export class RadioEngine {
       return;
     }
 
+    // Mask connection latency with continuous soft static hiss
+    this.sfxInstance.startStaticHiss();
+
     const targetTime = getStationCurrentSecond(station);
+
+    // Fast-start watchdog: if seeking mid-epoch stalls > 1500ms, fall back to currentTime = 0
+    if (targetTime > 0) {
+      this.seekWatchdogTimer = setTimeout(() => {
+        if (reqId !== this.requestId || this.isDestroyed) return;
+        if (this.audio) {
+          try {
+            this.audio.currentTime = 0;
+          } catch {}
+        }
+        this.state.currentTime = 0;
+        if (this.state.currentStation) {
+          this.state.currentCue = getCurrentCue(this.state.currentStation, 0);
+        }
+        this.notify();
+      }, 1500);
+    }
 
     this.revokeCurrentBlob();
 
@@ -400,11 +466,15 @@ export class RadioEngine {
           p.then(() => {
             if (reqId === this.requestId) {
               this.state.isPlaying = true;
-              this.state.isLoading = false;
+              if (!this.seekWatchdogTimer) {
+                this.state.isLoading = false;
+              }
               this.notify();
             }
           }).catch((err: any) => {
             if (reqId === this.requestId) {
+              this.clearSeekWatchdog();
+              this.sfxInstance.stopStaticHiss(0);
               this.state.isPlaying = false;
               this.state.isLoading = false;
               this.state.error = err?.message || 'Playback failed';
@@ -413,10 +483,14 @@ export class RadioEngine {
           });
         } else {
           this.state.isPlaying = true;
-          this.state.isLoading = false;
+          if (!this.seekWatchdogTimer) {
+            this.state.isLoading = false;
+          }
           this.notify();
         }
       } catch (err: any) {
+        this.clearSeekWatchdog();
+        this.sfxInstance.stopStaticHiss(0);
         this.state.isPlaying = false;
         this.state.isLoading = false;
         this.state.error = err?.message || 'Playback failed';
@@ -483,6 +557,8 @@ export class RadioEngine {
   }
 
   pause(): void {
+    this.clearSeekWatchdog();
+    this.sfxInstance.stopStaticHiss(0);
     if (this.audio) {
       try {
         this.audio.pause();
@@ -610,6 +686,8 @@ export class RadioEngine {
 
   destroy(): void {
     this.isDestroyed = true;
+    this.clearSeekWatchdog();
+    this.sfxInstance.stopStaticHiss(0);
     this.revokeCurrentBlob();
     if (this.audio) {
       try {

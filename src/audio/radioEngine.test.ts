@@ -50,6 +50,65 @@ const mockStations: Station[] = [
   },
 ];
 
+function createMockAudio(): HTMLAudioElement {
+  const listeners: Record<string, EventListener[]> = {};
+  let _currentTime = 0;
+  let _volume = 1;
+  let _muted = false;
+  let _src = '';
+
+  const audio = {
+    get currentTime() {
+      return _currentTime;
+    },
+    set currentTime(val: number) {
+      _currentTime = val;
+    },
+    duration: 3600,
+    get volume() {
+      return _volume;
+    },
+    set volume(val: number) {
+      _volume = val;
+    },
+    get muted() {
+      return _muted;
+    },
+    set muted(val: boolean) {
+      _muted = val;
+    },
+    get src() {
+      return _src;
+    },
+    set src(val: string) {
+      _src = val;
+    },
+    preload: '',
+    loop: false,
+    play: vi.fn().mockImplementation(() => Promise.resolve()),
+    pause: vi.fn(),
+    load: vi.fn(),
+    setAttribute: vi.fn(),
+    getAttribute: vi.fn().mockReturnValue(''),
+    addEventListener: vi.fn((event: string, cb: EventListener) => {
+      listeners[event] = listeners[event] || [];
+      listeners[event].push(cb);
+    }),
+    removeEventListener: vi.fn((event: string, cb: EventListener) => {
+      if (listeners[event]) {
+        listeners[event] = listeners[event].filter((fn) => fn !== cb);
+      }
+    }),
+    dispatchEvent: vi.fn((event: Event) => {
+      const cbs = listeners[event.type] || [];
+      cbs.forEach((cb) => cb(event));
+      return true;
+    }),
+  } as unknown as HTMLAudioElement;
+
+  return audio;
+}
+
 function createMockAudioContext() {
   const mockGain = {
     gain: {
@@ -508,5 +567,78 @@ describe('RadioEngine Core Audio Player', () => {
     engine.destroy();
     expect(revokeObjectURLSpy).toHaveBeenCalledWith('blob:mock-uuid');
     expect(engine.getCurrentBlobUrl()).toBeNull();
+  });
+
+  it('falls back to stream start (currentTime = 0) if seeking stalls over 1500ms', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    const mockAudio = createMockAudio();
+    const engine = new RadioEngine({ audio: mockAudio });
+    const sampleStation = mockStations[0];
+
+    await engine.playStation(sampleStation, true);
+    expect(mockAudio.currentTime).toBeGreaterThan(0);
+
+    // Advance timer beyond 1500ms without firing 'canplay' or 'playing'
+    vi.advanceTimersByTime(1600);
+    expect(mockAudio.currentTime).toBe(0);
+
+    engine.destroy();
+    vi.useRealTimers();
+  });
+
+  it('does not reset currentTime to 0 if playback begins before 1500ms', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    const mockAudio = createMockAudio();
+    const engine = new RadioEngine({ audio: mockAudio });
+    const sampleStation = mockStations[0];
+
+    await engine.playStation(sampleStation, true);
+    expect(mockAudio.currentTime).toBeGreaterThan(0);
+    const initialTime = mockAudio.currentTime;
+
+    // Stream connects within 800ms
+    vi.advanceTimersByTime(800);
+    mockAudio.dispatchEvent(new Event('playing'));
+
+    // Advance past 1500ms
+    vi.advanceTimersByTime(1000);
+    expect(mockAudio.currentTime).toBe(initialTime);
+
+    engine.destroy();
+    vi.useRealTimers();
+  });
+
+  it('starts continuous static hiss when connecting and stops with fade on playback', async () => {
+    const mockAudio = createMockAudio();
+    const mockSFX = new RadioSFX();
+    vi.spyOn(mockSFX, 'startStaticHiss');
+    vi.spyOn(mockSFX, 'stopStaticHiss');
+    const engine = new RadioEngine({ audio: mockAudio, sfx: mockSFX });
+    const sampleStation = mockStations[0];
+
+    await engine.playStation(sampleStation, true);
+    expect(mockSFX.startStaticHiss).toHaveBeenCalled();
+
+    mockAudio.dispatchEvent(new Event('playing'));
+    expect(mockSFX.stopStaticHiss).toHaveBeenCalledWith(60);
+
+    engine.destroy();
+  });
+
+  it('stops continuous static hiss immediately on pause or error', async () => {
+    const mockAudio = createMockAudio();
+    const mockSFX = new RadioSFX();
+    vi.spyOn(mockSFX, 'startStaticHiss');
+    vi.spyOn(mockSFX, 'stopStaticHiss');
+    const engine = new RadioEngine({ audio: mockAudio, sfx: mockSFX });
+    const sampleStation = mockStations[0];
+
+    await engine.playStation(sampleStation, true);
+    expect(mockSFX.startStaticHiss).toHaveBeenCalled();
+
+    engine.pause();
+    expect(mockSFX.stopStaticHiss).toHaveBeenCalledWith(0);
+
+    engine.destroy();
   });
 });
