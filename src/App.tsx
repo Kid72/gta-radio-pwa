@@ -5,6 +5,7 @@ import { RadioEngine, radioEngine } from './audio/radioEngine';
 import { setupMediaSession, updateMediaSession } from './audio/mediaSession';
 import { sfx } from './audio/sfx';
 import { coverArtService } from './services/coverArtService';
+import { generateVinylCoverSvg } from './utils/coverFallback';
 import { listCachedStationKeys, deleteCachedStationAudio } from './storage/db';
 import { downloadStationWithProgress } from './storage/downloadManager';
 import { ThemeWrapper } from './components/ThemeWrapper';
@@ -90,10 +91,12 @@ export default function App({
     let isCancelled = false;
     const artist = cue?.type === 'music' ? cue.artist : '';
     const song = cue?.type === 'music' ? cue.song : '';
+    const activeGameMeta = getGame(currentGameId);
+    const stationAccent = activeGameMeta.theme.accentColor;
     const fallback = station.logoUrl || '';
 
     coverArtService
-      .getCoverArt(artist, song, fallback)
+      .getCoverArt(artist, song, fallback, station.name, stationAccent)
       .then((artUrl) => {
         if (!isCancelled) {
           setCoverArtUrl(artUrl || fallback);
@@ -101,7 +104,10 @@ export default function App({
       })
       .catch(() => {
         if (!isCancelled) {
-          setCoverArtUrl(fallback);
+          const procedural = (song && artist)
+            ? generateVinylCoverSvg({ song, artist, stationName: station.name, accentColor: stationAccent })
+            : fallback;
+          setCoverArtUrl(procedural);
         }
       });
 
@@ -398,6 +404,18 @@ export default function App({
                   src={coverArtUrl || currentStation?.logoUrl}
                   alt={currentStation ? currentStation.name : 'Radio'}
                   className="w-full h-full object-contain p-1"
+                  onError={() => {
+                    if (currentCue?.type === 'music' && currentStation) {
+                      setCoverArtUrl(
+                        generateVinylCoverSvg({
+                          song: currentCue.song,
+                          artist: currentCue.artist,
+                          stationName: currentStation.name,
+                          accentColor: activeGame.theme.accentColor,
+                        })
+                      );
+                    }
+                  }}
                 />
               ) : (
                 <Radio className="w-6 h-6 text-neutral-500" />

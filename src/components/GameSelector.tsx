@@ -40,6 +40,7 @@ export const GameSelector: React.FC<GameSelectorProps> = ({
           <button
             key={game.id}
             role="tab"
+            data-testid={`game-tab-${game.id}`}
             aria-selected={isSelected}
             aria-label={`${game.shortTitle} - ${game.title}`}
             onClick={() => onSelectGame(game.id)}

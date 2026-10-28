@@ -1,4 +1,5 @@
 import { openDB, IDBPDatabase } from 'idb';
+import { generateVinylCoverSvg } from '../utils/coverFallback';
 
 const STORE_NAME = 'cover_art';
 
@@ -54,18 +55,26 @@ export class CoverArtService {
   /**
    * Retrieves high-resolution album cover art from iTunes Search API.
    * Caches in-memory and persistently in IndexedDB.
-   * Falls back gracefully to fallbackUrl on network failure, timeout (2.5s), or talk/commercials.
+   * Falls back gracefully to fallbackUrl or procedural vinyl sleeve on network failure, timeout (2.5s), or talk/commercials.
    */
   async getCoverArt(
     artist: string,
     song: string,
-    fallbackUrl: string = ''
+    fallbackUrl: string = '',
+    stationName: string = '',
+    accentColor: string = '#f59e0b'
   ): Promise<string> {
     const cleanArtist = (artist || '').trim();
     const cleanSong = (song || '').trim();
 
+    const proceduralFallback = (cleanSong && cleanArtist)
+      ? generateVinylCoverSvg({ song: cleanSong, artist: cleanArtist, stationName, accentColor })
+      : fallbackUrl;
+
+    const resolvedFallback = fallbackUrl || proceduralFallback;
+
     if (!cleanArtist || !cleanSong) {
-      return fallbackUrl;
+      return resolvedFallback;
     }
 
     const cacheKey = `${cleanArtist.toLowerCase()} - ${cleanSong.toLowerCase()}`;
@@ -98,7 +107,7 @@ export class CoverArtService {
         const response = await fetch(url, { signal: controller.signal });
 
         if (!response.ok) {
-          return fallbackUrl;
+          return resolvedFallback;
         }
 
         const data = await response.json();
@@ -117,9 +126,9 @@ export class CoverArtService {
           return highResArtwork;
         }
 
-        return fallbackUrl;
+        return resolvedFallback;
       } catch {
-        return fallbackUrl;
+        return resolvedFallback;
       } finally {
         clearTimeout(timeoutId);
       }
