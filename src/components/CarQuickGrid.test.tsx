@@ -239,4 +239,29 @@ describe('CarQuickGrid Component', () => {
 
     expect(screen.getByTestId(`cached-badge-${sampleStations[0].id}`)).toBeInTheDocument();
   });
+
+  it('does not trigger onSelectStation when Enter or Space is pressed on child download button', () => {
+    const handleSelect = vi.fn();
+    const handleDownload = vi.fn();
+
+    render(
+      <CarQuickGrid
+        stations={sampleStations}
+        currentStation={currentStation}
+        cachedKeys={new Set()}
+        downloadingKeys={new Map()}
+        onSelectStation={handleSelect}
+        onDownloadStation={handleDownload}
+      />
+    );
+
+    const targetStation = sampleStations[1];
+    const downloadBtn = screen.getByTestId(`download-button-${targetStation.id}`);
+
+    fireEvent.keyDown(downloadBtn, { key: 'Enter' });
+    expect(handleSelect).not.toHaveBeenCalled();
+
+    fireEvent.keyDown(downloadBtn, { key: ' ' });
+    expect(handleSelect).not.toHaveBeenCalled();
+  });
 });

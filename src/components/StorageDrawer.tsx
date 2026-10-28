@@ -103,18 +103,26 @@ export const StorageDrawer: React.FC<StorageDrawerProps> = ({
 
   // Delete individual station
   const handleDeleteStation = async (record: CachedStationRecord) => {
-    const cleanId = record.stationId.replace(new RegExp(`^${record.gameId}:`), '');
-    await deleteCachedStationAudio(record.gameId, cleanId);
-    await refreshStorageData();
-    onStorageChanged?.();
+    try {
+      const cleanId = record.stationId.replace(new RegExp(`^${record.gameId}:`), '');
+      await deleteCachedStationAudio(record.gameId, cleanId);
+      await refreshStorageData();
+      onStorageChanged?.();
+    } catch (err) {
+      console.error('Failed to delete cached station:', err);
+    }
   };
 
   // Clear all cached downloads
   const handleClearAll = async () => {
-    await clearAllCachedStations();
-    setShowClearConfirm(false);
-    await refreshStorageData();
-    onStorageChanged?.();
+    try {
+      await clearAllCachedStations();
+      setShowClearConfirm(false);
+      await refreshStorageData();
+      onStorageChanged?.();
+    } catch (err) {
+      console.error('Failed to clear cached stations:', err);
+    }
   };
 
   if (!isOpen) {

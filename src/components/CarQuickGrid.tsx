@@ -116,6 +116,7 @@ export const CarQuickGrid: React.FC<CarQuickGridProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent, station: Station) => {
+    if (e.target !== e.currentTarget) return;
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       handleSelect(station);
