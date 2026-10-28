@@ -181,14 +181,19 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
     };
   }, [cycleStation]);
 
-  // Mouse wheel scroll navigation (both X and Y axis, throttled)
-  const handleWheel = useCallback(
-    (e: React.WheelEvent<HTMLDivElement>) => {
+  // Mouse wheel scroll navigation — must use non-passive native listener so we can preventDefault
+  // (React's onWheel is passive in modern browsers and can't prevent page scroll)
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
       const now = Date.now();
-      if (now - lastWheelTimeRef.current < 90) return;
+      if (now - lastWheelTimeRef.current < 120) return;
 
       const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (Math.abs(delta) > 5) {
+      if (Math.abs(delta) > 3) {
         lastWheelTimeRef.current = now;
         if (delta > 0) {
           cycleStation('next');
@@ -196,9 +201,11 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
           cycleStation('prev');
         }
       }
-    },
-    [cycleStation]
-  );
+    };
+
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, [cycleStation]);
 
   // Mobile touch swipe gestures
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
@@ -235,7 +242,6 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
       role="region"
       aria-label="GTA San Andreas Radio HUD"
       tabIndex={0}
-      onWheel={handleWheel}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       className={`relative w-full max-w-2xl mx-auto flex flex-col items-center select-none pt-2 pb-4 px-3 outline-none ${className}`}
@@ -355,16 +361,16 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
                   style={{ width: `${ITEM_WIDTH}px`, height: '100%' }}
                   aria-label={`Select ${station.name}`}
                 >
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center overflow-hidden bg-black/60 border border-amber-500/20">
+                  <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-xl flex items-center justify-center overflow-hidden bg-black/70 border border-amber-500/30">
                     {!isImageErrored && station.logoUrl ? (
                       <img
                         src={station.logoUrl}
                         alt={station.name}
                         draggable={false}
-                        className={`w-full h-full object-contain p-1 transition-all ${
+                        className={`w-full h-full object-contain p-0.5 transition-all ${
                           isActive
                             ? 'brightness-125 filter drop-shadow-[0_0_8px_rgba(245,158,11,0.9)]'
-                            : 'opacity-75 filter brightness-100 hover:opacity-95'
+                            : 'opacity-80 filter brightness-95 hover:opacity-100'
                         }`}
                         onError={() => handleImageError(station.id)}
                       />

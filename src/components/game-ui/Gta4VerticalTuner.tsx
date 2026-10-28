@@ -86,6 +86,7 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
   className = '',
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const stationListRef = useRef<HTMLDivElement>(null);
   const activeItemRef = useRef<HTMLButtonElement | null>(null);
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
   const lastWheelTimeRef = useRef<number>(0);
@@ -173,14 +174,19 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [cycleStation]);
 
-  // Mouse wheel scroll navigation (throttled)
-  const handleWheel = useCallback(
-    (e: React.WheelEvent<HTMLDivElement>) => {
+  // Mouse wheel scroll navigation — must use non-passive native listener so we can preventDefault
+  // (React's onWheel is passive in modern browsers and can't prevent page scroll)
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
       const now = Date.now();
-      if (now - lastWheelTimeRef.current < 200) return;
+      if (now - lastWheelTimeRef.current < 180) return;
 
       const delta = e.deltaY;
-      if (Math.abs(delta) > 20) {
+      if (Math.abs(delta) > 5) {
         lastWheelTimeRef.current = now;
         if (delta > 0) {
           cycleStation('next');
@@ -188,9 +194,25 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
           cycleStation('prev');
         }
       }
-    },
-    [cycleStation]
-  );
+    };
+
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, [cycleStation]);
+
+  // Station list native wheel listener: stop propagation so the list can scroll
+  // naturally without triggering the outer tuner wheel cycling
+  useEffect(() => {
+    const el = stationListRef.current;
+    if (!el) return;
+
+    const handleListWheel = (e: WheelEvent) => {
+      e.stopPropagation();
+    };
+
+    el.addEventListener('wheel', handleListWheel, { passive: true });
+    return () => el.removeEventListener('wheel', handleListWheel);
+  }, []);
 
   // Mobile touch swipe gestures (vertical drag)
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
@@ -240,7 +262,6 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
       role="region"
       aria-label="GTA IV Liberty City Radio Tuner"
       tabIndex={0}
-      onWheel={handleWheel}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       className={`relative w-full max-w-xl mx-auto flex flex-col select-none outline-none ${className}`}
@@ -402,6 +423,7 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
 
         {/* Scrollable Vertical Station List */}
         <div
+          ref={stationListRef}
           data-testid="gta4-station-list"
           onWheel={(e) => {
             // Allow smooth natural wheel scrolling over the list without outer tuner hijacking

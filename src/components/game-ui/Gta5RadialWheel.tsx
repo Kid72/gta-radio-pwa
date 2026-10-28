@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Station, TrackCue } from '../../types/radio';
 import { sfx } from '../../audio/sfx';
 import { Radio, Disc3, VolumeX } from 'lucide-react';
@@ -263,9 +263,12 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
     [total, activeIndex, stations, handleSelectStation]
   );
 
-  // Mouse wheel station scrolling
-  const handleWheel = useCallback(
-    (e: React.WheelEvent<HTMLDivElement>) => {
+  // Mouse wheel station scrolling — use non-passive native listener so we can preventDefault
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const handleWheelNative = (e: WheelEvent) => {
       e.preventDefault();
       const now = Date.now();
       if (now - lastWheelTimeRef.current < 90 || total === 0) return;
@@ -280,9 +283,11 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
         const prevIndex = activeIndex >= 0 ? (activeIndex - 1 + total) % total : total - 1;
         handleSelectStation(stations[prevIndex]);
       }
-    },
-    [total, activeIndex, stations, handleSelectStation]
-  );
+    };
+
+    el.addEventListener('wheel', handleWheelNative, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheelNative);
+  }, [total, activeIndex, stations, handleSelectStation]);
 
   // Frequency and Cue metadata resolution
   const isRadioOff = activeStation?.id === 'radio-off' || activeStation === null;
@@ -326,7 +331,6 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onKeyDown={handleKeyDown}
-      onWheel={handleWheel}
       style={{
         width: `${size}px`,
         height: `${size}px`,
@@ -354,6 +358,20 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
           {/* Authentic HUD soft glow filter for active wedge */}
           <filter id="gta5-emerald-glow" x="-20%" y="-20%" width="140%" height="140%">
             <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#ffffff" floodOpacity="0.6" />
+          </filter>
+
+          {/* Icon white-blend filter: makes opaque dark/gray backgrounds invisible on dark sectors */}
+          <filter id="gta5-icon-blend">
+            <feColorMatrix type="matrix"
+              values="1 0 0 0 0
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      1 1 1 -1 0" />
+          </filter>
+
+          {/* Active icon glow */}
+          <filter id="gta5-icon-glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#ffffff" floodOpacity="0.85" />
           </filter>
 
           {/* Active wedge authentic GTA V translucent white gradient */}
@@ -444,7 +462,7 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
                 className="transition-all duration-200"
               />
 
-              {/* Station logo icon */}
+              {/* Station logo icon — screen blend so solid-bg logos blend with dark sector */}
               <image
                 href={station.logoUrl}
                 x={iconX - iconSize / 2}
@@ -452,14 +470,15 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
                 width={iconSize}
                 height={iconSize}
                 preserveAspectRatio="xMidYMid meet"
-                className={`pointer-events-none transition-all duration-200 ${
-                  isActive
-                    ? 'opacity-100 filter drop-shadow-[0_2px_10px_rgba(255,255,255,0.6)] scale-110'
-                    : 'opacity-48 hover:opacity-80'
-                }`}
+                filter={isActive ? 'url(#gta5-icon-glow)' : 'url(#gta5-icon-blend)'}
                 style={{
+                  mixBlendMode: 'screen',
+                  opacity: isActive ? 1 : 0.65,
                   transformOrigin: `${iconX}px ${iconY}px`,
+                  transform: isActive ? 'scale(1.12)' : 'scale(1)',
+                  transition: 'opacity 200ms, transform 200ms',
                 }}
+                className="pointer-events-none"
               />
             </g>
           );
