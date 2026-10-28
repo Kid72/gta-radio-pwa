@@ -126,7 +126,6 @@ export const RadioWheel: React.FC<RadioWheelProps> = ({
     };
 
     if (radiusProp === undefined || badgeSizeProp === undefined) {
-      updateDimensions();
       window.addEventListener('resize', updateDimensions);
       return () => window.removeEventListener('resize', updateDimensions);
     }

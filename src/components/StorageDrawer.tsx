@@ -138,6 +138,7 @@ export const StorageDrawer: React.FC<StorageDrawerProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby="storage-drawer-title"
+      data-testid="storage-drawer"
       className="fixed inset-0 z-50 flex justify-end animate-fadeIn select-none"
     >
       {/* Backdrop */}
@@ -169,6 +170,7 @@ export const StorageDrawer: React.FC<StorageDrawerProps> = ({
           </div>
           <button
             type="button"
+            data-testid="storage-drawer-close"
             aria-label="Close offline storage drawer"
             onClick={onClose}
             className="p-2 rounded-xl text-neutral-400 hover:text-white hover:bg-white/10 transition-colors focus:outline-none"

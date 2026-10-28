@@ -33,3 +33,53 @@ if (typeof navigator !== 'undefined' && !navigator.storage) {
     persisted: () => Promise.resolve(false),
   };
 }
+
+// Ensure matchMedia exists in JSDOM
+if (typeof window !== 'undefined' && !window.matchMedia) {
+  window.matchMedia = (query: string) =>
+    ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: () => {},
+      removeListener: () => {},
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      dispatchEvent: () => false,
+    } as unknown as MediaQueryList);
+}
+
+// Ensure localStorage exists and works in Node 22 / JSDOM
+if (typeof window !== 'undefined') {
+  const store = new Map<string, string>();
+  const localStorageMock: Storage = {
+    getItem: (key: string) => store.get(key) ?? null,
+    setItem: (key: string, value: string) => {
+      store.set(key, String(value));
+    },
+    removeItem: (key: string) => {
+      store.delete(key);
+    },
+    clear: () => {
+      store.clear();
+    },
+    key: (index: number) => Array.from(store.keys())[index] ?? null,
+    length: 0,
+  };
+  Object.defineProperty(localStorageMock, 'length', {
+    get: () => store.size,
+  });
+
+  try {
+    Object.defineProperty(window, 'localStorage', {
+      value: localStorageMock,
+      writable: true,
+      configurable: true,
+    });
+    Object.defineProperty(globalThis, 'localStorage', {
+      value: localStorageMock,
+      writable: true,
+      configurable: true,
+    });
+  } catch {}
+}
