@@ -70,6 +70,10 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
+  const [dragOffset, setDragOffset] = useState<number>(0);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const isDraggingRef = useRef<boolean>(false);
+  const dragStartXRef = useRef<number | null>(null);
   const lastWheelTimeRef = useRef<number>(0);
   const touchStartXRef = useRef<number | null>(null);
 
@@ -136,14 +140,55 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [cycleStation]);
 
-  // Mouse wheel scroll navigation (throttled)
+  // Desktop Mouse Drag Navigation
+  const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.button !== 0) return; // Only left-click drags
+    dragStartXRef.current = e.clientX;
+    isDraggingRef.current = true;
+    setIsDragging(true);
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isDraggingRef.current || dragStartXRef.current === null) return;
+      const diff = e.clientX - dragStartXRef.current;
+      setDragOffset(diff);
+    };
+
+    const handleMouseUp = (e: MouseEvent) => {
+      if (!isDraggingRef.current) return;
+      isDraggingRef.current = false;
+      setIsDragging(false);
+
+      if (dragStartXRef.current !== null) {
+        const diff = e.clientX - dragStartXRef.current;
+        dragStartXRef.current = null;
+        setDragOffset(0);
+
+        if (diff < -25) {
+          cycleStation('next');
+        } else if (diff > 25) {
+          cycleStation('prev');
+        }
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [cycleStation]);
+
+  // Mouse wheel scroll navigation (both X and Y axis, throttled)
   const handleWheel = useCallback(
     (e: React.WheelEvent<HTMLDivElement>) => {
       const now = Date.now();
-      if (now - lastWheelTimeRef.current < 200) return;
+      if (now - lastWheelTimeRef.current < 90) return;
 
       const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (Math.abs(delta) > 20) {
+      if (Math.abs(delta) > 5) {
         lastWheelTimeRef.current = now;
         if (delta > 0) {
           cycleStation('next');
@@ -238,7 +283,10 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
 
         {/* Filmstrip Viewport with edge gradient masking */}
         <div
-          className="relative w-full h-24 sm:h-28 flex items-center justify-center overflow-hidden my-2"
+          onMouseDown={handleMouseDown}
+          className={`relative w-full h-24 sm:h-28 flex items-center justify-center overflow-hidden my-2 select-none ${
+            isDragging ? 'cursor-grabbing' : 'cursor-grab'
+          }`}
           style={{
             maskImage:
               'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
@@ -277,8 +325,10 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
               transform: `translateX(calc(50% - ${calculateReelOffset(
                 effectiveIndex,
                 ITEM_WIDTH
-              )}px))`,
-              transition: 'transform 260ms cubic-bezier(0.25, 1, 0.5, 1)',
+              )}px + ${dragOffset}px))`,
+              transition: isDragging
+                ? 'none'
+                : 'transform 260ms cubic-bezier(0.25, 1, 0.5, 1)',
               willChange: 'transform',
             }}
           >
@@ -292,7 +342,11 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
                   type="button"
                   data-testid={`gtasa-station-${station.id}`}
                   data-active={isActive ? 'true' : 'false'}
-                  onClick={() => handleSelect(station, index)}
+                  onClick={() => {
+                    if (Math.abs(dragOffset) < 5) {
+                      handleSelect(station, index);
+                    }
+                  }}
                   className={`flex-shrink-0 flex items-center justify-center transition-all duration-200 cursor-pointer focus:outline-none ${
                     isActive
                       ? 'scale-115 opacity-100 z-10 brightness-110 drop-shadow-[0_0_12px_rgba(245,158,11,0.5)]'
@@ -306,7 +360,12 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
                       <img
                         src={station.logoUrl}
                         alt={station.name}
-                        className="w-full h-full object-contain p-1"
+                        draggable={false}
+                        className={`w-full h-full object-contain p-1 transition-all ${
+                          isActive
+                            ? 'brightness-125 filter drop-shadow-[0_0_8px_rgba(245,158,11,0.9)]'
+                            : 'opacity-75 filter brightness-100 hover:opacity-95'
+                        }`}
                         onError={() => handleImageError(station.id)}
                       />
                     ) : (

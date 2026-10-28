@@ -95,13 +95,18 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
     ? stations.findIndex((s) => s.id === currentStation.id)
     : -1;
 
-  // Scroll active item into view on station change
+  const shouldScrollRef = useRef<boolean>(false);
+  const isFirstMountRef = useRef<boolean>(true);
+
+  // Scroll active item into view on station change only when triggered by keyboard / chevrons or initial mount
   useEffect(() => {
-    if (activeItemRef.current) {
+    if ((isFirstMountRef.current || shouldScrollRef.current) && activeItemRef.current) {
       activeItemRef.current.scrollIntoView({
         block: 'nearest',
-        behavior: 'smooth',
+        behavior: isFirstMountRef.current ? 'auto' : 'smooth',
       });
+      isFirstMountRef.current = false;
+      shouldScrollRef.current = false;
     }
   }, [activeIndex]);
 
@@ -117,6 +122,7 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
   const cycleStation = useCallback(
     (direction: 'next' | 'prev') => {
       if (stations.length === 0) return;
+      shouldScrollRef.current = true;
       const nextIdx = getNextStationIndex(activeIndex, stations.length, direction);
       const targetStation = stations[nextIdx];
       if (targetStation) {
@@ -397,7 +403,15 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
         {/* Scrollable Vertical Station List */}
         <div
           data-testid="gta4-station-list"
-          className="max-h-80 sm:max-h-96 overflow-y-auto divide-y divide-slate-800/80 scrollbar-thin scrollbar-thumb-yellow-500/20 scrollbar-track-transparent"
+          onWheel={(e) => {
+            // Allow smooth natural wheel scrolling over the list without outer tuner hijacking
+            e.stopPropagation();
+          }}
+          style={{
+            scrollbarWidth: 'thin',
+            scrollbarColor: '#eab308 rgba(15, 23, 42, 0.6)',
+          }}
+          className="max-h-80 sm:max-h-96 overflow-y-auto overscroll-contain divide-y divide-slate-800/80 scrollbar-thin scrollbar-thumb-yellow-500/40 scrollbar-track-slate-950/60"
         >
           {stations.map((station) => {
             const isActive = currentStation?.id === station.id;
@@ -449,7 +463,11 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
                         src={station.logoUrl}
                         alt={station.name}
                         onError={() => handleImageError(station.id)}
-                        className="w-full h-full object-contain p-0.5"
+                        className={`w-full h-full object-contain p-0.5 transition-all ${
+                          isActive
+                            ? 'brightness-125 filter drop-shadow-[0_0_6px_rgba(234,179,8,0.8)]'
+                            : 'opacity-80 group-hover:opacity-100'
+                        }`}
                       />
                     ) : (
                       getGenreIcon(station.genre)

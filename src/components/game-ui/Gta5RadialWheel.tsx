@@ -107,6 +107,7 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const lastHighlightedIndexRef = useRef<number | null>(null);
+  const lastWheelTimeRef = useRef<number>(0);
 
   const activeIndex = currentStation ? stations.findIndex((s) => s.id === currentStation.id) : -1;
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -250,6 +251,27 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
     [total, activeIndex, stations, handleSelectStation]
   );
 
+  // Mouse wheel station scrolling
+  const handleWheel = useCallback(
+    (e: React.WheelEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      const now = Date.now();
+      if (now - lastWheelTimeRef.current < 90 || total === 0) return;
+      if (Math.abs(e.deltaY) < 5 && Math.abs(e.deltaX) < 5) return;
+      lastWheelTimeRef.current = now;
+
+      const delta = e.deltaY !== 0 ? e.deltaY : e.deltaX;
+      if (delta > 0) {
+        const nextIndex = activeIndex >= 0 ? (activeIndex + 1) % total : 0;
+        handleSelectStation(stations[nextIndex]);
+      } else {
+        const prevIndex = activeIndex >= 0 ? (activeIndex - 1 + total) % total : total - 1;
+        handleSelectStation(stations[prevIndex]);
+      }
+    },
+    [total, activeIndex, stations, handleSelectStation]
+  );
+
   // Frequency and Cue metadata resolution
   const frequencyBadge =
     activeStation?.frequency ||
@@ -290,11 +312,12 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       onKeyDown={handleKeyDown}
+      onWheel={handleWheel}
       style={{
         width: `${size}px`,
         height: `${size}px`,
       }}
-      className={`relative mx-auto flex items-center justify-center select-none touch-none outline-none focus-visible:ring-2 focus-visible:ring-[#4ae891]/50 rounded-full ${className}`}
+      className={`relative mx-auto flex items-center justify-center select-none touch-none outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full ${className}`}
     >
       {/* SVG Annular Radial Wheel */}
       <svg
@@ -303,28 +326,21 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
         className="absolute inset-0 w-full h-full overflow-visible pointer-events-auto"
       >
         <defs>
-          {/* Intense emerald neon glow filter */}
-          <filter id="gta5-emerald-glow" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="6" result="blur" />
-            <feComponentTransfer in="blur" result="glow">
-              <feFuncA type="linear" slope="1.4" />
-            </feComponentTransfer>
-            <feMerge>
-              <feMergeNode in="glow" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
+          {/* Authentic HUD soft glow filter for active wedge */}
+          <filter id="gta5-emerald-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#ffffff" floodOpacity="0.45" />
           </filter>
 
-          {/* Active wedge emerald radial/linear gradient */}
+          {/* Active wedge authentic GTA V translucent white gradient */}
           <linearGradient id="gta5-active-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#4ae891" stopOpacity="0.95" />
-            <stop offset="100%" stopColor="#10b981" stopOpacity="0.88" />
+            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.45)" />
+            <stop offset="100%" stopColor="rgba(255, 255, 255, 0.28)" />
           </linearGradient>
 
-          {/* Inactive wedge dark slate gradient */}
+          {/* Inactive wedge dark slate HUD glass */}
           <linearGradient id="gta5-inactive-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="rgba(30, 41, 59, 0.90)" />
-            <stop offset="100%" stopColor="rgba(15, 23, 42, 0.85)" />
+            <stop offset="0%" stopColor="rgba(20, 27, 40, 0.88)" />
+            <stop offset="100%" stopColor="rgba(10, 15, 24, 0.82)" />
           </linearGradient>
         </defs>
 
@@ -334,9 +350,19 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
           cy={cy}
           r={rOutBase + 4}
           fill="none"
-          stroke="rgba(255, 255, 255, 0.08)"
+          stroke="rgba(255, 255, 255, 0.12)"
           strokeWidth="1"
           strokeDasharray="4 4"
+        />
+
+        {/* Inner hairline guide ring */}
+        <circle
+          cx={cx}
+          cy={cy}
+          r={rIn - 2}
+          fill="none"
+          stroke="rgba(255, 255, 255, 0.2)"
+          strokeWidth="1"
         />
 
         {/* Annular Sectors for each station */}
@@ -386,9 +412,9 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
               {/* Sector slice path */}
               <path
                 d={pathD}
-                fill={isActive ? 'url(#gta5-active-gradient)' : 'rgba(15, 23, 42, 0.85)'}
-                stroke={isActive ? '#4ae891' : 'rgba(255, 255, 255, 0.12)'}
-                strokeWidth={isActive ? 2.5 : 1.5}
+                fill={isActive ? 'url(#gta5-active-gradient)' : 'url(#gta5-inactive-gradient)'}
+                stroke={isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.15)'}
+                strokeWidth={isActive ? 2.5 : 1}
                 filter={isActive ? 'url(#gta5-emerald-glow)' : undefined}
                 className="transition-all duration-200"
               />
@@ -401,10 +427,10 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
                 width={iconSize}
                 height={iconSize}
                 preserveAspectRatio="xMidYMid meet"
-                className={`pointer-events-none transition-transform duration-200 ${
+                className={`pointer-events-none transition-all duration-200 ${
                   isActive
-                    ? 'filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)] scale-110'
-                    : 'opacity-80 hover:opacity-100'
+                    ? 'opacity-100 filter drop-shadow-[0_2px_8px_rgba(255,255,255,0.4)] scale-110'
+                    : 'opacity-35 hover:opacity-75'
                 }`}
                 style={{
                   transformOrigin: `${iconX}px ${iconY}px`,
@@ -413,6 +439,23 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
             </g>
           );
         })}
+
+        {/* Authentic GTA V selector needle pointer */}
+        {displayIndex >= 0 && (
+          <g data-testid="gta5-needle-pointer" className="pointer-events-none transition-all duration-150">
+            <line
+              x1={cx}
+              y1={cy}
+              x2={cx + (rIn - 6) * Math.sin((displayIndex * sliceAngle * Math.PI) / 180)}
+              y2={cy - (rIn - 6) * Math.cos((displayIndex * sliceAngle * Math.PI) / 180)}
+              stroke="#ffffff"
+              strokeWidth={2.5}
+              strokeLinecap="round"
+              opacity={0.95}
+            />
+            <circle cx={cx} cy={cy} r={3.5} fill="#ffffff" />
+          </g>
+        )}
       </svg>
 
       {/* Center Hub */}
@@ -423,13 +466,13 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
             width: `${(rIn - 6) * 2}px`,
             height: `${(rIn - 6) * 2}px`,
           }}
-          className="absolute inset-0 m-auto rounded-full flex flex-col items-center justify-center p-3 text-center bg-slate-950/92 backdrop-blur-2xl border border-white/20 shadow-[0_0_35px_rgba(0,0,0,0.9)] overflow-hidden select-none z-20 pointer-events-auto"
+          className="absolute inset-0 m-auto rounded-full flex flex-col items-center justify-center p-3 text-center bg-slate-950/94 backdrop-blur-2xl border border-white/20 shadow-[0_0_35px_rgba(0,0,0,0.95)] overflow-hidden select-none z-20 pointer-events-auto"
         >
-          {/* Subtle emerald neon backdrop glow */}
+          {/* Subtle vignette backdrop glow */}
           <div
-            className="absolute inset-0 rounded-full opacity-25 pointer-events-none"
+            className="absolute inset-0 rounded-full opacity-20 pointer-events-none"
             style={{
-              background: 'radial-gradient(circle, #4ae891 0%, transparent 70%)',
+              background: 'radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%)',
             }}
           />
 
@@ -451,14 +494,14 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
             {frequencyBadge && (
               <span
                 data-testid="gta5-station-frequency"
-                className="text-[9px] font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/10 text-neutral-200 border border-white/10 shadow-sm"
+                className="text-[9px] font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/10 text-neutral-200 border border-white/15 shadow-sm"
               >
                 {frequencyBadge}
               </span>
             )}
             <span
               className={`h-1.5 w-1.5 rounded-full ${
-                isPlaying ? 'bg-[#4ae891] animate-ping' : 'bg-neutral-600'
+                isPlaying ? 'bg-white animate-ping' : 'bg-neutral-600'
               }`}
             />
           </div>
@@ -479,11 +522,11 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
           {/* Station Name & Genre */}
           <h2
             data-testid="gta5-station-name"
-            className="z-10 text-xs font-black tracking-wide uppercase text-white truncate max-w-[90%] drop-shadow"
+            className="z-10 text-xs font-black tracking-wide uppercase text-white truncate max-w-[90%] drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]"
           >
             {activeStation.name}
           </h2>
-          <p className="z-10 text-[9px] text-neutral-400 font-medium tracking-wider uppercase truncate max-w-[85%]">
+          <p className="z-10 text-[9px] text-neutral-400 font-semibold tracking-wider uppercase truncate max-w-[85%]">
             {activeStation.genre}
           </p>
 
@@ -492,13 +535,13 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
             <div className="flex items-center gap-1 max-w-full">
               {currentCue?.type === 'music' ? (
                 <Disc3
-                  className={`w-3 h-3 text-[#4ae891] shrink-0 ${
+                  className={`w-3 h-3 text-white shrink-0 ${
                     isPlaying ? 'animate-spin' : ''
                   }`}
                   style={{ animationDuration: '4s' }}
                 />
               ) : (
-                <Radio className="w-3 h-3 text-[#4ae891] shrink-0" />
+                <Radio className="w-3 h-3 text-white shrink-0" />
               )}
               <span
                 data-testid="gta5-track-title"
@@ -509,7 +552,7 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
             </div>
             <span
               data-testid="gta5-track-artist"
-              className="text-[9px] text-neutral-400 font-medium truncate max-w-full"
+              className="text-[9px] text-neutral-300 font-medium truncate max-w-full"
             >
               {artistOrInfo}
             </span>
@@ -525,7 +568,7 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
               <span
                 key={bar}
                 className={`w-0.5 rounded-full transition-all duration-200 ${
-                  isPlaying ? 'bg-[#4ae891] animate-pulse h-2.5' : 'bg-neutral-600 h-1'
+                  isPlaying ? 'bg-white animate-pulse h-2.5' : 'bg-neutral-600 h-1'
                 }`}
                 style={
                   isPlaying
@@ -545,13 +588,13 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
             width: `${(rIn - 6) * 2}px`,
             height: `${(rIn - 6) * 2}px`,
           }}
-          className="absolute inset-0 m-auto rounded-full flex flex-col items-center justify-center p-3 text-center bg-slate-950/92 backdrop-blur-2xl border border-white/20 shadow-2xl z-20 pointer-events-auto select-none"
+          className="absolute inset-0 m-auto rounded-full flex flex-col items-center justify-center p-3 text-center bg-slate-950/94 backdrop-blur-2xl border border-white/20 shadow-2xl z-20 pointer-events-auto select-none"
         >
-          <VolumeX className="w-8 h-8 text-neutral-500 mb-2 animate-pulse" />
-          <span className="text-xs font-bold tracking-widest uppercase text-neutral-300">
+          <VolumeX className="w-8 h-8 text-neutral-400 mb-2 animate-pulse" />
+          <span className="text-xs font-bold tracking-widest uppercase text-neutral-200">
             Radio Off
           </span>
-          <span className="text-[10px] text-neutral-500 mt-1">Select Station</span>
+          <span className="text-[10px] text-neutral-400 mt-1">Select Station</span>
         </div>
       )}
     </div>

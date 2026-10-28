@@ -461,5 +461,49 @@ describe('Gta5RadialWheel', () => {
       fireEvent.keyDown(input, { key: 'ArrowRight' });
       expect(onSelect).not.toHaveBeenCalled();
     });
+
+    it('renders authentic GTA V central selector needle pointer when a station is active', () => {
+      const { rerender } = render(
+        <Gta5RadialWheel
+          stations={mockStations}
+          currentStation={mockStations[1]}
+          onSelectStation={vi.fn()}
+          isPlaying={false}
+        />
+      );
+
+      expect(screen.getByTestId('gta5-needle-pointer')).toBeInTheDocument();
+
+      // When no station is active and not hovered, needle is not rendered
+      rerender(
+        <Gta5RadialWheel
+          stations={mockStations}
+          currentStation={null}
+          onSelectStation={vi.fn()}
+          isPlaying={false}
+        />
+      );
+
+      expect(screen.queryByTestId('gta5-needle-pointer')).not.toBeInTheDocument();
+    });
+
+    it('supports mouse wheel station cycling with throttled wheel events', () => {
+      const onSelect = vi.fn();
+      render(
+        <Gta5RadialWheel
+          stations={mockStations}
+          currentStation={mockStations[0]}
+          onSelectStation={onSelect}
+          isPlaying={false}
+        />
+      );
+
+      const wheelRoot = screen.getByTestId('gta5-radial-wheel');
+
+      // Wheel down (deltaY > 0) -> next station (mockStations[1])
+      fireEvent.wheel(wheelRoot, { deltaY: 20 });
+      expect(onSelect).toHaveBeenCalledWith(mockStations[1]);
+      expect(sfx.playClick).toHaveBeenCalled();
+    });
   });
 });
