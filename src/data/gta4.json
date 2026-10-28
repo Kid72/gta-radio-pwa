@@ -1,0 +1,1991 @@
+[
+  {
+    "id": "vladivostok-fm",
+    "gameId": "gta4",
+    "name": "Vladivostok FM",
+    "genre": "Eastern European Dance & Pop",
+    "host": "Ruslana",
+    "logoUrl": "/logos/gta4/vladivostok-fm.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/Vladivostok%20FM.mp3",
+    "duration": 5671,
+    "initialOffset": 0,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 240,
+        "song": "Wild Dances",
+        "artist": "Ruslana",
+        "type": "music"
+      },
+      {
+        "start": 241,
+        "end": 440,
+        "song": "Nikogo Ne Zhalko",
+        "artist": "Leningrad",
+        "type": "music"
+      },
+      {
+        "start": 441,
+        "end": 690,
+        "song": "Schweine",
+        "artist": "Glukoza",
+        "type": "music"
+      },
+      {
+        "start": 691,
+        "end": 720,
+        "song": "Eastern European Ident & Chatter",
+        "artist": "Ruslana",
+        "type": "talk"
+      },
+      {
+        "start": 721,
+        "end": 960,
+        "song": "King Ring",
+        "artist": "Seryoga",
+        "type": "music"
+      },
+      {
+        "start": 961,
+        "end": 1180,
+        "song": "Zhdat",
+        "artist": "Marakesh",
+        "type": "music"
+      },
+      {
+        "start": 1181,
+        "end": 1390,
+        "song": "Kvartira",
+        "artist": "Zveri",
+        "type": "music"
+      },
+      {
+        "start": 1391,
+        "end": 1680,
+        "song": "Gruppa Krovi",
+        "artist": "Kino",
+        "type": "music"
+      },
+      {
+        "start": 1681,
+        "end": 1980,
+        "song": "Zelenoglazoe Taksi (Club Remix)",
+        "artist": "Oleg Kvasha",
+        "type": "music"
+      },
+      {
+        "start": 1981,
+        "end": 2270,
+        "song": "Liberty City: The Invasion",
+        "artist": "Seryoga",
+        "type": "music"
+      },
+      {
+        "start": 2271,
+        "end": 2305,
+        "song": "Star Junction Gossip",
+        "artist": "Ruslana",
+        "type": "talk"
+      },
+      {
+        "start": 2306,
+        "end": 2560,
+        "song": "O Tebe",
+        "artist": "Ranetki",
+        "type": "music"
+      },
+      {
+        "start": 2561,
+        "end": 2800,
+        "song": "RAP",
+        "artist": "Dolphin",
+        "type": "music"
+      },
+      {
+        "start": 2801,
+        "end": 3020,
+        "song": "Liniya Zhizni",
+        "artist": "Splin",
+        "type": "music"
+      },
+      {
+        "start": 3021,
+        "end": 3400,
+        "song": "Wild Dances (Club Mix)",
+        "artist": "Ruslana",
+        "type": "music"
+      },
+      {
+        "start": 3401,
+        "end": 3640,
+        "song": "Chiki",
+        "artist": "Seryoga",
+        "type": "music"
+      },
+      {
+        "start": 3641,
+        "end": 3920,
+        "song": "Spokoinoi Nochi",
+        "artist": "Max Lorens",
+        "type": "music"
+      },
+      {
+        "start": 3921,
+        "end": 4250,
+        "song": "Mama",
+        "artist": "Basta",
+        "type": "music"
+      },
+      {
+        "start": 4251,
+        "end": 4700,
+        "song": "Vladivostok Beat",
+        "artist": "DJ Spen",
+        "type": "music"
+      },
+      {
+        "start": 4701,
+        "end": 5671,
+        "song": "Sign-Off & Liberty City Dance",
+        "artist": "Ruslana",
+        "type": "talk"
+      }
+    ]
+  },
+  {
+    "id": "liberty-rock-radio",
+    "gameId": "gta4",
+    "name": "Liberty Rock Radio 97.8",
+    "genre": "Classic Rock",
+    "host": "Iggy Pop",
+    "frequency": "97.8 FM",
+    "logoUrl": "/logos/gta4/liberty-rock-radio.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/Liberty%20Rock%20Radio.mp3",
+    "duration": 10236,
+    "initialOffset": 180,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 35,
+        "song": "Intro & Classic Rock Declaration",
+        "artist": "Iggy Pop",
+        "type": "talk"
+      },
+      {
+        "start": 36,
+        "end": 300,
+        "song": "1979",
+        "artist": "The Smashing Pumpkins",
+        "type": "music"
+      },
+      {
+        "start": 301,
+        "end": 520,
+        "song": "30 Days in the Hole",
+        "artist": "Steve Marriott",
+        "type": "music"
+      },
+      {
+        "start": 521,
+        "end": 760,
+        "song": "Cry",
+        "artist": "Godley & Creme",
+        "type": "music"
+      },
+      {
+        "start": 761,
+        "end": 1160,
+        "song": "Dominion/Mother Russia",
+        "artist": "The Sisters of Mercy",
+        "type": "music"
+      },
+      {
+        "start": 1161,
+        "end": 1480,
+        "song": "Edge of Seventeen",
+        "artist": "Stevie Nicks",
+        "type": "music"
+      },
+      {
+        "start": 1481,
+        "end": 1730,
+        "song": "Evil Woman",
+        "artist": "Electric Light Orchestra",
+        "type": "music"
+      },
+      {
+        "start": 1731,
+        "end": 2080,
+        "song": "Fascination",
+        "artist": "David Bowie",
+        "type": "music"
+      },
+      {
+        "start": 2081,
+        "end": 2360,
+        "song": "Goodbye Horses",
+        "artist": "Q Lazzarus",
+        "type": "music"
+      },
+      {
+        "start": 2361,
+        "end": 2790,
+        "song": "Heaven and Hell",
+        "artist": "Black Sabbath",
+        "type": "music"
+      },
+      {
+        "start": 2791,
+        "end": 2825,
+        "song": "Iggy Rant on Star Junction",
+        "artist": "Iggy Pop",
+        "type": "talk"
+      },
+      {
+        "start": 2826,
+        "end": 3060,
+        "song": "Her Strut",
+        "artist": "Bob Seger & The Silver Bullet Band",
+        "type": "music"
+      },
+      {
+        "start": 3061,
+        "end": 3250,
+        "song": "I Wanna Be Your Dog",
+        "artist": "The Stooges",
+        "type": "music"
+      },
+      {
+        "start": 3251,
+        "end": 3490,
+        "song": "Jailbreak",
+        "artist": "Thin Lizzy",
+        "type": "music"
+      },
+      {
+        "start": 3491,
+        "end": 3890,
+        "song": "Mama",
+        "artist": "Genesis",
+        "type": "music"
+      },
+      {
+        "start": 3891,
+        "end": 4070,
+        "song": "New York Groove",
+        "artist": "Hello",
+        "type": "music"
+      },
+      {
+        "start": 4071,
+        "end": 4380,
+        "song": "One Vision",
+        "artist": "Queen",
+        "type": "music"
+      },
+      {
+        "start": 4381,
+        "end": 4690,
+        "song": "Remedy",
+        "artist": "The Black Crowes",
+        "type": "music"
+      },
+      {
+        "start": 4691,
+        "end": 5010,
+        "song": "Rocky Mountain Way",
+        "artist": "Joe Walsh",
+        "type": "music"
+      },
+      {
+        "start": 5011,
+        "end": 5200,
+        "song": "Chinese Rocks",
+        "artist": "The Heartbreakers",
+        "type": "music"
+      },
+      {
+        "start": 5201,
+        "end": 5235,
+        "song": "Street Philosophy & Station ID",
+        "artist": "Iggy Pop",
+        "type": "talk"
+      },
+      {
+        "start": 5236,
+        "end": 5500,
+        "song": "Turn You Inside-Out",
+        "artist": "R.E.M.",
+        "type": "music"
+      },
+      {
+        "start": 5501,
+        "end": 5720,
+        "song": "The Seeker",
+        "artist": "The Who",
+        "type": "music"
+      },
+      {
+        "start": 5721,
+        "end": 6120,
+        "song": "Street Kids",
+        "artist": "Elton John",
+        "type": "music"
+      },
+      {
+        "start": 6121,
+        "end": 6390,
+        "song": "Thug",
+        "artist": "ZZ Top",
+        "type": "music"
+      },
+      {
+        "start": 6391,
+        "end": 6760,
+        "song": "Highway Star",
+        "artist": "Deep Purple",
+        "type": "music"
+      },
+      {
+        "start": 6761,
+        "end": 7080,
+        "song": "Wanted Dead or Alive",
+        "artist": "Bon Jovi",
+        "type": "music"
+      },
+      {
+        "start": 7081,
+        "end": 7380,
+        "song": "Lord of the Thighs",
+        "artist": "Aerosmith",
+        "type": "music"
+      },
+      {
+        "start": 7381,
+        "end": 7650,
+        "song": "Five to One",
+        "artist": "The Doors",
+        "type": "music"
+      },
+      {
+        "start": 7651,
+        "end": 8020,
+        "song": "Every Picture Tells a Story",
+        "artist": "Rod Stewart",
+        "type": "music"
+      },
+      {
+        "start": 8021,
+        "end": 8280,
+        "song": "Hair of the Dog",
+        "artist": "Nazareth",
+        "type": "music"
+      },
+      {
+        "start": 8281,
+        "end": 8520,
+        "song": "Run to the Hills",
+        "artist": "Iron Maiden",
+        "type": "music"
+      },
+      {
+        "start": 8521,
+        "end": 8810,
+        "song": "Touch Too Much",
+        "artist": "AC/DC",
+        "type": "music"
+      },
+      {
+        "start": 8811,
+        "end": 9090,
+        "song": "Wild Side",
+        "artist": "Motley Crue",
+        "type": "music"
+      },
+      {
+        "start": 9091,
+        "end": 9310,
+        "song": "Electric Eye",
+        "artist": "Judas Priest",
+        "type": "music"
+      },
+      {
+        "start": 9311,
+        "end": 10236,
+        "song": "The Nightmare Concludes",
+        "artist": "Iggy Pop",
+        "type": "talk"
+      }
+    ]
+  },
+  {
+    "id": "the-beat-102-7",
+    "gameId": "gta4",
+    "name": "The Beat 102.7",
+    "genre": "Contemporary Hip-Hop & Rap",
+    "host": "Mister Cee & DJ Green Lantern",
+    "frequency": "102.7 FM",
+    "logoUrl": "/logos/gta4/the-beat-102-7.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/The%20Beat%20102.7.mp3",
+    "duration": 5667,
+    "initialOffset": 360,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 45,
+        "song": "The Beat Live Intro",
+        "artist": "Mister Cee & Green Lantern",
+        "type": "talk"
+      },
+      {
+        "start": 46,
+        "end": 280,
+        "song": "What's the Problem",
+        "artist": "Styles P",
+        "type": "music"
+      },
+      {
+        "start": 281,
+        "end": 490,
+        "song": "Anybody Can Get It",
+        "artist": "Uncle Murda",
+        "type": "music"
+      },
+      {
+        "start": 491,
+        "end": 700,
+        "song": "We Celebrate",
+        "artist": "Qadir",
+        "type": "music"
+      },
+      {
+        "start": 701,
+        "end": 910,
+        "song": "Getaway Driver",
+        "artist": "Maino",
+        "type": "music"
+      },
+      {
+        "start": 911,
+        "end": 1100,
+        "song": "Stick'm",
+        "artist": "Red Cafe",
+        "type": "music"
+      },
+      {
+        "start": 1101,
+        "end": 1300,
+        "song": "Wet 'Em Up",
+        "artist": "Tru Life",
+        "type": "music"
+      },
+      {
+        "start": 1301,
+        "end": 1500,
+        "song": "Price on Ya Head",
+        "artist": "Johnny Polygon",
+        "type": "music"
+      },
+      {
+        "start": 1501,
+        "end": 1530,
+        "song": "Mix Interlude",
+        "artist": "Green Lantern",
+        "type": "talk"
+      },
+      {
+        "start": 1531,
+        "end": 1760,
+        "song": "Top Down",
+        "artist": "Swizz Beatz",
+        "type": "music"
+      },
+      {
+        "start": 1761,
+        "end": 2000,
+        "song": "War Is Necessary",
+        "artist": "Nas",
+        "type": "music"
+      },
+      {
+        "start": 2001,
+        "end": 2240,
+        "song": "Flashing Lights",
+        "artist": "Kanye West",
+        "type": "music"
+      },
+      {
+        "start": 2241,
+        "end": 2470,
+        "song": "Hip Hop",
+        "artist": "Joell Ortiz",
+        "type": "music"
+      },
+      {
+        "start": 2471,
+        "end": 2690,
+        "song": "Crackhouse",
+        "artist": "Fat Joe feat. Lil Wayne",
+        "type": "music"
+      },
+      {
+        "start": 2691,
+        "end": 2930,
+        "song": "Pearly Gates",
+        "artist": "Mobb Deep feat. 50 Cent",
+        "type": "music"
+      },
+      {
+        "start": 2931,
+        "end": 2965,
+        "song": "Brooklyn Throwdown",
+        "artist": "Mister Cee",
+        "type": "talk"
+      },
+      {
+        "start": 2966,
+        "end": 3220,
+        "song": "Game's Pain",
+        "artist": "The Game feat. Keyshia Cole",
+        "type": "music"
+      },
+      {
+        "start": 3221,
+        "end": 3460,
+        "song": "Where's My Money",
+        "artist": "Busta Rhymes",
+        "type": "music"
+      },
+      {
+        "start": 3461,
+        "end": 3680,
+        "song": "The Champ Is Here",
+        "artist": "Jadakiss",
+        "type": "music"
+      },
+      {
+        "start": 3681,
+        "end": 3920,
+        "song": "C'mon Baby",
+        "artist": "Saigon",
+        "type": "music"
+      },
+      {
+        "start": 3921,
+        "end": 4150,
+        "song": "Stylin'",
+        "artist": "Papoose",
+        "type": "music"
+      },
+      {
+        "start": 4151,
+        "end": 4400,
+        "song": "We Celebrate",
+        "artist": "Ghostface Killah feat. Kid Capri",
+        "type": "music"
+      },
+      {
+        "start": 4401,
+        "end": 5667,
+        "song": "Outro & Station Drops",
+        "artist": "The Beat Mix Sessions",
+        "type": "talk"
+      }
+    ]
+  },
+  {
+    "id": "electro-choc",
+    "gameId": "gta4",
+    "name": "Electro-Choc",
+    "genre": "Electro & Tech House",
+    "host": "Fran\u00e7ois K & Crookers",
+    "logoUrl": "/logos/gta4/electro-choc.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/Electro-Choc.mp3",
+    "duration": 4386,
+    "initialOffset": 540,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 30,
+        "song": "Electro Dimension Intro",
+        "artist": "Fran\u00e7ois K",
+        "type": "talk"
+      },
+      {
+        "start": 31,
+        "end": 320,
+        "song": "Signal Failure",
+        "artist": "Padded Cell",
+        "type": "music"
+      },
+      {
+        "start": 321,
+        "end": 650,
+        "song": "The Devil in Us",
+        "artist": "Black Devil Disco Club",
+        "type": "music"
+      },
+      {
+        "start": 651,
+        "end": 960,
+        "song": "No More Conversations (Manhattan Clique Remix)",
+        "artist": "One + One",
+        "type": "music"
+      },
+      {
+        "start": 961,
+        "end": 1280,
+        "song": "Brain Leech (Buggedmind Remix)",
+        "artist": "Alex Gopher",
+        "type": "music"
+      },
+      {
+        "start": 1281,
+        "end": 1580,
+        "song": "B.T.T.T.T.R.Y. (Bag Raiders Remix)",
+        "artist": "K.I.M.",
+        "type": "music"
+      },
+      {
+        "start": 1581,
+        "end": 1880,
+        "song": "Tits & Acid",
+        "artist": "Simian Mobile Disco",
+        "type": "music"
+      },
+      {
+        "start": 1881,
+        "end": 2150,
+        "song": "Murderous",
+        "artist": "Nitzer Ebb",
+        "type": "music"
+      },
+      {
+        "start": 2151,
+        "end": 2440,
+        "song": "Testarossa (SebastiAn Remix)",
+        "artist": "Kavinsky",
+        "type": "music"
+      },
+      {
+        "start": 2441,
+        "end": 2750,
+        "song": "Changes",
+        "artist": "Chris Lake feat. Laura V",
+        "type": "music"
+      },
+      {
+        "start": 2751,
+        "end": 3050,
+        "song": "Move for Me",
+        "artist": "Deadmau5",
+        "type": "music"
+      },
+      {
+        "start": 3051,
+        "end": 3350,
+        "song": "& Down",
+        "artist": "Boys Noize",
+        "type": "music"
+      },
+      {
+        "start": 3351,
+        "end": 3680,
+        "song": "Waters of Nazareth",
+        "artist": "Justice",
+        "type": "music"
+      },
+      {
+        "start": 3681,
+        "end": 4386,
+        "song": "Knas & Electro Outro",
+        "artist": "Crookers",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "radio-broker",
+    "gameId": "gta4",
+    "name": "Radio Broker",
+    "genre": "Indie Rock & Dance-Punk",
+    "host": "Juliette Lewis",
+    "logoUrl": "/logos/gta4/radio-broker.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/Radio%20Broker.mp3",
+    "duration": 7075,
+    "initialOffset": 720,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 30,
+        "song": "Broker Welcome",
+        "artist": "Juliette Lewis",
+        "type": "talk"
+      },
+      {
+        "start": 31,
+        "end": 250,
+        "song": "Arm in Arm (Shy Child Mix)",
+        "artist": "The Boggs",
+        "type": "music"
+      },
+      {
+        "start": 251,
+        "end": 450,
+        "song": "Cocaine",
+        "artist": "Cheeseburger",
+        "type": "music"
+      },
+      {
+        "start": 451,
+        "end": 700,
+        "song": "Sister Self Doubt",
+        "artist": "Get Shakes",
+        "type": "music"
+      },
+      {
+        "start": 701,
+        "end": 1050,
+        "song": "Get Innocuous!",
+        "artist": "LCD Soundsystem",
+        "type": "music"
+      },
+      {
+        "start": 1051,
+        "end": 1320,
+        "song": "Homicide",
+        "artist": "The Prairie Cartel",
+        "type": "music"
+      },
+      {
+        "start": 1321,
+        "end": 1560,
+        "song": "Inside the Cage",
+        "artist": "Juliette & The Licks",
+        "type": "music"
+      },
+      {
+        "start": 1561,
+        "end": 1800,
+        "song": "Riot in the City",
+        "artist": "White Light Parade",
+        "type": "music"
+      },
+      {
+        "start": 1801,
+        "end": 2040,
+        "song": "Strange Times",
+        "artist": "The Black Keys",
+        "type": "music"
+      },
+      {
+        "start": 2041,
+        "end": 2070,
+        "song": "Williamsburg Chat",
+        "artist": "Juliette Lewis",
+        "type": "talk"
+      },
+      {
+        "start": 2071,
+        "end": 2310,
+        "song": "No Sex for Ben",
+        "artist": "The Rapture",
+        "type": "music"
+      },
+      {
+        "start": 2311,
+        "end": 2530,
+        "song": "Shake It Loose",
+        "artist": "Blonde Acid Cult",
+        "type": "music"
+      },
+      {
+        "start": 2531,
+        "end": 2750,
+        "song": "Tick Tick Boom",
+        "artist": "The Hives",
+        "type": "music"
+      },
+      {
+        "start": 2751,
+        "end": 3000,
+        "song": "Club Foot",
+        "artist": "Kasabian",
+        "type": "music"
+      },
+      {
+        "start": 3001,
+        "end": 3220,
+        "song": "Flathead",
+        "artist": "The Fratellis",
+        "type": "music"
+      },
+      {
+        "start": 3221,
+        "end": 7075,
+        "song": "Indie Roster & Signoff",
+        "artist": "Radio Broker Indie Roster",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "jazz-nation-radio",
+    "gameId": "gta4",
+    "name": "Jazz Nation Radio 108.5",
+    "genre": "Bebop & Modern Jazz",
+    "host": "Roy Haynes",
+    "frequency": "108.5 FM",
+    "logoUrl": "/logos/gta4/jazz-nation-radio.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/Jazz%20Nation%20Radio%20108.5.mp3",
+    "duration": 2418,
+    "initialOffset": 900,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 30,
+        "song": "Jazz Heritage Intro",
+        "artist": "Roy Haynes",
+        "type": "talk"
+      },
+      {
+        "start": 31,
+        "end": 240,
+        "song": "April in Paris",
+        "artist": "Count Basie",
+        "type": "music"
+      },
+      {
+        "start": 241,
+        "end": 520,
+        "song": "Giant Steps",
+        "artist": "John Coltrane",
+        "type": "music"
+      },
+      {
+        "start": 521,
+        "end": 730,
+        "song": "Let's Get Lost",
+        "artist": "Chet Baker",
+        "type": "music"
+      },
+      {
+        "start": 731,
+        "end": 940,
+        "song": "Take the 'A' Train",
+        "artist": "Duke Ellington",
+        "type": "music"
+      },
+      {
+        "start": 941,
+        "end": 1120,
+        "song": "Move",
+        "artist": "Miles Davis",
+        "type": "music"
+      },
+      {
+        "start": 1121,
+        "end": 1150,
+        "song": "Snap Crackle Jazz Philosophy",
+        "artist": "Roy Haynes",
+        "type": "talk"
+      },
+      {
+        "start": 1151,
+        "end": 1380,
+        "song": "'Round Midnight",
+        "artist": "Thelonious Monk",
+        "type": "music"
+      },
+      {
+        "start": 1381,
+        "end": 1590,
+        "song": "Night and Day",
+        "artist": "Charlie Parker",
+        "type": "music"
+      },
+      {
+        "start": 1591,
+        "end": 1820,
+        "song": "St. Thomas",
+        "artist": "Sonny Rollins",
+        "type": "music"
+      },
+      {
+        "start": 1821,
+        "end": 2060,
+        "song": "Whisper Not",
+        "artist": "Dizzy Gillespie",
+        "type": "music"
+      },
+      {
+        "start": 2061,
+        "end": 2418,
+        "song": "Jazz Outro",
+        "artist": "Roy Haynes Ensemble",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "fusion-fm",
+    "gameId": "gta4",
+    "name": "Fusion FM",
+    "genre": "Jazz-Fusion & Funk",
+    "host": "Roy Ayers",
+    "logoUrl": "/logos/gta4/fusion-fm.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/The%20Journey.mp3",
+    "duration": 1935,
+    "initialOffset": 1080,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 30,
+        "song": "Mystic Fusion Intro",
+        "artist": "Roy Ayers",
+        "type": "talk"
+      },
+      {
+        "start": 31,
+        "end": 280,
+        "song": "Funk in the Hole",
+        "artist": "Roy Ayers",
+        "type": "music"
+      },
+      {
+        "start": 281,
+        "end": 560,
+        "song": "Knucklehead",
+        "artist": "Grover Washington Jr.",
+        "type": "music"
+      },
+      {
+        "start": 561,
+        "end": 890,
+        "song": "Stratus",
+        "artist": "Billy Cobham",
+        "type": "music"
+      },
+      {
+        "start": 891,
+        "end": 1240,
+        "song": "Chameleon",
+        "artist": "Herbie Hancock",
+        "type": "music"
+      },
+      {
+        "start": 1241,
+        "end": 1270,
+        "song": "Vibraphone Improvisation",
+        "artist": "Roy Ayers",
+        "type": "talk"
+      },
+      {
+        "start": 1271,
+        "end": 1590,
+        "song": "Expansions",
+        "artist": "Lonnie Liston Smith",
+        "type": "music"
+      },
+      {
+        "start": 1591,
+        "end": 1935,
+        "song": "Birdland",
+        "artist": "Weather Report",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "if99",
+    "gameId": "gta4",
+    "name": "IF99",
+    "genre": "International Funk & Afrobeat",
+    "host": "Femi Kuti",
+    "frequency": "99 FM",
+    "logoUrl": "/logos/gta4/if99.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/Liberty%20City%20Hardcore.mp3",
+    "duration": 3699,
+    "initialOffset": 1260,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 35,
+        "song": "International Funk Welcome",
+        "artist": "Femi Kuti",
+        "type": "talk"
+      },
+      {
+        "start": 36,
+        "end": 600,
+        "song": "Sorrow Tears and Blood",
+        "artist": "Fela Kuti",
+        "type": "music"
+      },
+      {
+        "start": 601,
+        "end": 920,
+        "song": "Truth Don Die",
+        "artist": "Femi Kuti",
+        "type": "music"
+      },
+      {
+        "start": 921,
+        "end": 1230,
+        "song": "New Bell",
+        "artist": "Manu Dibango",
+        "type": "music"
+      },
+      {
+        "start": 1231,
+        "end": 1840,
+        "song": "Zombie",
+        "artist": "Fela Kuti",
+        "type": "music"
+      },
+      {
+        "start": 1841,
+        "end": 1880,
+        "song": "African Rhythms & Afrobeat Speech",
+        "artist": "Femi Kuti",
+        "type": "talk"
+      },
+      {
+        "start": 1881,
+        "end": 2150,
+        "song": "Fug",
+        "artist": "Cymande",
+        "type": "music"
+      },
+      {
+        "start": 2151,
+        "end": 2680,
+        "song": "Stimela",
+        "artist": "Hugh Masekela",
+        "type": "music"
+      },
+      {
+        "start": 2681,
+        "end": 3100,
+        "song": "Afro-Disco Beat",
+        "artist": "Tony Allen",
+        "type": "music"
+      },
+      {
+        "start": 3101,
+        "end": 3699,
+        "song": "Afro Funk Jam",
+        "artist": "IF99 All-Stars",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "massive-b",
+    "gameId": "gta4",
+    "name": "Massive B 96.9",
+    "genre": "Dancehall & Reggae",
+    "host": "Bobby Konders",
+    "frequency": "96.9 FM",
+    "logoUrl": "/logos/gta4/massive-b.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/Massive%20B%20Soundsystem%2096.9.mp3",
+    "duration": 1958,
+    "initialOffset": 1440,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 30,
+        "song": "Massive B Sound System Intro",
+        "artist": "Bobby Konders",
+        "type": "talk"
+      },
+      {
+        "start": 31,
+        "end": 250,
+        "song": "Badder Den Dem",
+        "artist": "Burro Banton",
+        "type": "music"
+      },
+      {
+        "start": 251,
+        "end": 450,
+        "song": "Set It Off",
+        "artist": "Choppa Chop",
+        "type": "music"
+      },
+      {
+        "start": 451,
+        "end": 670,
+        "song": "Real McKoy",
+        "artist": "Mavado",
+        "type": "music"
+      },
+      {
+        "start": 671,
+        "end": 890,
+        "song": "Bullet Proof Skin",
+        "artist": "Bounty Killer",
+        "type": "music"
+      },
+      {
+        "start": 891,
+        "end": 920,
+        "song": "Kingston to Liberty City Riddim",
+        "artist": "Bobby Konders",
+        "type": "talk"
+      },
+      {
+        "start": 921,
+        "end": 1140,
+        "song": "Picture This",
+        "artist": "Vybz Kartel",
+        "type": "music"
+      },
+      {
+        "start": 1141,
+        "end": 1360,
+        "song": "Snake",
+        "artist": "Elephant Man",
+        "type": "music"
+      },
+      {
+        "start": 1361,
+        "end": 1600,
+        "song": "Heading to the Top",
+        "artist": "Baby Cham",
+        "type": "music"
+      },
+      {
+        "start": 1601,
+        "end": 1958,
+        "song": "Dancehall Riddim Finale",
+        "artist": "Massive B Riddim Crew",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "tuff-gong",
+    "gameId": "gta4",
+    "name": "Tuff Gong",
+    "genre": "Roots Reggae & Dub",
+    "host": "Carl Bradshaw",
+    "logoUrl": "/logos/gta4/tuff-gong.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/Tuff%20Gong%20Radio.mp3",
+    "duration": 2473,
+    "initialOffset": 1620,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 30,
+        "song": "Trenchtown Vibration",
+        "artist": "Carl Bradshaw",
+        "type": "talk"
+      },
+      {
+        "start": 31,
+        "end": 280,
+        "song": "Concrete Jungle",
+        "artist": "Bob Marley & The Wailers",
+        "type": "music"
+      },
+      {
+        "start": 281,
+        "end": 510,
+        "song": "Rat Race",
+        "artist": "Bob Marley & The Wailers",
+        "type": "music"
+      },
+      {
+        "start": 511,
+        "end": 730,
+        "song": "Rebel Music",
+        "artist": "Bob Marley & The Wailers",
+        "type": "music"
+      },
+      {
+        "start": 731,
+        "end": 990,
+        "song": "Satisfy My Soul",
+        "artist": "Bob Marley & The Wailers",
+        "type": "music"
+      },
+      {
+        "start": 991,
+        "end": 1020,
+        "song": "One Love Meditation",
+        "artist": "Carl Bradshaw",
+        "type": "talk"
+      },
+      {
+        "start": 1021,
+        "end": 1250,
+        "song": "So Much Trouble in the World",
+        "artist": "Bob Marley & The Wailers",
+        "type": "music"
+      },
+      {
+        "start": 1251,
+        "end": 1500,
+        "song": "Stand Up Jamrock",
+        "artist": "Bob Marley & The Wailers",
+        "type": "music"
+      },
+      {
+        "start": 1501,
+        "end": 1800,
+        "song": "Wake Up and Live",
+        "artist": "Bob Marley & The Wailers",
+        "type": "music"
+      },
+      {
+        "start": 1801,
+        "end": 2120,
+        "song": "Exodus",
+        "artist": "Bob Marley & The Wailers",
+        "type": "music"
+      },
+      {
+        "start": 2121,
+        "end": 2473,
+        "song": "Tuff Gong Reggae Outro",
+        "artist": "Carl Bradshaw",
+        "type": "talk"
+      }
+    ]
+  },
+  {
+    "id": "san-juan-sounds",
+    "gameId": "gta4",
+    "name": "San Juan Sounds",
+    "genre": "Reggaeton & Latin Hip-Hop",
+    "host": "Daddy Yankee",
+    "logoUrl": "/logos/gta4/san-juan-sounds.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/San%20Juan%20Sounds.mp3",
+    "duration": 3842,
+    "initialOffset": 1800,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 30,
+        "song": "Barrio Fino Liberty City Intro",
+        "artist": "Daddy Yankee",
+        "type": "talk"
+      },
+      {
+        "start": 31,
+        "end": 260,
+        "song": "Atreve-te-te!",
+        "artist": "Calle 13",
+        "type": "music"
+      },
+      {
+        "start": 261,
+        "end": 470,
+        "song": "Impacto",
+        "artist": "Daddy Yankee",
+        "type": "music"
+      },
+      {
+        "start": 471,
+        "end": 700,
+        "song": "Maldades",
+        "artist": "Hector El Father",
+        "type": "music"
+      },
+      {
+        "start": 701,
+        "end": 920,
+        "song": "Poncena",
+        "artist": "Voltio feat. Jowell & Randy",
+        "type": "music"
+      },
+      {
+        "start": 921,
+        "end": 1160,
+        "song": "Ven Ba\u00edlalo",
+        "artist": "Angel & Khriz",
+        "type": "music"
+      },
+      {
+        "start": 1161,
+        "end": 1190,
+        "song": "Reggaeton Kings Interlude",
+        "artist": "Daddy Yankee",
+        "type": "talk"
+      },
+      {
+        "start": 1191,
+        "end": 1430,
+        "song": "Sexy Movimiento",
+        "artist": "Wisin & Yandel",
+        "type": "music"
+      },
+      {
+        "start": 1431,
+        "end": 1680,
+        "song": "Virtual Diva",
+        "artist": "Don Omar",
+        "type": "music"
+      },
+      {
+        "start": 1681,
+        "end": 1910,
+        "song": "Dime",
+        "artist": "Ivy Queen",
+        "type": "music"
+      },
+      {
+        "start": 1911,
+        "end": 2150,
+        "song": "Zun Da Da",
+        "artist": "Zion",
+        "type": "music"
+      },
+      {
+        "start": 2151,
+        "end": 2380,
+        "song": "El Tra",
+        "artist": "Tito El Bambino",
+        "type": "music"
+      },
+      {
+        "start": 2381,
+        "end": 3842,
+        "song": "San Juan Sounds Latin Fiesta",
+        "artist": "Daddy Yankee",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "the-classics",
+    "gameId": "gta4",
+    "name": "The Classics 104.1",
+    "genre": "Golden Age Rap & Hip-Hop",
+    "host": "DJ Premier",
+    "frequency": "104.1 FM",
+    "logoUrl": "/logos/gta4/the-classics.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/The%20Classics%20104.1.mp3",
+    "duration": 1734,
+    "initialOffset": 1980,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 30,
+        "song": "Premier Scratch & Boom Bap Intro",
+        "artist": "DJ Premier",
+        "type": "talk"
+      },
+      {
+        "start": 31,
+        "end": 260,
+        "song": "Supa Star",
+        "artist": "Group Home",
+        "type": "music"
+      },
+      {
+        "start": 261,
+        "end": 480,
+        "song": "D. Original",
+        "artist": "Jeru the Damaja",
+        "type": "music"
+      },
+      {
+        "start": 481,
+        "end": 700,
+        "song": "Just to Get a Rep",
+        "artist": "Gang Starr",
+        "type": "music"
+      },
+      {
+        "start": 701,
+        "end": 940,
+        "song": "Ain't No Half-Steppin'",
+        "artist": "Big Daddy Kane",
+        "type": "music"
+      },
+      {
+        "start": 941,
+        "end": 975,
+        "song": "Golden Age History & Beat Juggling",
+        "artist": "DJ Premier",
+        "type": "talk"
+      },
+      {
+        "start": 976,
+        "end": 1240,
+        "song": "Slow Down",
+        "artist": "Brand Nubian",
+        "type": "music"
+      },
+      {
+        "start": 1241,
+        "end": 1480,
+        "song": "I Got It Made",
+        "artist": "Special Ed",
+        "type": "music"
+      },
+      {
+        "start": 1481,
+        "end": 1734,
+        "song": "Classic Finale",
+        "artist": "DJ Premier",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "k109-the-studio",
+    "gameId": "gta4",
+    "name": "K109 The Studio",
+    "genre": "Classic Disco",
+    "host": "Karl Lagerfeld",
+    "logoUrl": "/logos/gta4/k109-the-studio.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/K109%20The%20Studio.mp3",
+    "duration": 6524,
+    "initialOffset": 2160,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 45,
+        "song": "High Fashion Disco Introduction",
+        "artist": "Karl Lagerfeld",
+        "type": "talk"
+      },
+      {
+        "start": 46,
+        "end": 320,
+        "song": "Burning Love Breakdown",
+        "artist": "Peter Brown",
+        "type": "music"
+      },
+      {
+        "start": 321,
+        "end": 610,
+        "song": "Can't Live Without Your Love",
+        "artist": "Tamiko Jones",
+        "type": "music"
+      },
+      {
+        "start": 611,
+        "end": 930,
+        "song": "Dancer",
+        "artist": "Gino Soccio",
+        "type": "music"
+      },
+      {
+        "start": 931,
+        "end": 1250,
+        "song": "Get on Up and Do It Again",
+        "artist": "Suzy Q",
+        "type": "music"
+      },
+      {
+        "start": 1251,
+        "end": 1285,
+        "song": "Studio 54 Monologue",
+        "artist": "Karl Lagerfeld",
+        "type": "talk"
+      },
+      {
+        "start": 1286,
+        "end": 1600,
+        "song": "Till You Surrender",
+        "artist": "Rainbow Brown",
+        "type": "music"
+      },
+      {
+        "start": 1601,
+        "end": 1940,
+        "song": "Underwater",
+        "artist": "Harry Thumann",
+        "type": "music"
+      },
+      {
+        "start": 1941,
+        "end": 2270,
+        "song": "Walk the Night",
+        "artist": "Skatt Brothers",
+        "type": "music"
+      },
+      {
+        "start": 2271,
+        "end": 2620,
+        "song": "Relight My Fire",
+        "artist": "Dan Hartman",
+        "type": "music"
+      },
+      {
+        "start": 2621,
+        "end": 2950,
+        "song": "Everybody Dance",
+        "artist": "Chic",
+        "type": "music"
+      },
+      {
+        "start": 2951,
+        "end": 3280,
+        "song": "He's the Greatest Dancer",
+        "artist": "Sister Sledge",
+        "type": "music"
+      },
+      {
+        "start": 3281,
+        "end": 3315,
+        "song": "Elegance and Nightlife",
+        "artist": "Karl Lagerfeld",
+        "type": "talk"
+      },
+      {
+        "start": 3316,
+        "end": 3680,
+        "song": "Supernature",
+        "artist": "Cerrone",
+        "type": "music"
+      },
+      {
+        "start": 3681,
+        "end": 6524,
+        "song": "K109 The Studio All-Night Disco Marathon",
+        "artist": "Karl Lagerfeld",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "wktt",
+    "gameId": "gta4",
+    "name": "WKTT Radio",
+    "genre": "Conservative Talk Radio",
+    "host": "Richard Bastion & Team",
+    "logoUrl": "/logos/gta4/wktt.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/WKTT%20Radio.mp3",
+    "duration": 5120,
+    "initialOffset": 2340,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 900,
+        "song": "The Bastion of Truth",
+        "artist": "Richard Bastion",
+        "type": "talk"
+      },
+      {
+        "start": 901,
+        "end": 1040,
+        "song": "Commercial Break - Rusty Brown's Ring Donuts",
+        "artist": "WKTT Commercials",
+        "type": "ad"
+      },
+      {
+        "start": 1041,
+        "end": 1950,
+        "song": "Just or Unjust",
+        "artist": "Judge Grady",
+        "type": "talk"
+      },
+      {
+        "start": 1951,
+        "end": 2080,
+        "song": "Commercial Break - Liberty City Gun Club",
+        "artist": "WKTT Commercials",
+        "type": "ad"
+      },
+      {
+        "start": 2081,
+        "end": 3100,
+        "song": "Richard Bastion - Callers from Bohan and Algonquin",
+        "artist": "Richard Bastion",
+        "type": "talk"
+      },
+      {
+        "start": 3101,
+        "end": 3240,
+        "song": "Commercial Break - Bitter Cellular & PiSSwasser",
+        "artist": "WKTT Commercials",
+        "type": "ad"
+      },
+      {
+        "start": 3241,
+        "end": 4200,
+        "song": "The Right Face",
+        "artist": "Pete Truncheon",
+        "type": "talk"
+      },
+      {
+        "start": 4201,
+        "end": 5120,
+        "song": "WKTT Station Close & Patriot Hotline",
+        "artist": "Richard Bastion",
+        "type": "talk"
+      }
+    ]
+  },
+  {
+    "id": "plr",
+    "gameId": "gta4",
+    "name": "Public Liberty Radio (PLR)",
+    "genre": "Liberal Public Talk Radio",
+    "host": "The Peacemaker & Team",
+    "logoUrl": "/logos/gta4/plr.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/Public%20Liberty%20Radio.mp3",
+    "duration": 3115,
+    "initialOffset": 2520,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 750,
+        "song": "Holistic Living & Liberty City Liberalism",
+        "artist": "The Peacemaker",
+        "type": "talk"
+      },
+      {
+        "start": 751,
+        "end": 880,
+        "song": "Commercial Break - Green Earth Juice",
+        "artist": "PLR Commercials",
+        "type": "ad"
+      },
+      {
+        "start": 881,
+        "end": 1650,
+        "song": "Intelligent Agenda",
+        "artist": "Mike Riley",
+        "type": "talk"
+      },
+      {
+        "start": 1651,
+        "end": 1780,
+        "song": "Commercial Break - Algonquin Art Institute",
+        "artist": "PLR Commercials",
+        "type": "ad"
+      },
+      {
+        "start": 1781,
+        "end": 2500,
+        "song": "Peacemaker Open Call-in Discussion",
+        "artist": "The Peacemaker",
+        "type": "talk"
+      },
+      {
+        "start": 2501,
+        "end": 3115,
+        "song": "PLR Evening Commentary & Donor Drive",
+        "artist": "PLR News Team",
+        "type": "talk"
+      }
+    ]
+  },
+  {
+    "id": "integrity-2-0",
+    "gameId": "gta4",
+    "name": "Integrity 2.0",
+    "genre": "Mobile Talk Radio",
+    "host": "Lazlow",
+    "logoUrl": "/logos/gta4/integrity-2-0.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/Integrity%202.0.mp3",
+    "duration": 3289,
+    "initialOffset": 2700,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 620,
+        "song": "Roaming Algonquin on Foot",
+        "artist": "Lazlow",
+        "type": "talk"
+      },
+      {
+        "start": 621,
+        "end": 1300,
+        "song": "Street Interviews with Pedestrians & Cab Drivers",
+        "artist": "Lazlow",
+        "type": "talk"
+      },
+      {
+        "start": 1301,
+        "end": 1950,
+        "song": "The Perils of Zipper Technology & Fashion",
+        "artist": "Lazlow",
+        "type": "talk"
+      },
+      {
+        "start": 1951,
+        "end": 2600,
+        "song": "Confrontation at Star Junction",
+        "artist": "Lazlow",
+        "type": "talk"
+      },
+      {
+        "start": 2601,
+        "end": 3289,
+        "song": "Desperate Search for Food & Fame",
+        "artist": "Lazlow",
+        "type": "talk"
+      }
+    ]
+  },
+  {
+    "id": "vice-city-fm",
+    "gameId": "gta4",
+    "name": "Vice City FM",
+    "genre": "80s Pop & New Wave",
+    "host": "Fernando Martinez",
+    "logoUrl": "/logos/gta4/vice-city-fm.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/Vice%20City%20FM.mp3",
+    "duration": 6492,
+    "initialOffset": 2880,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 45,
+        "song": "The Voice of Romance & Passion",
+        "artist": "Fernando Martinez",
+        "type": "talk"
+      },
+      {
+        "start": 46,
+        "end": 310,
+        "song": "Maneater",
+        "artist": "Hall & Oates",
+        "type": "music"
+      },
+      {
+        "start": 311,
+        "end": 510,
+        "song": "Hold On Tight",
+        "artist": "Electric Light Orchestra",
+        "type": "music"
+      },
+      {
+        "start": 511,
+        "end": 730,
+        "song": "Jessie's Girl",
+        "artist": "Rick Springfield",
+        "type": "music"
+      },
+      {
+        "start": 731,
+        "end": 990,
+        "song": "Cum On Feel the Noize",
+        "artist": "Quiet Riot",
+        "type": "music"
+      },
+      {
+        "start": 991,
+        "end": 1025,
+        "song": "Passion Lessons",
+        "artist": "Fernando Martinez",
+        "type": "talk"
+      },
+      {
+        "start": 1026,
+        "end": 1260,
+        "song": "Dance Hall Days",
+        "artist": "Wang Chung",
+        "type": "music"
+      },
+      {
+        "start": 1261,
+        "end": 1520,
+        "song": "Gloria",
+        "artist": "Laura Branigan",
+        "type": "music"
+      },
+      {
+        "start": 1521,
+        "end": 1770,
+        "song": "Do You Really Want to Hurt Me",
+        "artist": "Boy George",
+        "type": "music"
+      },
+      {
+        "start": 1771,
+        "end": 2100,
+        "song": "True",
+        "artist": "Spandau Ballet",
+        "type": "music"
+      },
+      {
+        "start": 2101,
+        "end": 2360,
+        "song": "More Than This",
+        "artist": "Roxy Music",
+        "type": "music"
+      },
+      {
+        "start": 2361,
+        "end": 2395,
+        "song": "Miami Sunset Nostalgia",
+        "artist": "Fernando Martinez",
+        "type": "talk"
+      },
+      {
+        "start": 2396,
+        "end": 2710,
+        "song": "Alive and Kicking",
+        "artist": "Simple Minds",
+        "type": "music"
+      },
+      {
+        "start": 2711,
+        "end": 3020,
+        "song": "Easy Lover",
+        "artist": "Philip Bailey & Phil Collins",
+        "type": "music"
+      },
+      {
+        "start": 3021,
+        "end": 6492,
+        "song": "Vice City FM 80s Gold Countdown",
+        "artist": "Fernando Martinez",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "ramjam-fm",
+    "gameId": "gta4",
+    "name": "RamJam FM",
+    "genre": "Reggae, Roots & Dub",
+    "host": "David Rodigan",
+    "logoUrl": "/logos/gta4/ramjam-fm.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/RamJam%20FM.mp3",
+    "duration": 2497,
+    "initialOffset": 3060,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 30,
+        "song": "The Reggae Champion Intro",
+        "artist": "David Rodigan",
+        "type": "talk"
+      },
+      {
+        "start": 31,
+        "end": 250,
+        "song": "Don't Fuss Nor Fight",
+        "artist": "Barrington Levy",
+        "type": "music"
+      },
+      {
+        "start": 251,
+        "end": 480,
+        "song": "World-A-Music",
+        "artist": "Ini Kamoze",
+        "type": "music"
+      },
+      {
+        "start": 481,
+        "end": 710,
+        "song": "Welcome to Jamrock",
+        "artist": "Damian Marley",
+        "type": "music"
+      },
+      {
+        "start": 711,
+        "end": 940,
+        "song": "Temperature",
+        "artist": "Sean Paul",
+        "type": "music"
+      },
+      {
+        "start": 941,
+        "end": 975,
+        "song": "Soundclash History",
+        "artist": "David Rodigan",
+        "type": "talk"
+      },
+      {
+        "start": 976,
+        "end": 1200,
+        "song": "Tour",
+        "artist": "Capleton",
+        "type": "music"
+      },
+      {
+        "start": 1201,
+        "end": 1440,
+        "song": "Just One of Those Days",
+        "artist": "Sizzla",
+        "type": "music"
+      },
+      {
+        "start": 1441,
+        "end": 1700,
+        "song": "Champion",
+        "artist": "Buju Banton",
+        "type": "music"
+      },
+      {
+        "start": 1701,
+        "end": 2497,
+        "song": "RamJam Dub Explosion",
+        "artist": "David Rodigan",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "self-actualization-fm",
+    "gameId": "gta4",
+    "name": "Self-Actualization FM",
+    "genre": "Ambient & Chillout",
+    "host": "The Futurist",
+    "logoUrl": "/logos/gta4/self-actualization-fm.png",
+    "audioUrl": "https://archive.org/download/GTA_iv_Radio/Self-Actualization%20FM.mp3",
+    "duration": 2239,
+    "initialOffset": 3240,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 45,
+        "song": "Ambient Transference & Astral Peace",
+        "artist": "The Futurist",
+        "type": "talk"
+      },
+      {
+        "start": 46,
+        "end": 480,
+        "song": "A Huge Ever Growing Pulsating Brain",
+        "artist": "The Orb",
+        "type": "music"
+      },
+      {
+        "start": 481,
+        "end": 900,
+        "song": "Structures from Silence",
+        "artist": "Steve Roach",
+        "type": "music"
+      },
+      {
+        "start": 901,
+        "end": 935,
+        "song": "Mind Awakening Interlude",
+        "artist": "The Futurist",
+        "type": "talk"
+      },
+      {
+        "start": 936,
+        "end": 1380,
+        "song": "Remote Viewing",
+        "artist": "Tangerine Dream",
+        "type": "music"
+      },
+      {
+        "start": 1381,
+        "end": 1790,
+        "song": "Novelty Waves",
+        "artist": "Biosphere",
+        "type": "music"
+      },
+      {
+        "start": 1791,
+        "end": 2239,
+        "song": "Cosmic Departure",
+        "artist": "The Futurist",
+        "type": "talk"
+      }
+    ]
+  }
+]

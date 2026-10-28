@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <linearGradient id="skygta4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#080c14"/>
+      <stop offset="40%" stop-color="#0f172a"/>
+      <stop offset="80%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="65%" cy="80%" r="50%">
+      <stop offset="0%" stop-color="#eab308" stop-opacity="0.2"/>
+      <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#skygta4)"/>
+  <rect width="1920" height="1080" fill="url(#glow)"/>
+  <!-- Fog layer -->
+  <path d="M0 650 Q 480 620 960 660 T 1920 640 L 1920 1080 L 0 1080 Z" fill="#1e293b" opacity="0.4"/>
+  <!-- Skyline silhouettes -->
+  <path d="M0 800 L 100 800 L 100 680 L 170 680 L 170 820 L 250 820 L 250 610 L 330 610 L 330 830 L 420 830 L 420 720 L 490 720 L 490 850 L 590 850 L 590 540 L 680 540 L 680 840 L 780 840 L 780 700 L 850 700 L 850 860 L 980 860 L 980 480 L 1040 480 L 1050 420 L 1060 480 L 1120 480 L 1120 850 L 1250 850 L 1250 650 L 1330 650 L 1330 840 L 1460 840 L 1460 590 L 1540 590 L 1540 850 L 1680 850 L 1680 710 L 1750 710 L 1750 830 L 1920 830 L 1920 1080 L 0 1080 Z" fill="#090d16" opacity="0.9"/>
+  <!-- Bridge suspension cables hint -->
+  <path d="M1200 1080 L 1500 500 L 1520 500 L 1820 1080 Z" fill="#05080f" opacity="0.7"/>
+</svg>

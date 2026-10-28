@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#180828"/>
+      <stop offset="30%" stop-color="#3b0764"/>
+      <stop offset="60%" stop-color="#9a3412"/>
+      <stop offset="85%" stop-color="#ea580c"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="75%" r="45%">
+      <stop offset="0%" stop-color="#fef08a" stop-opacity="0.9"/>
+      <stop offset="30%" stop-color="#f59e0b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ea580c" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <rect width="1920" height="1080" fill="url(#sun)"/>
+  <!-- Distant mountains -->
+  <path d="M0 800 Q 350 720 700 820 T 1400 790 T 1920 810 L 1920 1080 L 0 1080 Z" fill="#1c1917" opacity="0.6"/>
+  <!-- City skyline -->
+  <path d="M0 860 L 120 860 L 120 820 L 180 820 L 180 890 L 260 890 L 260 780 L 320 780 L 320 890 L 450 890 L 450 840 L 520 840 L 520 880 L 700 880 L 700 800 L 780 800 L 780 750 L 820 750 L 820 870 L 950 870 L 950 810 L 1020 810 L 1020 880 L 1150 880 L 1150 760 L 1220 760 L 1220 890 L 1380 890 L 1380 830 L 1450 830 L 1450 870 L 1600 870 L 1600 790 L 1660 790 L 1660 880 L 1920 880 L 1920 1080 L 0 1080 Z" fill="#0c0a09" opacity="0.85"/>
+  <!-- Palms -->
+  <g fill="#09090b">
+    <path d="M160 1080 Q 180 850 200 600 Q 205 590 200 580 Q 195 590 190 600 Q 170 850 150 1080 Z"/>
+    <path d="M200 580 Q 130 520 50 560 Q 120 590 200 580 Z"/>
+    <path d="M200 580 Q 160 480 110 470 Q 150 520 200 580 Z"/>
+    <path d="M200 580 Q 210 450 220 440 Q 230 490 200 580 Z"/>
+    <path d="M200 580 Q 250 480 300 480 Q 260 530 200 580 Z"/>
+    <path d="M200 580 Q 270 540 330 570 Q 260 585 200 580 Z"/>
+  </g>
+</svg>
