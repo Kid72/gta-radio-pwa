@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gta-radio-shell-v2';
+const CACHE_NAME = 'gta-radio-shell-v3';
 
 self.addEventListener('install', (event) => {
   const scope = self.registration.scope;
@@ -33,6 +33,27 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if (url.pathname.endsWith('.mp3') || url.pathname.endsWith('.aac') || url.pathname.endsWith('.m4a')) return;
 
+  // Network-First strategy for HTML navigation requests to prevent stale PWA cache lock
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          if (response && response.status === 200) {
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
+          }
+          return response;
+        })
+        .catch(() => {
+          return caches.match(new URL('./index.html', self.registration.scope).href);
+        })
+    );
+    return;
+  }
+
+  // Cache-First with network fallback for hashed static assets
   event.respondWith(
     caches.match(event.request).then((cached) => {
       if (cached) return cached;
@@ -45,12 +66,6 @@ self.addEventListener('fetch', (event) => {
           });
         }
         return response;
-      }).catch((error) => {
-        // If network fails (e.g. offline vehicle commute), fallback to cached index.html for page navigation
-        if (event.request.mode === 'navigate') {
-          return caches.match(new URL('./index.html', self.registration.scope).href);
-        }
-        throw error;
       });
     })
   );

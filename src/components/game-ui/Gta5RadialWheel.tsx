@@ -112,11 +112,20 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
   const lastHighlightedIndexRef = useRef<number | null>(null);
   const lastWheelTimeRef = useRef<number>(0);
 
+  const offIndex = stations.findIndex((s) => s.id === 'radio-off');
   const activeIndex = currentStation ? stations.findIndex((s) => s.id === currentStation.id) : -1;
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
-  // Active or hovered station
-  const displayIndex = hoveredIndex !== null ? hoveredIndex : activeIndex;
+  // Active or hovered station. When currentStation is null and no station hovered,
+  // default display to radio-off sector if present in stations
+  const displayIndex =
+    hoveredIndex !== null
+      ? hoveredIndex
+      : activeIndex >= 0
+      ? activeIndex
+      : offIndex >= 0 && currentStation === null
+      ? offIndex
+      : -1;
   const activeStation = displayIndex >= 0 ? stations[displayIndex] : null;
 
   // Geometry configuration
