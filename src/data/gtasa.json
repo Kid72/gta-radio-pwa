@@ -1,145 +1,5 @@
 [
   {
-    "id": "radio-los-santos",
-    "gameId": "gtasa",
-    "name": "Radio Los Santos",
-    "genre": "West Coast Hip-Hop",
-    "host": "Julio G",
-    "frequency": "106.1 FM",
-    "logoUrl": "/logos/gtasa/radio-los-santos.png",
-    "audioUrl": "https://archive.org/download/gtasars/Radio%20Los%20Santos.mp3",
-    "duration": 3863,
-    "initialOffset": 0,
-    "timestamps": [
-      {
-        "start": 0,
-        "end": 260,
-        "song": "I Don't Give a Fuck",
-        "artist": "2Pac feat. Pychodrama",
-        "type": "music"
-      },
-      {
-        "start": 261,
-        "end": 485,
-        "song": "Hood Took Me Under",
-        "artist": "Compton's Most Wanted",
-        "type": "music"
-      },
-      {
-        "start": 486,
-        "end": 720,
-        "song": "Nuthin' But a \"G\" Thang",
-        "artist": "Dr. Dre feat. Snoop Dogg",
-        "type": "music"
-      },
-      {
-        "start": 721,
-        "end": 990,
-        "song": "The Ghetto",
-        "artist": "Too $hort",
-        "type": "music"
-      },
-      {
-        "start": 991,
-        "end": 1260,
-        "song": "Alwayz Into Somethin'",
-        "artist": "N.W.A",
-        "type": "music"
-      },
-      {
-        "start": 1261,
-        "end": 1290,
-        "song": "DJ Drop & Los Santos Ident",
-        "artist": "Julio G",
-        "type": "talk"
-      },
-      {
-        "start": 1291,
-        "end": 1530,
-        "song": "Check Yo Self (The Message Remix)",
-        "artist": "Ice Cube",
-        "type": "music"
-      },
-      {
-        "start": 1531,
-        "end": 1750,
-        "song": "La Raza",
-        "artist": "Kid Frost",
-        "type": "music"
-      },
-      {
-        "start": 1751,
-        "end": 1990,
-        "song": "How I Could Just Kill a Man",
-        "artist": "Cypress Hill",
-        "type": "music"
-      },
-      {
-        "start": 1991,
-        "end": 2270,
-        "song": "Fuck wit Dre Day",
-        "artist": "Dr. Dre feat. Snoop Dogg",
-        "type": "music"
-      },
-      {
-        "start": 2271,
-        "end": 2310,
-        "song": "Station Break & Weather",
-        "artist": "Julio G",
-        "type": "talk"
-      },
-      {
-        "start": 2311,
-        "end": 2570,
-        "song": "It's Funky Enough",
-        "artist": "The D.O.C.",
-        "type": "music"
-      },
-      {
-        "start": 2571,
-        "end": 2830,
-        "song": "Express Yourself",
-        "artist": "N.W.A",
-        "type": "music"
-      },
-      {
-        "start": 2831,
-        "end": 3090,
-        "song": "It Was a Good Day",
-        "artist": "Ice Cube",
-        "type": "music"
-      },
-      {
-        "start": 3091,
-        "end": 3310,
-        "song": "Eazy-Er Said Than Dunn",
-        "artist": "Eazy-E",
-        "type": "music"
-      },
-      {
-        "start": 3311,
-        "end": 3570,
-        "song": "Murder Rap",
-        "artist": "Above the Law",
-        "type": "music"
-      },
-      {
-        "start": 3571,
-        "end": 3820,
-        "song": "Deep Cover",
-        "artist": "Dr. Dre feat. Snoop Dogg",
-        "type": "music"
-      },
-      {
-        "start": 3821,
-        "end": 3863,
-        "song": "Sign-off & Los Santos Promo",
-        "artist": "Julio G",
-        "type": "talk"
-      }
-    ]
-  },
-  {
     "id": "playback-fm",
     "gameId": "gtasa",
     "name": "Playback FM",
@@ -240,6 +100,138 @@
         "end": 2810,
         "song": "Brand Nubian",
         "artist": "Brand Nubian",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "k-rose",
+    "gameId": "gtasa",
+    "name": "K-Rose",
+    "genre": "Classic Country",
+    "host": "Mary-Beth Maybell",
+    "logoUrl": "/logos/gtasa/k-rose.png",
+    "audioUrl": "https://archive.org/download/gtasars/K-Rose.mp3",
+    "duration": 2886,
+    "initialOffset": 2000,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 180,
+        "song": "Amos Moses",
+        "artist": "Jerry Reed",
+        "type": "music"
+      },
+      {
+        "start": 181,
+        "end": 320,
+        "song": "Louisiana Woman, Mississippi Man",
+        "artist": "Conway Twitty & Loretta Lynn",
+        "type": "music"
+      },
+      {
+        "start": 321,
+        "end": 480,
+        "song": "Hey Good Lookin'",
+        "artist": "Hank Williams",
+        "type": "music"
+      },
+      {
+        "start": 481,
+        "end": 515,
+        "song": "Heartbreak & Trailer Park Chat",
+        "artist": "Mary-Beth Maybell",
+        "type": "talk"
+      },
+      {
+        "start": 516,
+        "end": 710,
+        "song": "Queen of Hearts",
+        "artist": "Juice Newton",
+        "type": "music"
+      },
+      {
+        "start": 711,
+        "end": 890,
+        "song": "New York City",
+        "artist": "Statler Brothers",
+        "type": "music"
+      },
+      {
+        "start": 891,
+        "end": 1080,
+        "song": "The Letter That Johnny Walker Read",
+        "artist": "Asleep at the Wheel",
+        "type": "music"
+      },
+      {
+        "start": 1081,
+        "end": 1270,
+        "song": "One Step Forward",
+        "artist": "The Desert Rose Band",
+        "type": "music"
+      },
+      {
+        "start": 1271,
+        "end": 1510,
+        "song": "Crazy",
+        "artist": "Willie Nelson",
+        "type": "music"
+      },
+      {
+        "start": 1511,
+        "end": 1660,
+        "song": "Three Cigarettes in an Ashtray",
+        "artist": "Patsy Cline",
+        "type": "music"
+      },
+      {
+        "start": 1661,
+        "end": 1810,
+        "song": "Bed of Rose's",
+        "artist": "Statler Brothers",
+        "type": "music"
+      },
+      {
+        "start": 1811,
+        "end": 1845,
+        "song": "Ex-Husband Memories",
+        "artist": "Mary-Beth Maybell",
+        "type": "talk"
+      },
+      {
+        "start": 1846,
+        "end": 2030,
+        "song": "Make the World Go Away",
+        "artist": "Mickey Gilley",
+        "type": "music"
+      },
+      {
+        "start": 2031,
+        "end": 2230,
+        "song": "Mammas Don't Let Your Babies Grow Up to Be Cowboys",
+        "artist": "Ed Bruce",
+        "type": "music"
+      },
+      {
+        "start": 2231,
+        "end": 2420,
+        "song": "Always Wanting You",
+        "artist": "Merle Haggard",
+        "type": "music"
+      },
+      {
+        "start": 2421,
+        "end": 2630,
+        "song": "All My Ex's Live in Texas",
+        "artist": "Whitey Shafer",
+        "type": "music"
+      },
+      {
+        "start": 2631,
+        "end": 2886,
+        "song": "Drivin' My Life Away",
+        "artist": "Eddie Rabbitt",
         "type": "music"
       }
     ]
@@ -380,131 +372,6 @@
         "end": 4001,
         "song": "White Wedding",
         "artist": "Billy Idol",
-        "type": "music"
-      }
-    ]
-  },
-  {
-    "id": "radio-x",
-    "gameId": "gtasa",
-    "name": "Radio X",
-    "genre": "Alternative Rock & Grunge",
-    "host": "Sage",
-    "logoUrl": "/logos/gtasa/radio-x.png",
-    "audioUrl": "https://archive.org/download/gtasars/Radio%20X.mp3",
-    "duration": 3469,
-    "initialOffset": 750,
-    "timestamps": [
-      {
-        "start": 0,
-        "end": 235,
-        "song": "Unsung",
-        "artist": "Helmet",
-        "type": "music"
-      },
-      {
-        "start": 236,
-        "end": 450,
-        "song": "Personal Jesus",
-        "artist": "Depeche Mode",
-        "type": "music"
-      },
-      {
-        "start": 451,
-        "end": 690,
-        "song": "Midlife Crisis",
-        "artist": "Faith No More",
-        "type": "music"
-      },
-      {
-        "start": 691,
-        "end": 720,
-        "song": "Cynical Radio X Intro",
-        "artist": "Sage",
-        "type": "talk"
-      },
-      {
-        "start": 721,
-        "end": 920,
-        "song": "Mother",
-        "artist": "Danzig",
-        "type": "music"
-      },
-      {
-        "start": 921,
-        "end": 1200,
-        "song": "Cult of Personality",
-        "artist": "Living Colour",
-        "type": "music"
-      },
-      {
-        "start": 1201,
-        "end": 1420,
-        "song": "Movin' on Up",
-        "artist": "Primal Scream",
-        "type": "music"
-      },
-      {
-        "start": 1421,
-        "end": 1690,
-        "song": "Welcome to the Jungle",
-        "artist": "Guns N' Roses",
-        "type": "music"
-      },
-      {
-        "start": 1691,
-        "end": 1920,
-        "song": "Pretend We're Dead",
-        "artist": "L7",
-        "type": "music"
-      },
-      {
-        "start": 1921,
-        "end": 1950,
-        "song": "Grunge Rebellion Banter",
-        "artist": "Sage",
-        "type": "talk"
-      },
-      {
-        "start": 1951,
-        "end": 2240,
-        "song": "Hellraiser",
-        "artist": "Ozzy Osbourne",
-        "type": "music"
-      },
-      {
-        "start": 2241,
-        "end": 2500,
-        "song": "Rusty Cage",
-        "artist": "Soundgarden",
-        "type": "music"
-      },
-      {
-        "start": 2501,
-        "end": 2810,
-        "song": "Killing in the Name",
-        "artist": "Rage Against the Machine",
-        "type": "music"
-      },
-      {
-        "start": 2811,
-        "end": 3040,
-        "song": "Been Caught Stealing",
-        "artist": "Jane's Addiction",
-        "type": "music"
-      },
-      {
-        "start": 3041,
-        "end": 3200,
-        "song": "Them Bones",
-        "artist": "Alice in Chains",
-        "type": "music"
-      },
-      {
-        "start": 3201,
-        "end": 3469,
-        "song": "Plush",
-        "artist": "Stone Temple Pilots",
         "type": "music"
       }
     ]
@@ -754,6 +621,271 @@
     ]
   },
   {
+    "id": "radio-los-santos",
+    "gameId": "gtasa",
+    "name": "Radio Los Santos",
+    "genre": "West Coast Hip-Hop",
+    "host": "Julio G",
+    "frequency": "106.1 FM",
+    "logoUrl": "/logos/gtasa/radio-los-santos.png",
+    "audioUrl": "https://archive.org/download/gtasars/Radio%20Los%20Santos.mp3",
+    "duration": 3863,
+    "initialOffset": 0,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 260,
+        "song": "I Don't Give a Fuck",
+        "artist": "2Pac feat. Pychodrama",
+        "type": "music"
+      },
+      {
+        "start": 261,
+        "end": 485,
+        "song": "Hood Took Me Under",
+        "artist": "Compton's Most Wanted",
+        "type": "music"
+      },
+      {
+        "start": 486,
+        "end": 720,
+        "song": "Nuthin' But a \"G\" Thang",
+        "artist": "Dr. Dre feat. Snoop Dogg",
+        "type": "music"
+      },
+      {
+        "start": 721,
+        "end": 990,
+        "song": "The Ghetto",
+        "artist": "Too $hort",
+        "type": "music"
+      },
+      {
+        "start": 991,
+        "end": 1260,
+        "song": "Alwayz Into Somethin'",
+        "artist": "N.W.A",
+        "type": "music"
+      },
+      {
+        "start": 1261,
+        "end": 1290,
+        "song": "DJ Drop & Los Santos Ident",
+        "artist": "Julio G",
+        "type": "talk"
+      },
+      {
+        "start": 1291,
+        "end": 1530,
+        "song": "Check Yo Self (The Message Remix)",
+        "artist": "Ice Cube",
+        "type": "music"
+      },
+      {
+        "start": 1531,
+        "end": 1750,
+        "song": "La Raza",
+        "artist": "Kid Frost",
+        "type": "music"
+      },
+      {
+        "start": 1751,
+        "end": 1990,
+        "song": "How I Could Just Kill a Man",
+        "artist": "Cypress Hill",
+        "type": "music"
+      },
+      {
+        "start": 1991,
+        "end": 2270,
+        "song": "Fuck wit Dre Day",
+        "artist": "Dr. Dre feat. Snoop Dogg",
+        "type": "music"
+      },
+      {
+        "start": 2271,
+        "end": 2310,
+        "song": "Station Break & Weather",
+        "artist": "Julio G",
+        "type": "talk"
+      },
+      {
+        "start": 2311,
+        "end": 2570,
+        "song": "It's Funky Enough",
+        "artist": "The D.O.C.",
+        "type": "music"
+      },
+      {
+        "start": 2571,
+        "end": 2830,
+        "song": "Express Yourself",
+        "artist": "N.W.A",
+        "type": "music"
+      },
+      {
+        "start": 2831,
+        "end": 3090,
+        "song": "It Was a Good Day",
+        "artist": "Ice Cube",
+        "type": "music"
+      },
+      {
+        "start": 3091,
+        "end": 3310,
+        "song": "Eazy-Er Said Than Dunn",
+        "artist": "Eazy-E",
+        "type": "music"
+      },
+      {
+        "start": 3311,
+        "end": 3570,
+        "song": "Murder Rap",
+        "artist": "Above the Law",
+        "type": "music"
+      },
+      {
+        "start": 3571,
+        "end": 3820,
+        "song": "Deep Cover",
+        "artist": "Dr. Dre feat. Snoop Dogg",
+        "type": "music"
+      },
+      {
+        "start": 3821,
+        "end": 3863,
+        "song": "Sign-off & Los Santos Promo",
+        "artist": "Julio G",
+        "type": "talk"
+      }
+    ]
+  },
+  {
+    "id": "radio-x",
+    "gameId": "gtasa",
+    "name": "Radio X",
+    "genre": "Alternative Rock & Grunge",
+    "host": "Sage",
+    "logoUrl": "/logos/gtasa/radio-x.png",
+    "audioUrl": "https://archive.org/download/gtasars/Radio%20X.mp3",
+    "duration": 3469,
+    "initialOffset": 750,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 235,
+        "song": "Unsung",
+        "artist": "Helmet",
+        "type": "music"
+      },
+      {
+        "start": 236,
+        "end": 450,
+        "song": "Personal Jesus",
+        "artist": "Depeche Mode",
+        "type": "music"
+      },
+      {
+        "start": 451,
+        "end": 690,
+        "song": "Midlife Crisis",
+        "artist": "Faith No More",
+        "type": "music"
+      },
+      {
+        "start": 691,
+        "end": 720,
+        "song": "Cynical Radio X Intro",
+        "artist": "Sage",
+        "type": "talk"
+      },
+      {
+        "start": 721,
+        "end": 920,
+        "song": "Mother",
+        "artist": "Danzig",
+        "type": "music"
+      },
+      {
+        "start": 921,
+        "end": 1200,
+        "song": "Cult of Personality",
+        "artist": "Living Colour",
+        "type": "music"
+      },
+      {
+        "start": 1201,
+        "end": 1420,
+        "song": "Movin' on Up",
+        "artist": "Primal Scream",
+        "type": "music"
+      },
+      {
+        "start": 1421,
+        "end": 1690,
+        "song": "Welcome to the Jungle",
+        "artist": "Guns N' Roses",
+        "type": "music"
+      },
+      {
+        "start": 1691,
+        "end": 1920,
+        "song": "Pretend We're Dead",
+        "artist": "L7",
+        "type": "music"
+      },
+      {
+        "start": 1921,
+        "end": 1950,
+        "song": "Grunge Rebellion Banter",
+        "artist": "Sage",
+        "type": "talk"
+      },
+      {
+        "start": 1951,
+        "end": 2240,
+        "song": "Hellraiser",
+        "artist": "Ozzy Osbourne",
+        "type": "music"
+      },
+      {
+        "start": 2241,
+        "end": 2500,
+        "song": "Rusty Cage",
+        "artist": "Soundgarden",
+        "type": "music"
+      },
+      {
+        "start": 2501,
+        "end": 2810,
+        "song": "Killing in the Name",
+        "artist": "Rage Against the Machine",
+        "type": "music"
+      },
+      {
+        "start": 2811,
+        "end": 3040,
+        "song": "Been Caught Stealing",
+        "artist": "Jane's Addiction",
+        "type": "music"
+      },
+      {
+        "start": 3041,
+        "end": 3200,
+        "song": "Them Bones",
+        "artist": "Alice in Chains",
+        "type": "music"
+      },
+      {
+        "start": 3201,
+        "end": 3469,
+        "song": "Plush",
+        "artist": "Stone Temple Pilots",
+        "type": "music"
+      }
+    ]
+  },
+  {
     "id": "csr-103-2",
     "gameId": "gtasa",
     "name": "CSR 103.2",
@@ -847,6 +979,131 @@
         "end": 2844,
         "song": "New Jack Swing",
         "artist": "Wreckx-n-Effect",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "k-jah-west",
+    "gameId": "gtasa",
+    "name": "K-JAH West",
+    "genre": "Reggae & Dub",
+    "host": "Marshall Peters & Johnny Lawton",
+    "logoUrl": "/logos/gtasa/k-jah-west.png",
+    "audioUrl": "https://archive.org/download/gtasars/K-JAH%20West.mp3",
+    "duration": 3633,
+    "initialOffset": 2250,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 240,
+        "song": "Don't Let It Go to Your Head",
+        "artist": "Black Harmony",
+        "type": "music"
+      },
+      {
+        "start": 241,
+        "end": 480,
+        "song": "Ring My Bell",
+        "artist": "Blood Sisters",
+        "type": "music"
+      },
+      {
+        "start": 481,
+        "end": 690,
+        "song": "Wicked Inna Bed",
+        "artist": "Shabba Ranks",
+        "type": "music"
+      },
+      {
+        "start": 691,
+        "end": 730,
+        "song": "Reggae Philosophy & Dub Sound",
+        "artist": "Marshall Peters & Johnny Lawton",
+        "type": "talk"
+      },
+      {
+        "start": 731,
+        "end": 960,
+        "song": "Batty Rider",
+        "artist": "Buju Banton",
+        "type": "music"
+      },
+      {
+        "start": 961,
+        "end": 1120,
+        "song": "King Tubby Meets Rockers Uptown",
+        "artist": "Augustus Pablo",
+        "type": "music"
+      },
+      {
+        "start": 1121,
+        "end": 1360,
+        "song": "Revolution",
+        "artist": "Dennis Brown",
+        "type": "music"
+      },
+      {
+        "start": 1361,
+        "end": 1520,
+        "song": "Armagideon Time",
+        "artist": "Willi Williams",
+        "type": "music"
+      },
+      {
+        "start": 1521,
+        "end": 1710,
+        "song": "Sidewalk Killer",
+        "artist": "I-Roy",
+        "type": "music"
+      },
+      {
+        "start": 1711,
+        "end": 2010,
+        "song": "Funky Kingston",
+        "artist": "Toots & the Maytals",
+        "type": "music"
+      },
+      {
+        "start": 2011,
+        "end": 2200,
+        "song": "Cocaine In My Brain",
+        "artist": "Dillinger",
+        "type": "music"
+      },
+      {
+        "start": 2201,
+        "end": 2240,
+        "song": "Roots & Culture Reasoning",
+        "artist": "Marshall Peters & Johnny Lawton",
+        "type": "talk"
+      },
+      {
+        "start": 2241,
+        "end": 2470,
+        "song": "Pressure Drop",
+        "artist": "The Maytals",
+        "type": "music"
+      },
+      {
+        "start": 2471,
+        "end": 2680,
+        "song": "Johnny Too Bad",
+        "artist": "The Slickers",
+        "type": "music"
+      },
+      {
+        "start": 2681,
+        "end": 2910,
+        "song": "Chase the Devil",
+        "artist": "Max Romeo & The Upsetters",
+        "type": "music"
+      },
+      {
+        "start": 2911,
+        "end": 3633,
+        "song": "Here I Come",
+        "artist": "Barrington Levy",
         "type": "music"
       }
     ]
@@ -980,263 +1237,6 @@
         "end": 4061,
         "song": "(I Got) So Much Trouble in My Mind",
         "artist": "Sir Joe Quarterman & Free Soul",
-        "type": "music"
-      }
-    ]
-  },
-  {
-    "id": "k-rose",
-    "gameId": "gtasa",
-    "name": "K-Rose",
-    "genre": "Classic Country",
-    "host": "Mary-Beth Maybell",
-    "logoUrl": "/logos/gtasa/k-rose.png",
-    "audioUrl": "https://archive.org/download/gtasars/K-Rose.mp3",
-    "duration": 2886,
-    "initialOffset": 2000,
-    "timestamps": [
-      {
-        "start": 0,
-        "end": 180,
-        "song": "Amos Moses",
-        "artist": "Jerry Reed",
-        "type": "music"
-      },
-      {
-        "start": 181,
-        "end": 320,
-        "song": "Louisiana Woman, Mississippi Man",
-        "artist": "Conway Twitty & Loretta Lynn",
-        "type": "music"
-      },
-      {
-        "start": 321,
-        "end": 480,
-        "song": "Hey Good Lookin'",
-        "artist": "Hank Williams",
-        "type": "music"
-      },
-      {
-        "start": 481,
-        "end": 515,
-        "song": "Heartbreak & Trailer Park Chat",
-        "artist": "Mary-Beth Maybell",
-        "type": "talk"
-      },
-      {
-        "start": 516,
-        "end": 710,
-        "song": "Queen of Hearts",
-        "artist": "Juice Newton",
-        "type": "music"
-      },
-      {
-        "start": 711,
-        "end": 890,
-        "song": "New York City",
-        "artist": "Statler Brothers",
-        "type": "music"
-      },
-      {
-        "start": 891,
-        "end": 1080,
-        "song": "The Letter That Johnny Walker Read",
-        "artist": "Asleep at the Wheel",
-        "type": "music"
-      },
-      {
-        "start": 1081,
-        "end": 1270,
-        "song": "One Step Forward",
-        "artist": "The Desert Rose Band",
-        "type": "music"
-      },
-      {
-        "start": 1271,
-        "end": 1510,
-        "song": "Crazy",
-        "artist": "Willie Nelson",
-        "type": "music"
-      },
-      {
-        "start": 1511,
-        "end": 1660,
-        "song": "Three Cigarettes in an Ashtray",
-        "artist": "Patsy Cline",
-        "type": "music"
-      },
-      {
-        "start": 1661,
-        "end": 1810,
-        "song": "Bed of Rose's",
-        "artist": "Statler Brothers",
-        "type": "music"
-      },
-      {
-        "start": 1811,
-        "end": 1845,
-        "song": "Ex-Husband Memories",
-        "artist": "Mary-Beth Maybell",
-        "type": "talk"
-      },
-      {
-        "start": 1846,
-        "end": 2030,
-        "song": "Make the World Go Away",
-        "artist": "Mickey Gilley",
-        "type": "music"
-      },
-      {
-        "start": 2031,
-        "end": 2230,
-        "song": "Mammas Don't Let Your Babies Grow Up to Be Cowboys",
-        "artist": "Ed Bruce",
-        "type": "music"
-      },
-      {
-        "start": 2231,
-        "end": 2420,
-        "song": "Always Wanting You",
-        "artist": "Merle Haggard",
-        "type": "music"
-      },
-      {
-        "start": 2421,
-        "end": 2630,
-        "song": "All My Ex's Live in Texas",
-        "artist": "Whitey Shafer",
-        "type": "music"
-      },
-      {
-        "start": 2631,
-        "end": 2886,
-        "song": "Drivin' My Life Away",
-        "artist": "Eddie Rabbitt",
-        "type": "music"
-      }
-    ]
-  },
-  {
-    "id": "k-jah-west",
-    "gameId": "gtasa",
-    "name": "K-JAH West",
-    "genre": "Reggae & Dub",
-    "host": "Marshall Peters & Johnny Lawton",
-    "logoUrl": "/logos/gtasa/k-jah-west.png",
-    "audioUrl": "https://archive.org/download/gtasars/K-JAH%20West.mp3",
-    "duration": 3633,
-    "initialOffset": 2250,
-    "timestamps": [
-      {
-        "start": 0,
-        "end": 240,
-        "song": "Don't Let It Go to Your Head",
-        "artist": "Black Harmony",
-        "type": "music"
-      },
-      {
-        "start": 241,
-        "end": 480,
-        "song": "Ring My Bell",
-        "artist": "Blood Sisters",
-        "type": "music"
-      },
-      {
-        "start": 481,
-        "end": 690,
-        "song": "Wicked Inna Bed",
-        "artist": "Shabba Ranks",
-        "type": "music"
-      },
-      {
-        "start": 691,
-        "end": 730,
-        "song": "Reggae Philosophy & Dub Sound",
-        "artist": "Marshall Peters & Johnny Lawton",
-        "type": "talk"
-      },
-      {
-        "start": 731,
-        "end": 960,
-        "song": "Batty Rider",
-        "artist": "Buju Banton",
-        "type": "music"
-      },
-      {
-        "start": 961,
-        "end": 1120,
-        "song": "King Tubby Meets Rockers Uptown",
-        "artist": "Augustus Pablo",
-        "type": "music"
-      },
-      {
-        "start": 1121,
-        "end": 1360,
-        "song": "Revolution",
-        "artist": "Dennis Brown",
-        "type": "music"
-      },
-      {
-        "start": 1361,
-        "end": 1520,
-        "song": "Armagideon Time",
-        "artist": "Willi Williams",
-        "type": "music"
-      },
-      {
-        "start": 1521,
-        "end": 1710,
-        "song": "Sidewalk Killer",
-        "artist": "I-Roy",
-        "type": "music"
-      },
-      {
-        "start": 1711,
-        "end": 2010,
-        "song": "Funky Kingston",
-        "artist": "Toots & the Maytals",
-        "type": "music"
-      },
-      {
-        "start": 2011,
-        "end": 2200,
-        "song": "Cocaine In My Brain",
-        "artist": "Dillinger",
-        "type": "music"
-      },
-      {
-        "start": 2201,
-        "end": 2240,
-        "song": "Roots & Culture Reasoning",
-        "artist": "Marshall Peters & Johnny Lawton",
-        "type": "talk"
-      },
-      {
-        "start": 2241,
-        "end": 2470,
-        "song": "Pressure Drop",
-        "artist": "The Maytals",
-        "type": "music"
-      },
-      {
-        "start": 2471,
-        "end": 2680,
-        "song": "Johnny Too Bad",
-        "artist": "The Slickers",
-        "type": "music"
-      },
-      {
-        "start": 2681,
-        "end": 2910,
-        "song": "Chase the Devil",
-        "artist": "Max Romeo & The Upsetters",
-        "type": "music"
-      },
-      {
-        "start": 2911,
-        "end": 3633,
-        "song": "Here I Come",
-        "artist": "Barrington Levy",
         "type": "music"
       }
     ]

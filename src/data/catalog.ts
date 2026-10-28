@@ -1,11 +1,19 @@
 import { GameId, GameMetadata, Station } from '../types/radio';
+import { resolveAssetUrl } from '../utils/assets';
 import gtasaRaw from './gtasa.json';
 import gta4Raw from './gta4.json';
 import gta5Raw from './gta5.json';
 
-export const gtasaStations: Station[] = gtasaRaw as Station[];
-export const gta4Stations: Station[] = gta4Raw as Station[];
-export const gta5Stations: Station[] = gta5Raw as Station[];
+function mapStations(stations: Station[]): Station[] {
+  return stations.map((station) => ({
+    ...station,
+    logoUrl: resolveAssetUrl(station.logoUrl),
+  }));
+}
+
+export const gtasaStations: Station[] = mapStations(gtasaRaw as Station[]);
+export const gta4Stations: Station[] = mapStations(gta4Raw as Station[]);
+export const gta5Stations: Station[] = mapStations(gta5Raw as Station[]);
 
 export const GAMES: Record<GameId, GameMetadata> = {
   gta5: {
@@ -15,7 +23,7 @@ export const GAMES: Record<GameId, GameMetadata> = {
     year: 2013,
     theme: {
       accentColor: '#4ae891',
-      bgWallpaper: '/wallpapers/gta5.webp',
+      bgWallpaper: resolveAssetUrl('/wallpapers/gta5.webp'),
       fontFamily: "'Oswald', sans-serif",
     },
     stations: gta5Stations,
@@ -27,7 +35,7 @@ export const GAMES: Record<GameId, GameMetadata> = {
     year: 2004,
     theme: {
       accentColor: '#f59e0b',
-      bgWallpaper: '/wallpapers/gtasa.svg',
+      bgWallpaper: resolveAssetUrl('/wallpapers/gtasa.svg'),
       fontFamily: "'Pricedown', sans-serif",
     },
     stations: gtasaStations,
@@ -39,7 +47,7 @@ export const GAMES: Record<GameId, GameMetadata> = {
     year: 2008,
     theme: {
       accentColor: '#eab308',
-      bgWallpaper: '/wallpapers/gta4.svg',
+      bgWallpaper: resolveAssetUrl('/wallpapers/gta4.svg'),
       fontFamily: "'Bank Gothic', sans-serif",
     },
     stations: gta4Stations,

@@ -47,4 +47,28 @@ describe('catalog', () => {
     expect(getStation('non-stop-pop-fm', 'gta5')?.host).toBe('Cara Delevingne');
     expect(getAllStations().length).toBe(26 + 11 + 19);
   });
+
+  it('resolves wallpapers and logo URLs using resolveAssetUrl', () => {
+    expect(GAMES.gta5.theme.bgWallpaper.startsWith('//')).toBe(false);
+    expect(GAMES.gta5.theme.bgWallpaper).toContain('wallpapers/gta5.webp');
+    expect(GAMES.gtasa.theme.bgWallpaper.startsWith('//')).toBe(false);
+    expect(GAMES.gtasa.theme.bgWallpaper).toContain('wallpapers/gtasa.svg');
+
+    const saStations = getStationsForGame('gtasa');
+    expect(saStations[0].logoUrl.startsWith('//')).toBe(false);
+    expect(saStations[0].logoUrl).toContain('logos/gtasa/');
+  });
+
+  it('orders stations in canonical in-game sequences', () => {
+    expect(GAMES.gta5.stations[0].id).toBe('blaine-county-talk-radio');
+    expect(GAMES.gta5.stations[GAMES.gta5.stations.length - 1].id).toBe('radio-off');
+
+    expect(GAMES.gtasa.stations[0].id).toBe('playback-fm');
+    expect(GAMES.gtasa.stations[1].id).toBe('k-rose');
+    expect(GAMES.gtasa.stations[GAMES.gtasa.stations.length - 1].id).toBe('wctr');
+
+    expect(GAMES.gta4.stations[0].id).toBe('the-beat-102-7');
+    expect(GAMES.gta4.stations[1].id).toBe('the-classics');
+    expect(GAMES.gta4.stations[GAMES.gta4.stations.length - 1].id).toBe('self-actualization-fm');
+  });
 });
