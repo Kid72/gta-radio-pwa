@@ -59,7 +59,9 @@ export const BroadcastHUD: React.FC<BroadcastHUDProps> = ({
     artistOrInfo = `Hosted by ${station.host}`;
   }
 
-  const effectiveCoverArt = coverArtUrl || currentCue?.coverArtUrl || null;
+  const rawCoverArt = coverArtUrl || currentCue?.coverArtUrl || null;
+  const effectiveCoverArt =
+    rawCoverArt && rawCoverArt !== station.logoUrl ? rawCoverArt : null;
 
   return (
     <div

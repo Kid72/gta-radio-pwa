@@ -224,6 +224,22 @@ describe('BroadcastHUD Component', () => {
     expect(hudCover).toBeInTheDocument();
     expect(hudCover).toHaveAttribute('src', 'https://example.com/cue-artwork.jpg');
   });
+
+  it('does not render secondary cover art badge when coverArtUrl matches station logo', () => {
+    render(
+      <BroadcastHUD
+        station={sampleStation}
+        isPlaying={true}
+        currentCue={sampleCue}
+        coverArtUrl={sampleStation.logoUrl}
+      />
+    );
+
+    const stationLogo = screen.getByTestId('station-logo');
+    expect(stationLogo).toBeInTheDocument();
+    expect(screen.queryByTestId('hud-cover-art')).toBeNull();
+    expect(screen.queryByTestId('hud-vinyl-badge')).toBeNull();
+  });
 });
 
 describe('RadioWheel Component', () => {
