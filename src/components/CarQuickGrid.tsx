@@ -241,41 +241,43 @@ export const CarQuickGrid: React.FC<CarQuickGridProps> = ({
             </div>
 
             {/* Offline Storage Status / Trigger (Driver Touch Friendly) */}
-            <div className="flex-shrink-0 flex items-center justify-center">
-              {isDownloading ? (
-                <div
-                  data-testid={`downloading-${station.id}`}
-                  aria-label={`Downloading ${station.name}: ${downloadProgress}%`}
-                  className="flex flex-col items-center justify-center w-11 h-11 text-xs font-mono font-bold text-[var(--accent-color,#4ae891)] bg-white/5 border border-[var(--accent-color,#4ae891)]/40 rounded-xl p-1"
-                >
-                  <Loader2 className="w-4 h-4 animate-spin text-[var(--accent-color,#4ae891)] mb-0.5" />
-                  <span className="text-[10px]">{downloadProgress}%</span>
-                </div>
-              ) : cached ? (
-                <button
-                  type="button"
-                  data-testid={`cached-badge-${station.id}`}
-                  onClick={(e) => handleDelete(e, station)}
-                  aria-label={`Remove ${station.name} from offline storage`}
-                  title="Offline Ready - 0 mobile data (Click to delete)"
-                  className="group/cached relative flex items-center justify-center w-11 h-11 rounded-xl bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 hover:bg-red-500/20 hover:border-red-500/50 hover:text-red-400 transition-colors focus:outline-none"
-                >
-                  <Check className="w-5 h-5 group-hover/cached:hidden" />
-                  <Trash2 className="w-5 h-5 hidden group-hover/cached:block" />
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  data-testid={`download-button-${station.id}`}
-                  onClick={(e) => handleDownload(e, station)}
-                  aria-label={`Download ${station.name} for offline`}
-                  title="Save for Offline"
-                  className="flex items-center justify-center w-11 h-11 rounded-xl bg-white/5 border border-white/10 text-neutral-400 hover:text-white hover:bg-white/15 hover:border-white/30 transition-all active:scale-95 focus:outline-none"
-                >
-                  <Download className="w-5 h-5" />
-                </button>
-              )}
-            </div>
+            {Boolean(station.audioUrl && station.duration > 0) && (
+              <div className="flex-shrink-0 flex items-center justify-center">
+                {isDownloading ? (
+                  <div
+                    data-testid={`downloading-${station.id}`}
+                    aria-label={`Downloading ${station.name}: ${downloadProgress}%`}
+                    className="flex flex-col items-center justify-center w-11 h-11 text-xs font-mono font-bold text-[var(--accent-color,#4ae891)] bg-white/5 border border-[var(--accent-color,#4ae891)]/40 rounded-xl p-1"
+                  >
+                    <Loader2 className="w-4 h-4 animate-spin text-[var(--accent-color,#4ae891)] mb-0.5" />
+                    <span className="text-[10px]">{downloadProgress}%</span>
+                  </div>
+                ) : cached ? (
+                  <button
+                    type="button"
+                    data-testid={`cached-badge-${station.id}`}
+                    onClick={(e) => handleDelete(e, station)}
+                    aria-label={`Remove ${station.name} from offline storage`}
+                    title="Offline Ready - 0 mobile data (Click to delete)"
+                    className="group/cached relative flex items-center justify-center w-11 h-11 rounded-xl bg-emerald-500/20 border border-emerald-500/50 text-emerald-400 hover:bg-red-500/20 hover:border-red-500/50 hover:text-red-400 transition-colors focus:outline-none"
+                  >
+                    <Check className="w-5 h-5 group-hover/cached:hidden" />
+                    <Trash2 className="w-5 h-5 hidden group-hover/cached:block" />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    data-testid={`download-button-${station.id}`}
+                    onClick={(e) => handleDownload(e, station)}
+                    aria-label={`Download ${station.name} for offline`}
+                    title="Save for Offline"
+                    className="flex items-center justify-center w-11 h-11 rounded-xl bg-white/5 border border-white/10 text-neutral-400 hover:text-white hover:bg-white/15 hover:border-white/30 transition-all active:scale-95 focus:outline-none"
+                  >
+                    <Download className="w-5 h-5" />
+                  </button>
+                )}
+              </div>
+            )}
           </div>
         );
       })}

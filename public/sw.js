@@ -43,6 +43,12 @@ self.addEventListener('fetch', (event) => {
           });
         }
         return response;
+      }).catch((error) => {
+        // If network fails (e.g. offline vehicle commute), fallback to cached index.html for page navigation
+        if (event.request.mode === 'navigate') {
+          return caches.match('/index.html');
+        }
+        throw error;
       });
     })
   );

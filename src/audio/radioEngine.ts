@@ -171,26 +171,45 @@ export class RadioEngine {
     }
   }
 
+  private cachedKeys: Set<string> = new Set();
+
+  setCachedKeys(keys: Set<string> | string[]): void {
+    this.cachedKeys = new Set(keys);
+  }
+
+  private getPlayableStations(): Station[] {
+    const isOffline = typeof navigator !== 'undefined' && navigator.onLine === false;
+    if (isOffline && this.cachedKeys.size > 0) {
+      const offlinePlayable = this.stations.filter(
+        (s) => this.cachedKeys.has(`${s.gameId}:${s.id}`) || this.cachedKeys.has(s.id)
+      );
+      if (offlinePlayable.length > 0) {
+        return offlinePlayable;
+      }
+    }
+    return this.stations;
+  }
+
   private getNextStation(): Station | null {
-    if (this.stations.length === 0) return null;
-    if (!this.state.currentStation) return this.stations[0];
-    const currentIndex = this.stations.findIndex(
+    const list = this.getPlayableStations();
+    if (list.length === 0) return null;
+    if (!this.state.currentStation) return list[0];
+    const currentIndex = list.findIndex(
       (s) => s.id === this.state.currentStation!.id
     );
-    if (currentIndex === -1) return this.stations[0];
-    return this.stations[(currentIndex + 1) % this.stations.length];
+    if (currentIndex === -1) return list[0];
+    return list[(currentIndex + 1) % list.length];
   }
 
   private getPreviousStation(): Station | null {
-    if (this.stations.length === 0) return null;
-    if (!this.state.currentStation) return this.stations[this.stations.length - 1];
-    const currentIndex = this.stations.findIndex(
+    const list = this.getPlayableStations();
+    if (list.length === 0) return null;
+    if (!this.state.currentStation) return list[list.length - 1];
+    const currentIndex = list.findIndex(
       (s) => s.id === this.state.currentStation!.id
     );
-    if (currentIndex === -1) return this.stations[this.stations.length - 1];
-    return this.stations[
-      (currentIndex - 1 + this.stations.length) % this.stations.length
-    ];
+    if (currentIndex === -1) return list[list.length - 1];
+    return list[(currentIndex - 1 + list.length) % list.length];
   }
 
   // --- Playback Engine ---
@@ -210,6 +229,19 @@ export class RadioEngine {
     this.sfxInstance.playTuningStatic();
 
     this.ensureStationInList(station);
+
+    // If tuning to Radio Off or station has no audio source, pause cleanly without error
+    if (!station.audioUrl || station.id === 'radio-off' || station.duration === 0) {
+      this.pause();
+      this.revokeCurrentBlob();
+      this.state.currentStation = station;
+      this.state.isPlaying = false;
+      this.state.isLoading = false;
+      this.state.currentCue = null;
+      this.state.error = null;
+      this.notify();
+      return;
+    }
 
     const targetTime = instantLiveSync ? getStationCurrentSecond(station) : 0;
 
@@ -310,6 +342,19 @@ export class RadioEngine {
     this.sfxInstance.playTuningStatic();
 
     this.ensureStationInList(station);
+
+    // If tuning to Radio Off or station has no audio source, pause cleanly without error
+    if (!station.audioUrl || station.id === 'radio-off' || station.duration === 0) {
+      this.pause();
+      this.revokeCurrentBlob();
+      this.state.currentStation = station;
+      this.state.isPlaying = false;
+      this.state.isLoading = false;
+      this.state.currentCue = null;
+      this.state.error = null;
+      this.notify();
+      return;
+    }
 
     const targetTime = getStationCurrentSecond(station);
 

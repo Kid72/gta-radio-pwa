@@ -87,6 +87,19 @@ export function updateMediaSessionMetadata(
   const album = isSong ? station.name : (station.genre || 'Grand Theft Auto');
   const artworkType = getArtworkMimeType(station.logoUrl);
 
+  // Avoid flooding CarPlay head unit and lock screen on high-frequency interval updates
+  const currentMeta = navigator.mediaSession.metadata;
+  const currentArtworkUrl = currentMeta?.artwork?.[0]?.src;
+  if (
+    currentMeta &&
+    currentMeta.title === title &&
+    currentMeta.artist === artist &&
+    currentMeta.album === album &&
+    currentArtworkUrl === station.logoUrl
+  ) {
+    return;
+  }
+
   try {
     navigator.mediaSession.metadata = new MediaMetadata({
       title,

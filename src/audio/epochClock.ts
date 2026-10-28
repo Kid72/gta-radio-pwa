@@ -1,7 +1,7 @@
 import { Station } from '../types/radio';
 
-// Universal fixed epoch (Jan 1, 2026 00:00:00 UTC) ensures all listeners are synced
-export const MASTER_BROADCAST_EPOCH = 1767225600000;
+// Universal fixed epoch (GTA V launch date: Sept 17, 2013 00:00:00 UTC) ensures all listeners are synced
+export const MASTER_BROADCAST_EPOCH = 1379376000000;
 
 /**
  * Calculates the current playback position in seconds for a station,

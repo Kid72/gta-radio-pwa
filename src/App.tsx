@@ -93,11 +93,13 @@ export default function App({
   const refreshCachedKeys = useCallback(async () => {
     try {
       const keys = await listCachedStationKeys();
-      setCachedKeys(new Set(keys));
+      const keysSet = new Set(keys);
+      setCachedKeys(keysSet);
+      activeEngine.setCachedKeys(keysSet);
     } catch (err) {
       console.warn('Failed to list cached station keys:', err);
     }
-  }, []);
+  }, [activeEngine]);
 
   useEffect(() => {
     refreshCachedKeys();
