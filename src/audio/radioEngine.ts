@@ -328,6 +328,19 @@ export class RadioEngine {
         this.audio.currentTime = targetTime;
       } catch {}
 
+      // One-time seek fallback on metadata load (WebKit live epoch sync)
+      let metadataHandled = false;
+      const onMetadata = () => {
+        if (!metadataHandled) {
+          metadataHandled = true;
+          try {
+            this.audio.currentTime = targetTime;
+          } catch {}
+        }
+        this.audio.removeEventListener('loadedmetadata', onMetadata);
+      };
+      this.audio.addEventListener('loadedmetadata', onMetadata);
+
       try {
         const p = this.audio.play();
         if (p !== undefined) {

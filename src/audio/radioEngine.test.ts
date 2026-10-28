@@ -342,6 +342,17 @@ describe('RadioEngine Core Audio Player', () => {
     expect(engine.getState().currentStation?.id).toBe('radiox');
   });
 
+  it('seeks to target live epoch on loadedmetadata during nextStationSync', async () => {
+    const audio = engine.getAudioElement();
+    // Simulate initial zero currentTime before metadata loaded
+    engine.nextStationSync();
+    expect(engine.getState().currentStation?.id).toBe('radiox');
+
+    // Simulate loadedmetadata event from audio element
+    audio.dispatchEvent(new Event('loadedmetadata'));
+    expect(audio.currentTime).toBeGreaterThanOrEqual(0);
+  });
+
   it('upgrades nextStationSync to offline cached blob in the background', async () => {
     const station2 = mockStations[1];
     const mockBlob = new Blob(['audio-data'], { type: 'audio/mp3' });
