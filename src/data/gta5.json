@@ -1,5 +1,2198 @@
 [
   {
+    "id": "los-santos-rock-radio",
+    "gameId": "gta5",
+    "name": "Los Santos Rock Radio",
+    "genre": "Classic Rock & Pop Rock",
+    "host": "Kenny Loggins",
+    "logoUrl": "/logos/gta5/los-santos-rock-radio.png",
+    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/Los%20Santos%20Rock%20Radio.mp3",
+    "duration": 8971,
+    "initialOffset": 2760,
+    "timestamps": [
+      {
+        "start": 7,
+        "end": 279,
+        "song": "All the Things She Said",
+        "artist": "Simple Minds",
+        "type": "music"
+      },
+      {
+        "start": 280,
+        "end": 443,
+        "song": "The Breakup Song (They Don't Write 'Em)",
+        "artist": "The Greg Kihn Band",
+        "type": "music"
+      },
+      {
+        "start": 444,
+        "end": 665,
+        "song": "Saturday Night's Alright (For Fighting)",
+        "artist": "Elton John",
+        "type": "music"
+      },
+      {
+        "start": 666,
+        "end": 888,
+        "song": "Shadows of the Night",
+        "artist": "Pat Benatar",
+        "type": "music"
+      },
+      {
+        "start": 889,
+        "end": 1131,
+        "song": "Circle in the Sand",
+        "artist": "Belinda Carlisle",
+        "type": "music"
+      },
+      {
+        "start": 1132,
+        "end": 1292,
+        "song": "Mississippi Queen",
+        "artist": "Mountain",
+        "type": "music"
+      },
+      {
+        "start": 1293,
+        "end": 1597,
+        "song": "We Built This City",
+        "artist": "Starship",
+        "type": "music"
+      },
+      {
+        "start": 1598,
+        "end": 1802,
+        "song": "What a Fool Believes",
+        "artist": "The Doobie Brothers",
+        "type": "music"
+      },
+      {
+        "start": 1803,
+        "end": 2048,
+        "song": "Hollywood Nights",
+        "artist": "Bob Seger & The Silver Bullet Band",
+        "type": "music"
+      },
+      {
+        "start": 2049,
+        "end": 2368,
+        "song": "Carry On Wayward Son",
+        "artist": "Kansas",
+        "type": "music"
+      },
+      {
+        "start": 2369,
+        "end": 2585,
+        "song": "Photograph",
+        "artist": "Def Leppard",
+        "type": "music"
+      },
+      {
+        "start": 2586,
+        "end": 2723,
+        "song": "Fortunate Son",
+        "artist": "Creedence Clearwater Revival",
+        "type": "music"
+      },
+      {
+        "start": 2724,
+        "end": 2935,
+        "song": "I'm Free (Heaven Helps the Man)",
+        "artist": "Kenny Loggins",
+        "type": "music"
+      },
+      {
+        "start": 2936,
+        "end": 3249,
+        "song": "I Don't Care Anymore",
+        "artist": "Phil Collins",
+        "type": "music"
+      },
+      {
+        "start": 3250,
+        "end": 3445,
+        "song": "Too Late for Goodbyes",
+        "artist": "Julian Lennon",
+        "type": "music"
+      },
+      {
+        "start": 3446,
+        "end": 3735,
+        "song": "Peace of Mind",
+        "artist": "Boston",
+        "type": "music"
+      },
+      {
+        "start": 3736,
+        "end": 3986,
+        "song": "Night Moves",
+        "artist": "Bob Seger & The Silver Bullet Band",
+        "type": "music"
+      },
+      {
+        "start": 3987,
+        "end": 4195,
+        "song": "Danger Zone",
+        "artist": "Kenny Loggins",
+        "type": "music"
+      },
+      {
+        "start": 4196,
+        "end": 4550,
+        "song": "Baker Street",
+        "artist": "Gerry Rafferty",
+        "type": "music"
+      },
+      {
+        "start": 4551,
+        "end": 4811,
+        "song": "I Can't Wait",
+        "artist": "Stevie Nicks",
+        "type": "music"
+      },
+      {
+        "start": 4812,
+        "end": 5031,
+        "song": "If You Leave Me Now",
+        "artist": "Chicago",
+        "type": "music"
+      },
+      {
+        "start": 5032,
+        "end": 5227,
+        "song": "I Wouldn't Want to Be Like You",
+        "artist": "The Alan Parsons Project",
+        "type": "music"
+      },
+      {
+        "start": 5228,
+        "end": 5457,
+        "song": "Heartbeat",
+        "artist": "Don Johnson",
+        "type": "music"
+      },
+      {
+        "start": 5458,
+        "end": 5732,
+        "song": "Black Velvet",
+        "artist": "Alannah Myles",
+        "type": "music"
+      },
+      {
+        "start": 5733,
+        "end": 5947,
+        "song": "Gimme All Your Lovin'",
+        "artist": "ZZ Top",
+        "type": "music"
+      },
+      {
+        "start": 5948,
+        "end": 6094,
+        "song": "Ogdens' Nut Gone Flake",
+        "artist": "Small Faces",
+        "type": "music"
+      },
+      {
+        "start": 6095,
+        "end": 6304,
+        "song": "30 Days in the Hole",
+        "artist": "Humble Pie",
+        "type": "music"
+      },
+      {
+        "start": 6305,
+        "end": 6481,
+        "song": "Rock'n Me",
+        "artist": "Steve Miller Band",
+        "type": "music"
+      },
+      {
+        "start": 6482,
+        "end": 6793,
+        "song": "Radio Ga Ga",
+        "artist": "Queen",
+        "type": "music"
+      },
+      {
+        "start": 6794,
+        "end": 7022,
+        "song": "Burning Heart",
+        "artist": "Survivor",
+        "type": "music"
+      },
+      {
+        "start": 7023,
+        "end": 7545,
+        "song": "Roundabout",
+        "artist": "Yes",
+        "type": "music"
+      },
+      {
+        "start": 7546,
+        "end": 7773,
+        "song": "Rain",
+        "artist": "The Cult",
+        "type": "music"
+      },
+      {
+        "start": 7774,
+        "end": 8001,
+        "song": "Cat's in the Cradle",
+        "artist": "Harry Chapin",
+        "type": "music"
+      },
+      {
+        "start": 8002,
+        "end": 8244,
+        "song": "Lonely Is the Night",
+        "artist": "Billy Squier",
+        "type": "music"
+      },
+      {
+        "start": 8245,
+        "end": 8463,
+        "song": "Big Log",
+        "artist": "Robert Plant",
+        "type": "music"
+      },
+      {
+        "start": 8464,
+        "end": 8753,
+        "song": "Higher Love",
+        "artist": "Steve Winwood",
+        "type": "music"
+      },
+      {
+        "start": 8754,
+        "end": 8971,
+        "song": "Dirty White Boy",
+        "artist": "Foreigner",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "non-stop-pop-fm",
+    "gameId": "gta5",
+    "name": "Non-Stop Pop FM",
+    "genre": "Pop, Dance & R&B",
+    "host": "Cara Delevingne",
+    "frequency": "100.7 FM",
+    "logoUrl": "/logos/gta5/non-stop-pop-fm.png",
+    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/Non-Stop-Pop%20FM.mp3",
+    "duration": 13878,
+    "initialOffset": 2640,
+    "timestamps": [
+      {
+        "start": 6,
+        "end": 244,
+        "song": "Glamorous",
+        "artist": "Fergie feat. Ludacris",
+        "type": "music"
+      },
+      {
+        "start": 245,
+        "end": 479,
+        "song": "Send Me An Angel '89",
+        "artist": "Real Life",
+        "type": "music"
+      },
+      {
+        "start": 480,
+        "end": 702,
+        "song": "The Rhythm of the Night (Rapino Bros. 7\" Single)",
+        "artist": "Corona",
+        "type": "music"
+      },
+      {
+        "start": 703,
+        "end": 894,
+        "song": "Work (Freemasons Remix)",
+        "artist": "Kelly Rowland",
+        "type": "music"
+      },
+      {
+        "start": 895,
+        "end": 1127,
+        "song": "Something Got Me Started (Hurley's House Mix)",
+        "artist": "Simply Red",
+        "type": "music"
+      },
+      {
+        "start": 1128,
+        "end": 1324,
+        "song": "Wait",
+        "artist": "The Blow Monkeys & Kym Mazelle",
+        "type": "music"
+      },
+      {
+        "start": 1325,
+        "end": 1546,
+        "song": "I Want It That Way",
+        "artist": "Backstreet Boys",
+        "type": "music"
+      },
+      {
+        "start": 1547,
+        "end": 1842,
+        "song": "Days Go By",
+        "artist": "Dirty Vegas",
+        "type": "music"
+      },
+      {
+        "start": 1843,
+        "end": 2070,
+        "song": "The Time Is Now",
+        "artist": "Moloko",
+        "type": "music"
+      },
+      {
+        "start": 2071,
+        "end": 2289,
+        "song": "1 Thing",
+        "artist": "Amerie",
+        "type": "music"
+      },
+      {
+        "start": 2290,
+        "end": 2560,
+        "song": "Kids",
+        "artist": "Robbie Williams & Kylie Minogue",
+        "type": "music"
+      },
+      {
+        "start": 2561,
+        "end": 2771,
+        "song": "Moves like Jagger",
+        "artist": "Maroon 5 feat. Christina Aguilera",
+        "type": "music"
+      },
+      {
+        "start": 2772,
+        "end": 2976,
+        "song": "Anthem",
+        "artist": "N-Joi",
+        "type": "music"
+      },
+      {
+        "start": 2977,
+        "end": 3208,
+        "song": "Everything She Wants",
+        "artist": "Wham!",
+        "type": "music"
+      },
+      {
+        "start": 3209,
+        "end": 3448,
+        "song": "Scandalous",
+        "artist": "Mis-Teeq",
+        "type": "music"
+      },
+      {
+        "start": 3449,
+        "end": 3671,
+        "song": "Cooler Than Me (Single Mix)",
+        "artist": "Mike Posner",
+        "type": "music"
+      },
+      {
+        "start": 3672,
+        "end": 3893,
+        "song": "Applause",
+        "artist": "Lady Gaga",
+        "type": "music"
+      },
+      {
+        "start": 3894,
+        "end": 4141,
+        "song": "Pure Shores",
+        "artist": "All Saints",
+        "type": "music"
+      },
+      {
+        "start": 4142,
+        "end": 4441,
+        "song": "Alright",
+        "artist": "Jamiroquai",
+        "type": "music"
+      },
+      {
+        "start": 4442,
+        "end": 4576,
+        "song": "Lady (Hear Me Tonight)",
+        "artist": "Modjo",
+        "type": "music"
+      },
+      {
+        "start": 4577,
+        "end": 4786,
+        "song": "Tennis Court",
+        "artist": "Lorde",
+        "type": "music"
+      },
+      {
+        "start": 4787,
+        "end": 4997,
+        "song": "Tell It to My Heart",
+        "artist": "Taylor Dayne",
+        "type": "music"
+      },
+      {
+        "start": 4998,
+        "end": 5232,
+        "song": "Let's Go All the Way",
+        "artist": "Sly Fox",
+        "type": "music"
+      },
+      {
+        "start": 5233,
+        "end": 5461,
+        "song": "With Every Heartbeat",
+        "artist": "Robyn feat. Kleerup",
+        "type": "music"
+      },
+      {
+        "start": 5462,
+        "end": 5730,
+        "song": "On Our Own",
+        "artist": "Bobby Brown",
+        "type": "music"
+      },
+      {
+        "start": 5731,
+        "end": 5957,
+        "song": "New Sensation",
+        "artist": "INXS",
+        "type": "music"
+      },
+      {
+        "start": 5958,
+        "end": 6188,
+        "song": "Promises, Promises",
+        "artist": "Naked Eyes",
+        "type": "music"
+      },
+      {
+        "start": 6189,
+        "end": 6419,
+        "song": "Bad Girls",
+        "artist": "M.I.A.",
+        "type": "music"
+      },
+      {
+        "start": 6420,
+        "end": 6696,
+        "song": "Adult Education",
+        "artist": "Hall & Oates",
+        "type": "music"
+      },
+      {
+        "start": 6697,
+        "end": 6920,
+        "song": "6 Underground",
+        "artist": "Sneaker Pimps",
+        "type": "music"
+      },
+      {
+        "start": 6921,
+        "end": 7152,
+        "song": "Only Girl (In the World)",
+        "artist": "Rihanna",
+        "type": "music"
+      },
+      {
+        "start": 7153,
+        "end": 7368,
+        "song": "Gimme More",
+        "artist": "Britney Spears",
+        "type": "music"
+      },
+      {
+        "start": 7369,
+        "end": 7628,
+        "song": "Meet Me Halfway",
+        "artist": "The Black Eyed Peas",
+        "type": "music"
+      },
+      {
+        "start": 7629,
+        "end": 7863,
+        "song": "Feel Good Inc.",
+        "artist": "Gorillaz feat. De La Soul",
+        "type": "music"
+      },
+      {
+        "start": 7864,
+        "end": 8048,
+        "song": "Living in a Box",
+        "artist": "Living in a Box",
+        "type": "music"
+      },
+      {
+        "start": 8049,
+        "end": 8264,
+        "song": "Midnight City",
+        "artist": "M83",
+        "type": "music"
+      },
+      {
+        "start": 8265,
+        "end": 8540,
+        "song": "Smalltown Boy",
+        "artist": "Bronski Beat",
+        "type": "music"
+      },
+      {
+        "start": 8541,
+        "end": 8750,
+        "song": "Tape Loop (Original)",
+        "artist": "Morcheeba",
+        "type": "music"
+      },
+      {
+        "start": 8751,
+        "end": 8980,
+        "song": "Tape Loop (Shortcheeba Mix)",
+        "artist": "Morcheeba",
+        "type": "music"
+      },
+      {
+        "start": 8981,
+        "end": 9207,
+        "song": "West End Girls",
+        "artist": "Pet Shop Boys",
+        "type": "music"
+      },
+      {
+        "start": 9208,
+        "end": 9404,
+        "song": "Me & U",
+        "artist": "Cassie",
+        "type": "music"
+      },
+      {
+        "start": 9405,
+        "end": 9620,
+        "song": "Don't Wanna Fall in Love",
+        "artist": "Jane Child",
+        "type": "music"
+      },
+      {
+        "start": 9621,
+        "end": 9864,
+        "song": "Music Sounds Better with You",
+        "artist": "Stardust",
+        "type": "music"
+      },
+      {
+        "start": 9865,
+        "end": 10087,
+        "song": "Animal",
+        "artist": "Neon Trees",
+        "type": "music"
+      },
+      {
+        "start": 10088,
+        "end": 10337,
+        "song": "You Make Me Feel...",
+        "artist": "Cobra Starship feat. Sabi",
+        "type": "music"
+      },
+      {
+        "start": 10338,
+        "end": 10534,
+        "song": "Circle in the Sand",
+        "artist": "Belinda Carlisle",
+        "type": "music"
+      },
+      {
+        "start": 10535,
+        "end": 10793,
+        "song": "Everybody Wants to Rule the World",
+        "artist": "Tears for Fears",
+        "type": "music"
+      },
+      {
+        "start": 10794,
+        "end": 11033,
+        "song": "Animal",
+        "artist": "Miike Snow",
+        "type": "music"
+      },
+      {
+        "start": 11034,
+        "end": 11272,
+        "song": "Hold On",
+        "artist": "Wilson Phillips",
+        "type": "music"
+      },
+      {
+        "start": 11273,
+        "end": 11489,
+        "song": "Jam",
+        "artist": "Michael Jackson",
+        "type": "music"
+      },
+      {
+        "start": 11490,
+        "end": 11849,
+        "song": "Love Foolosophy",
+        "artist": "Jamiroquai",
+        "type": "music"
+      },
+      {
+        "start": 11850,
+        "end": 12019,
+        "song": "Physical",
+        "artist": "Olivia Newton-John",
+        "type": "music"
+      },
+      {
+        "start": 12020,
+        "end": 12260,
+        "song": "I Like It",
+        "artist": "Enrique Iglesias feat. Pitbull",
+        "type": "music"
+      },
+      {
+        "start": 12261,
+        "end": 12540,
+        "song": "American Boy",
+        "artist": "Estelle feat. Kanye West",
+        "type": "music"
+      },
+      {
+        "start": 12541,
+        "end": 12795,
+        "song": "Let It Rock",
+        "artist": "Kevin Rudolf feat. Lil Wayne",
+        "type": "music"
+      },
+      {
+        "start": 12796,
+        "end": 13047,
+        "song": "Serious",
+        "artist": "Duran Duran",
+        "type": "music"
+      },
+      {
+        "start": 13048,
+        "end": 13310,
+        "song": "Future Love Paradise",
+        "artist": "Seal",
+        "type": "music"
+      },
+      {
+        "start": 13311,
+        "end": 13493,
+        "song": "The Way I Are",
+        "artist": "Timbaland feat. Keri Hilson & D.O.E.",
+        "type": "music"
+      },
+      {
+        "start": 13494,
+        "end": 13665,
+        "song": "Surrender",
+        "artist": "Kylie Minogue",
+        "type": "music"
+      },
+      {
+        "start": 13666,
+        "end": 13878,
+        "song": "Starlight",
+        "artist": "Supermen Lovers",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "radio-los-santos",
+    "gameId": "gta5",
+    "name": "Radio Los Santos",
+    "genre": "Modern Hip-Hop & Trap",
+    "host": "Big Boy",
+    "frequency": "105.9 FM",
+    "logoUrl": "/logos/gta5/radio-los-santos.png",
+    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/Radio%20Los%20Santos.mp3",
+    "duration": 21384,
+    "initialOffset": 2520,
+    "timestamps": [
+      {
+        "start": 10,
+        "end": 201,
+        "song": "Relaxin'",
+        "artist": "G-Side feat. G-Mane",
+        "type": "music"
+      },
+      {
+        "start": 202,
+        "end": 399,
+        "song": "A.D.H.D",
+        "artist": "Kendrick Lamar",
+        "type": "music"
+      },
+      {
+        "start": 400,
+        "end": 685,
+        "song": "Bugatti",
+        "artist": "Ace Hood feat. Future & Rick Ross",
+        "type": "music"
+      },
+      {
+        "start": 686,
+        "end": 850,
+        "song": "Coochie",
+        "artist": "Tia Corine",
+        "type": "music"
+      },
+      {
+        "start": 851,
+        "end": 1035,
+        "song": "I Can't Wait",
+        "artist": "Young Scooter feat. Trinidad James",
+        "type": "music"
+      },
+      {
+        "start": 1036,
+        "end": 1167,
+        "song": "LEMONHEAD",
+        "artist": "Tyler, The Creator feat. 42 Dugg",
+        "type": "music"
+      },
+      {
+        "start": 1168,
+        "end": 1346,
+        "song": "Ski",
+        "artist": "Young Stoner Life, Young Thug & Gunna",
+        "type": "music"
+      },
+      {
+        "start": 1347,
+        "end": 1624,
+        "song": "Collard Greens",
+        "artist": "ScHoolboy Q feat. Kendrick Lamar",
+        "type": "music"
+      },
+      {
+        "start": 1625,
+        "end": 1915,
+        "song": "Work",
+        "artist": "Young Scooter feat. Gucci Mane",
+        "type": "music"
+      },
+      {
+        "start": 1916,
+        "end": 2147,
+        "song": "ZEZE",
+        "artist": "Kodak Black feat. Travis Scott & Offset",
+        "type": "music"
+      },
+      {
+        "start": 2148,
+        "end": 2452,
+        "song": "Diamond Mind",
+        "artist": "Dr. Dre feat. Nipsey Hustle & Ty Dolla Sign",
+        "type": "music"
+      },
+      {
+        "start": 2453,
+        "end": 2640,
+        "song": "Hunnid Stax",
+        "artist": "Ab-Soul feat. ScHoolboy Q",
+        "type": "music"
+      },
+      {
+        "start": 2641,
+        "end": 2848,
+        "song": "Bassheads",
+        "artist": "Gangrene",
+        "type": "music"
+      },
+      {
+        "start": 2849,
+        "end": 3057,
+        "song": "Smokin' and Ridin'",
+        "artist": "BJ the Chicago Kid feat. Freddie Gibbs & Problem",
+        "type": "music"
+      },
+      {
+        "start": 3058,
+        "end": 3217,
+        "song": "My Type",
+        "artist": "Saweetie",
+        "type": "music"
+      },
+      {
+        "start": 3218,
+        "end": 3398,
+        "song": "What a Life",
+        "artist": "Big Sean & Hit-Boy",
+        "type": "music"
+      },
+      {
+        "start": 3399,
+        "end": 3684,
+        "song": "Came Thru/Easily",
+        "artist": "Chuck Inglish feat. Ab-Soul & Mac Miller",
+        "type": "music"
+      },
+      {
+        "start": 3685,
+        "end": 3886,
+        "song": "Big Fish",
+        "artist": "Vince Staples feat. Juicy J",
+        "type": "music"
+      },
+      {
+        "start": 3887,
+        "end": 4073,
+        "song": "Plain Jane",
+        "artist": "A$AP Ferg",
+        "type": "music"
+      },
+      {
+        "start": 4074,
+        "end": 4285,
+        "song": "Hold Up",
+        "artist": "Marion Band$ feat. Nipsey Hussle",
+        "type": "music"
+      },
+      {
+        "start": 4286,
+        "end": 4583,
+        "song": "Go Live",
+        "artist": "Fredo Santana feat. Chief Keef, Ball Out & Tadoe",
+        "type": "music"
+      },
+      {
+        "start": 4584,
+        "end": 4808,
+        "song": "Slow Down",
+        "artist": "Clyde Carson feat. The Team",
+        "type": "music"
+      },
+      {
+        "start": 4809,
+        "end": 5088,
+        "song": "Illuminate",
+        "artist": "Ab-Soul feat. Kendrick Lamar",
+        "type": "music"
+      },
+      {
+        "start": 5089,
+        "end": 5259,
+        "song": "Upper Echelon",
+        "artist": "Travis Scott feat. 2 Chainz & T.I.",
+        "type": "music"
+      },
+      {
+        "start": 5260,
+        "end": 5482,
+        "song": "It\u2019s a Vibe",
+        "artist": "2 Chainz feat. Ty Dolla $ign, Trey Songz & Jhen\u00e9 Aiko",
+        "type": "music"
+      },
+      {
+        "start": 5483,
+        "end": 5725,
+        "song": "Millions",
+        "artist": "Skeme",
+        "type": "music"
+      },
+      {
+        "start": 5726,
+        "end": 5842,
+        "song": "Hoppin\u2019 Out",
+        "artist": "Mozzy feat. YG",
+        "type": "music"
+      },
+      {
+        "start": 5843,
+        "end": 6123,
+        "song": "Ali Bomaye",
+        "artist": "The Game feat. 2 Chainz & Rick Ross",
+        "type": "music"
+      },
+      {
+        "start": 6124,
+        "end": 6341,
+        "song": "Still Livin'",
+        "artist": "Freddie Gibbs",
+        "type": "music"
+      },
+      {
+        "start": 6342,
+        "end": 6485,
+        "song": "Bad News",
+        "artist": "Danny Brown & Action Bronson",
+        "type": "talk"
+      },
+      {
+        "start": 6486,
+        "end": 6729,
+        "song": "How It Was",
+        "artist": "DJ Esco feat. Future",
+        "type": "music"
+      },
+      {
+        "start": 6730,
+        "end": 6916,
+        "song": "Life of a Mack",
+        "artist": "100s",
+        "type": "music"
+      },
+      {
+        "start": 6917,
+        "end": 7143,
+        "song": "Stir Fry",
+        "artist": "Migos",
+        "type": "music"
+      },
+      {
+        "start": 7144,
+        "end": 7361,
+        "song": "Swimming Pools (Drank)",
+        "artist": "Kendrick Lamar",
+        "type": "music"
+      },
+      {
+        "start": 7362,
+        "end": 7594,
+        "song": "Fallin Up",
+        "artist": "Dr. Dre feat. THURZ & Cocoa Sarai",
+        "type": "music"
+      },
+      {
+        "start": 7595,
+        "end": 7750,
+        "song": "So Fancy",
+        "artist": "Mike Dean and Offset",
+        "type": "music"
+      },
+      {
+        "start": 7751,
+        "end": 7892,
+        "song": "R-Cali",
+        "artist": "A$AP Rocky feat. Aston Matthews & Joey Fatts",
+        "type": "music"
+      },
+      {
+        "start": 7893,
+        "end": 8088,
+        "song": "Blue Cheese",
+        "artist": "Mike Dean and Rich the Kid",
+        "type": "music"
+      },
+      {
+        "start": 8089,
+        "end": 8330,
+        "song": "ETA",
+        "artist": "Dr. Dre feat. Anderson .Paak, Snoop Dogg & Busta Rhymes",
+        "type": "music"
+      },
+      {
+        "start": 8331,
+        "end": 8577,
+        "song": "Chrome Hearts",
+        "artist": "D-Block Europe & Offset",
+        "type": "music"
+      },
+      {
+        "start": 8578,
+        "end": 8807,
+        "song": "Lockjaw",
+        "artist": "French Montana feat. Kodak Black",
+        "type": "music"
+      },
+      {
+        "start": 8808,
+        "end": 9062,
+        "song": "Kush Coma",
+        "artist": "Danny Brown feat. A$AP Rocky & Zelooperz",
+        "type": "music"
+      },
+      {
+        "start": 9063,
+        "end": 9332,
+        "song": "XL",
+        "artist": "Hit-Boy feat. Dom Kennedy",
+        "type": "music"
+      },
+      {
+        "start": 9333,
+        "end": 9505,
+        "song": "Flex",
+        "artist": "Polo G feat. Juice WRLD",
+        "type": "music"
+      },
+      {
+        "start": 9506,
+        "end": 9693,
+        "song": "Work",
+        "artist": "A$AP Ferg",
+        "type": "music"
+      },
+      {
+        "start": 9694,
+        "end": 9893,
+        "song": "The Scenic Route",
+        "artist": "Dr. Dre feat. Rick Ross & Anderson .Paak",
+        "type": "music"
+      },
+      {
+        "start": 9894,
+        "end": 10148,
+        "song": "Sellin' Dope",
+        "artist": "Freddie Gibbs & Mike Dean",
+        "type": "music"
+      },
+      {
+        "start": 10149,
+        "end": 10324,
+        "song": "Let\u2019s Get It",
+        "artist": "NEZ feat. ScHoolboy Q",
+        "type": "music"
+      },
+      {
+        "start": 10325,
+        "end": 10497,
+        "song": "Say That Then",
+        "artist": "Problem feat. Glasses Malone",
+        "type": "music"
+      },
+      {
+        "start": 10498,
+        "end": 10679,
+        "song": "I'm a Real 1",
+        "artist": "YG",
+        "type": "music"
+      },
+      {
+        "start": 10680,
+        "end": 11001,
+        "song": "Low Life",
+        "artist": "Future feat. The Weeknd",
+        "type": "music"
+      },
+      {
+        "start": 11002,
+        "end": 11229,
+        "song": "Too Hood",
+        "artist": "Gucci Mane feat. Ciara",
+        "type": "music"
+      },
+      {
+        "start": 11230,
+        "end": 11438,
+        "song": "Do It Big",
+        "artist": "Problem & IamSu feat. Bad Lucc & Sage The Gemini",
+        "type": "music"
+      },
+      {
+        "start": 11439,
+        "end": 11616,
+        "song": "Feed Me Dope",
+        "artist": "Future",
+        "type": "music"
+      },
+      {
+        "start": 11617,
+        "end": 11851,
+        "song": "Miami Vice",
+        "artist": "Freddie Gibbs feat. Pusha T & Kevin Cossom",
+        "type": "music"
+      },
+      {
+        "start": 11852,
+        "end": 12020,
+        "song": "Black Privilege",
+        "artist": "Dr. Dre",
+        "type": "music"
+      },
+      {
+        "start": 12021,
+        "end": 12201,
+        "song": "Everyday",
+        "artist": "Gucci Mane feat. Trouble",
+        "type": "music"
+      },
+      {
+        "start": 12202,
+        "end": 12474,
+        "song": "Hood Gone Love It",
+        "artist": "Jay Rock feat. Kendrick Lamar",
+        "type": "music"
+      },
+      {
+        "start": 12475,
+        "end": 12678,
+        "song": "The Box",
+        "artist": "Roddy Ricch",
+        "type": "music"
+      },
+      {
+        "start": 12679,
+        "end": 12949,
+        "song": "Big Subwoofer",
+        "artist": "Mount Westmore",
+        "type": "music"
+      },
+      {
+        "start": 12950,
+        "end": 13123,
+        "song": "Wow Freestyle",
+        "artist": "Jay Rock feat. Kendrick Lamar",
+        "type": "music"
+      },
+      {
+        "start": 13124,
+        "end": 13336,
+        "song": "Gospel",
+        "artist": "Dr. Dre feat. Eminem",
+        "type": "music"
+      },
+      {
+        "start": 13337,
+        "end": 13567,
+        "song": "Pick the Phone Up",
+        "artist": "Freddie Gibbs feat. Juicy J",
+        "type": "music"
+      },
+      {
+        "start": 13568,
+        "end": 13776,
+        "song": "Kung Fu",
+        "artist": "Cordae",
+        "type": "music"
+      },
+      {
+        "start": 13777,
+        "end": 13987,
+        "song": "Adorn",
+        "artist": "Miguel",
+        "type": "music"
+      },
+      {
+        "start": 13988,
+        "end": 14300,
+        "song": "That Candy Paint",
+        "artist": "E-40 feat. Slim Thug & Bun B",
+        "type": "music"
+      },
+      {
+        "start": 14301,
+        "end": 14498,
+        "song": "Rough",
+        "artist": "Young Jeezy feat. Freddie Gibbs",
+        "type": "music"
+      },
+      {
+        "start": 14499,
+        "end": 14763,
+        "song": "Do It for You",
+        "artist": "Young Jeezy feat. Freddie Gibbs",
+        "type": "music"
+      },
+      {
+        "start": 14764,
+        "end": 15111,
+        "song": "Mercy",
+        "artist": "Kanye West feat. Big Sean, Pusha T & 2 Chainz",
+        "type": "music"
+      },
+      {
+        "start": 15112,
+        "end": 15375,
+        "song": "No Sympathy",
+        "artist": "Glasses Malone feat. Jay Rock",
+        "type": "music"
+      },
+      {
+        "start": 15376,
+        "end": 15601,
+        "song": "Work Hard, Play Hard",
+        "artist": "Wiz Khalifa",
+        "type": "music"
+      },
+      {
+        "start": 15602,
+        "end": 15861,
+        "song": "No Lie",
+        "artist": "2 Chainz feat. Drake",
+        "type": "music"
+      },
+      {
+        "start": 15862,
+        "end": 16099,
+        "song": "You Know Me",
+        "artist": "WC feat. Young Maylay & Ice Cube",
+        "type": "music"
+      },
+      {
+        "start": 16100,
+        "end": 16359,
+        "song": "Fuckin' Problems",
+        "artist": "A$AP Rocky feat. Drake, 2 Chainz & Kendrick Lamar",
+        "type": "music"
+      },
+      {
+        "start": 16360,
+        "end": 16638,
+        "song": "Bandz a Make Her Dance",
+        "artist": "Juicy J feat. Lil Wayne & 2 Chainz",
+        "type": "music"
+      },
+      {
+        "start": 16639,
+        "end": 16824,
+        "song": "Rack City",
+        "artist": "Tyga",
+        "type": "music"
+      },
+      {
+        "start": 16825,
+        "end": 17072,
+        "song": "Initiation",
+        "artist": "Wiz Khalifa feat. Lola Monroe",
+        "type": "music"
+      },
+      {
+        "start": 17073,
+        "end": 17269,
+        "song": "Boomerang",
+        "artist": "Jay Rock",
+        "type": "music"
+      },
+      {
+        "start": 17270,
+        "end": 17580,
+        "song": "Pop That",
+        "artist": "French Montana feat. Rick Ross, Drake & Lil Wayne",
+        "type": "music"
+      },
+      {
+        "start": 17581,
+        "end": 17779,
+        "song": "Cold War",
+        "artist": "Clams Casino",
+        "type": "music"
+      },
+      {
+        "start": 17780,
+        "end": 18015,
+        "song": "Believe It",
+        "artist": "Meek Mill feat. Rick Ross",
+        "type": "music"
+      },
+      {
+        "start": 18016,
+        "end": 18217,
+        "song": "Brick $ell Phone",
+        "artist": "100s",
+        "type": "music"
+      },
+      {
+        "start": 18218,
+        "end": 18403,
+        "song": "Rooster in My Rari",
+        "artist": "Waka Flocka Flame",
+        "type": "music"
+      },
+      {
+        "start": 18404,
+        "end": 18618,
+        "song": "I'm Different",
+        "artist": "2 Chainz",
+        "type": "music"
+      },
+      {
+        "start": 18619,
+        "end": 18803,
+        "song": "Awesome Awesome",
+        "artist": "Buddy",
+        "type": "music"
+      },
+      {
+        "start": 18804,
+        "end": 19001,
+        "song": "Loud",
+        "artist": "Mac Miller",
+        "type": "music"
+      },
+      {
+        "start": 19002,
+        "end": 19230,
+        "song": "Wild Boy",
+        "artist": "Machine Gun Kelly feat. Waka Flocka Flame",
+        "type": "music"
+      },
+      {
+        "start": 19231,
+        "end": 19422,
+        "song": "What It Do",
+        "artist": "T.I. feat. Trae tha Truth",
+        "type": "music"
+      },
+      {
+        "start": 19423,
+        "end": 19617,
+        "song": "Love Sosa",
+        "artist": "Chief Keef",
+        "type": "music"
+      },
+      {
+        "start": 19618,
+        "end": 19834,
+        "song": "Dollar General",
+        "artist": "Stevie Stones feat. Yelawolf",
+        "type": "music"
+      },
+      {
+        "start": 19835,
+        "end": 20101,
+        "song": "Angel",
+        "artist": "The Game feat. Common",
+        "type": "music"
+      },
+      {
+        "start": 20102,
+        "end": 20369,
+        "song": "Pull Up",
+        "artist": "Big K.R.I.T feat. Big Sant & Bun B",
+        "type": "music"
+      },
+      {
+        "start": 20370,
+        "end": 20522,
+        "song": "From the Block",
+        "artist": "Fenix Flexin feat. D-Block Europe",
+        "type": "music"
+      },
+      {
+        "start": 20523,
+        "end": 20711,
+        "song": "Glory Bridge",
+        "artist": "Chief Keef feat. A Boogie wit da Hoodie",
+        "type": "music"
+      },
+      {
+        "start": 20712,
+        "end": 20833,
+        "song": "4 Thangs",
+        "artist": "Freddie Gibbs feat. Big Sean & Hit-Boy",
+        "type": "music"
+      },
+      {
+        "start": 20834,
+        "end": 20996,
+        "song": "Spin Again",
+        "artist": "Pacman Da Gunman feat. Richard Fisher",
+        "type": "music"
+      },
+      {
+        "start": 20997,
+        "end": 21190,
+        "song": "Leave Me Alone",
+        "artist": "Flipp Dinero",
+        "type": "music"
+      },
+      {
+        "start": 21191,
+        "end": 21384,
+        "song": "It Ain't My Fault",
+        "artist": "Chief Keef",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "channel-x",
+    "gameId": "gta5",
+    "name": "Channel X",
+    "genre": "80s Punk Rock & Hardcore",
+    "host": "Keith Morris",
+    "logoUrl": "/logos/gta5/channel-x.png",
+    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/Channel%20X.mp3",
+    "duration": 2741,
+    "initialOffset": 2400,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 143,
+        "song": "Linda Blair",
+        "artist": "Redd Kross",
+        "type": "music"
+      },
+      {
+        "start": 144,
+        "end": 331,
+        "song": "Subliminal",
+        "artist": "Suicidal Tendencies",
+        "type": "music"
+      },
+      {
+        "start": 332,
+        "end": 526,
+        "song": "The Enemy",
+        "artist": "D.O.A.",
+        "type": "music"
+      },
+      {
+        "start": 527,
+        "end": 650,
+        "song": "Abolish Government/Silent Majority",
+        "artist": "T.S.O.L.",
+        "type": "music"
+      },
+      {
+        "start": 651,
+        "end": 832,
+        "song": "Blown Away",
+        "artist": "Youth Brigade",
+        "type": "music"
+      },
+      {
+        "start": 833,
+        "end": 1056,
+        "song": "My War",
+        "artist": "Black Flag",
+        "type": "music"
+      },
+      {
+        "start": 1057,
+        "end": 1167,
+        "song": "Pervert",
+        "artist": "Descendents",
+        "type": "music"
+      },
+      {
+        "start": 1168,
+        "end": 1385,
+        "song": "Amoeba",
+        "artist": "Adolescents",
+        "type": "music"
+      },
+      {
+        "start": 1386,
+        "end": 1507,
+        "song": "John Wayne Was a Nazi",
+        "artist": "M.D.C.",
+        "type": "music"
+      },
+      {
+        "start": 1508,
+        "end": 1668,
+        "song": "Los Angeles",
+        "artist": "X",
+        "type": "music"
+      },
+      {
+        "start": 1669,
+        "end": 1796,
+        "song": "Lexicon Devil",
+        "artist": "The Germs",
+        "type": "music"
+      },
+      {
+        "start": 1797,
+        "end": 1951,
+        "song": "Rock House",
+        "artist": "Circle Jerks",
+        "type": "music"
+      },
+      {
+        "start": 1952,
+        "end": 2083,
+        "song": "The Mouth Don't Stop (The Trouble With Women Is)",
+        "artist": "Fear",
+        "type": "music"
+      },
+      {
+        "start": 2084,
+        "end": 2222,
+        "song": "Bored of You",
+        "artist": "Agent Orange",
+        "type": "music"
+      },
+      {
+        "start": 2223,
+        "end": 2353,
+        "song": "Life of Crime",
+        "artist": "The Weirdos",
+        "type": "music"
+      },
+      {
+        "start": 2354,
+        "end": 2498,
+        "song": "Don't Push Me Around",
+        "artist": "The Zeros",
+        "type": "music"
+      },
+      {
+        "start": 2499,
+        "end": 2647,
+        "song": "What's Next",
+        "artist": "OFF!",
+        "type": "music"
+      },
+      {
+        "start": 2648,
+        "end": 2741,
+        "song": "I Don't Need Society",
+        "artist": "D.R.I.",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "wctr",
+    "gameId": "gta5",
+    "name": "WCTR",
+    "genre": "Public Talk Radio",
+    "host": "Fernando Martinez",
+    "logoUrl": "/logos/gta5/wctr.png",
+    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/West%20Coast%20Talk%20Radio.mp3",
+    "duration": 5815,
+    "initialOffset": 2280,
+    "timestamps": [
+      {
+        "start": 5,
+        "end": 1178,
+        "song": "The Fernando Show",
+        "artist": "WCTR",
+        "type": "talk"
+      },
+      {
+        "start": 1179,
+        "end": 3068,
+        "song": "Chakra Attack 1",
+        "artist": "WCTR",
+        "type": "talk"
+      },
+      {
+        "start": 3069,
+        "end": 4481,
+        "song": "Chattersphere",
+        "artist": "WCTR",
+        "type": "talk"
+      },
+      {
+        "start": 4482,
+        "end": 5815,
+        "song": "Chakra Attack 2",
+        "artist": "WCTR",
+        "type": "talk"
+      }
+    ]
+  },
+  {
+    "id": "rebel-radio",
+    "gameId": "gta5",
+    "name": "Rebel Radio",
+    "genre": "Outlaw Country & Rockabilly",
+    "host": "Jesco White",
+    "logoUrl": "/logos/gta5/rebel-radio.webp",
+    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/Rebel%20Radio.mp3",
+    "duration": 3457,
+    "initialOffset": 2160,
+    "timestamps": [
+      {
+        "start": 35,
+        "end": 220,
+        "song": "Can't Hardly Stand It",
+        "artist": "Charles Feathers",
+        "type": "music"
+      },
+      {
+        "start": 221,
+        "end": 400,
+        "song": "It Don't Hurt Anymore",
+        "artist": "Hank Thompson",
+        "type": "music"
+      },
+      {
+        "start": 401,
+        "end": 639,
+        "song": "Get Out Of My Car",
+        "artist": "Hasil Adkins",
+        "type": "music"
+      },
+      {
+        "start": 640,
+        "end": 799,
+        "song": "You Took All The Ramblin Out Of Me",
+        "artist": "Jerry Reed",
+        "type": "music"
+      },
+      {
+        "start": 800,
+        "end": 974,
+        "song": "General Lee",
+        "artist": "Johnny Cash",
+        "type": "music"
+      },
+      {
+        "start": 975,
+        "end": 1154,
+        "song": "It Won't Be Long (And I'll Be Hating You)",
+        "artist": "Johnny Paycheck",
+        "type": "music"
+      },
+      {
+        "start": 1155,
+        "end": 1427,
+        "song": "If You Wanna Get To Heaven",
+        "artist": "Ozark Mountain Daredevils",
+        "type": "music"
+      },
+      {
+        "start": 1428,
+        "end": 1626,
+        "song": "Are You Sure Hank Done It This Way?",
+        "artist": "Waylon Jennings",
+        "type": "music"
+      },
+      {
+        "start": 1627,
+        "end": 1875,
+        "song": "I Ain't Living Long Like This?",
+        "artist": "Waylon Jennings",
+        "type": "music"
+      },
+      {
+        "start": 1876,
+        "end": 2125,
+        "song": "Whiskey River",
+        "artist": "Willie Nelson",
+        "type": "music"
+      },
+      {
+        "start": 2126,
+        "end": 2356,
+        "song": "Convoy",
+        "artist": "C.W. McCall",
+        "type": "music"
+      },
+      {
+        "start": 2357,
+        "end": 2494,
+        "song": "Get With It",
+        "artist": "Charlie Feathers",
+        "type": "music"
+      },
+      {
+        "start": 2495,
+        "end": 2649,
+        "song": "She Made Toothpicks Off the Timber Of My Heart",
+        "artist": "Homer and Jethro",
+        "type": "music"
+      },
+      {
+        "start": 2650,
+        "end": 2856,
+        "song": "Dippin' Stuff",
+        "artist": "Marvin Jackson",
+        "type": "music"
+      },
+      {
+        "start": 2857,
+        "end": 3026,
+        "song": "Crazy Arms",
+        "artist": "Ray Price",
+        "type": "music"
+      },
+      {
+        "start": 3027,
+        "end": 3217,
+        "song": "D.I.V.O.R.C.E",
+        "artist": "Tammy Wynette",
+        "type": "music"
+      },
+      {
+        "start": 3218,
+        "end": 3457,
+        "song": "Highwayman",
+        "artist": "The Highwaymen",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "soulwax-fm",
+    "gameId": "gta5",
+    "name": "Soulwax FM",
+    "genre": "Electro & Tech House",
+    "host": "Soulwax",
+    "logoUrl": "/logos/gta5/soulwax-fm.jpg",
+    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/Soulwax%20FM.mp3",
+    "duration": 2566,
+    "initialOffset": 2040,
+    "timestamps": [
+      {
+        "start": 0,
+        "end": 158,
+        "song": "Stock (Soulwax Remix) (High Pitch)",
+        "artist": "Palmbomen",
+        "type": "music"
+      },
+      {
+        "start": 159,
+        "end": 290,
+        "song": "Fatal Error",
+        "artist": "Fatal Error",
+        "type": "music"
+      },
+      {
+        "start": 291,
+        "end": 369,
+        "song": "Let's Beam Him Up (High Pitch)",
+        "artist": "Supersempfft",
+        "type": "music"
+      },
+      {
+        "start": 370,
+        "end": 508,
+        "song": "Mingi",
+        "artist": "Mim Suleiman",
+        "type": "music"
+      },
+      {
+        "start": 509,
+        "end": 638,
+        "song": "The Strange Art (In Flagranti Remix)",
+        "artist": "FKCLUB",
+        "type": "music"
+      },
+      {
+        "start": 639,
+        "end": 869,
+        "song": "El Sucu Tucu (Remix)",
+        "artist": "Matias Aguayo",
+        "type": "music"
+      },
+      {
+        "start": 870,
+        "end": 966,
+        "song": "Naive Response (High Pitch)",
+        "artist": "Daniel Avery",
+        "type": "music"
+      },
+      {
+        "start": 967,
+        "end": 1149,
+        "song": "Gabriel (Soulwax Remix) (Low Pitch)",
+        "artist": "Joe Goddard feat. Valentina",
+        "type": "music"
+      },
+      {
+        "start": 1150,
+        "end": 1262,
+        "song": "Body Music (Original Mix)",
+        "artist": "Daniel Maloso",
+        "type": "music"
+      },
+      {
+        "start": 1263,
+        "end": 1394,
+        "song": "Lazer Beams",
+        "artist": "Green Velvet & Harvard Bass",
+        "type": "music"
+      },
+      {
+        "start": 1395,
+        "end": 1490,
+        "song": "Tryouts (Low Pitch)",
+        "artist": "Zombie Nation",
+        "type": "music"
+      },
+      {
+        "start": 1491,
+        "end": 1643,
+        "song": "Nothing But Pleasure (High Pitch to Normal Pitch)",
+        "artist": "Tom Rowlands",
+        "type": "music"
+      },
+      {
+        "start": 1644,
+        "end": 1825,
+        "song": "Arp #1 (Low Pitch)",
+        "artist": "Jackson and his Computerband",
+        "type": "music"
+      },
+      {
+        "start": 1826,
+        "end": 1975,
+        "song": "Synrise (Soulwax Remix) (Low Pitch)",
+        "artist": "Goose",
+        "type": "music"
+      },
+      {
+        "start": 1976,
+        "end": 2097,
+        "song": "Mr. Croissant Taker (Low Pitch)",
+        "artist": "Transistorcake",
+        "type": "music"
+      },
+      {
+        "start": 2098,
+        "end": 2232,
+        "song": "Plush (Jacques Lu Cont Remix)",
+        "artist": "Tiga",
+        "type": "music"
+      },
+      {
+        "start": 2233,
+        "end": 2323,
+        "song": "Shockwave (Gesaffelstein Remix)",
+        "artist": "The Hacker",
+        "type": "music"
+      },
+      {
+        "start": 2324,
+        "end": 2566,
+        "song": "After You (Soulwax Remix)",
+        "artist": "Pulp",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "east-los-fm",
+    "gameId": "gta5",
+    "name": "East Los FM",
+    "genre": "Mexican Electronic & Cumbia",
+    "host": "Camilo Lara & Don Cheto",
+    "frequency": "106.2 FM",
+    "logoUrl": "/logos/gta5/east-los-fm.png",
+    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/East%20Los%20FM.mp3",
+    "duration": 2465,
+    "initialOffset": 1920,
+    "timestamps": [
+      {
+        "start": 7,
+        "end": 154,
+        "song": "El Kocaino",
+        "artist": "Los Buitres de Culiacan Sinaloa",
+        "type": "music"
+      },
+      {
+        "start": 155,
+        "end": 255,
+        "song": "Es-Toy",
+        "artist": "Mexican Institute of Sound",
+        "type": "music"
+      },
+      {
+        "start": 256,
+        "end": 349,
+        "song": "Criminal Sound (El Hijo De La Cumbia Remix)",
+        "artist": "Ni\u00f1a Dioz",
+        "type": "music"
+      },
+      {
+        "start": 350,
+        "end": 503,
+        "song": "Radio Capital",
+        "artist": "La Vida Boh\u00e8me",
+        "type": "music"
+      },
+      {
+        "start": 504,
+        "end": 636,
+        "song": "Autos, Moda Y Rock N Roll",
+        "artist": "Fandango",
+        "type": "music"
+      },
+      {
+        "start": 637,
+        "end": 838,
+        "song": "El Tatuado",
+        "artist": "Don Cheto",
+        "type": "music"
+      },
+      {
+        "start": 839,
+        "end": 987,
+        "song": "Se Me Perdi\u00f3 La Cadenita",
+        "artist": "La Sonora Dinamita",
+        "type": "music"
+      },
+      {
+        "start": 988,
+        "end": 1218,
+        "song": "Fiebre De Jack",
+        "artist": "She's A Tease",
+        "type": "music"
+      },
+      {
+        "start": 1219,
+        "end": 1394,
+        "song": "Pachuco",
+        "artist": "Maldita Vecindad",
+        "type": "music"
+      },
+      {
+        "start": 1395,
+        "end": 1574,
+        "song": "El Sonidito",
+        "artist": "Hechizeros Band",
+        "type": "music"
+      },
+      {
+        "start": 1575,
+        "end": 1778,
+        "song": "Fresco",
+        "artist": "Milkman",
+        "type": "music"
+      },
+      {
+        "start": 1779,
+        "end": 1950,
+        "song": "Maldito",
+        "artist": "Jessy Bulbo",
+        "type": "music"
+      },
+      {
+        "start": 1951,
+        "end": 2121,
+        "song": "Tengo El Don",
+        "artist": "La Liga feat. Alika",
+        "type": "music"
+      },
+      {
+        "start": 2122,
+        "end": 2344,
+        "song": "La Granja",
+        "artist": "Los Tigres Del Norte",
+        "type": "music"
+      },
+      {
+        "start": 2345,
+        "end": 2465,
+        "song": "El Rey Y Yo",
+        "artist": "Los \u00c1ngeles Negros",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "west-coast-classics",
+    "gameId": "gta5",
+    "name": "West Coast Classics",
+    "genre": "90s West Coast Rap",
+    "host": "DJ Pooh",
+    "frequency": "94.1 FM",
+    "logoUrl": "/logos/gta5/west-coast-classics.webp",
+    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/West%20Coast%20Classics.mp3",
+    "duration": 7292,
+    "initialOffset": 1800,
+    "timestamps": [
+      {
+        "start": 19,
+        "end": 277,
+        "song": "Ballad Of Menace",
+        "artist": "CPO Ft MC Ren",
+        "type": "music"
+      },
+      {
+        "start": 278,
+        "end": 577,
+        "song": "Still DRE",
+        "artist": "Dr. Dre Ft Snoop Dogg",
+        "type": "music"
+      },
+      {
+        "start": 578,
+        "end": 853,
+        "song": "Afro Puffs",
+        "artist": "The Lady Of Rage Ft Snoop Dogg",
+        "type": "music"
+      },
+      {
+        "start": 854,
+        "end": 1072,
+        "song": "You Know How We Do It",
+        "artist": "Ice Cube",
+        "type": "music"
+      },
+      {
+        "start": 1073,
+        "end": 1328,
+        "song": "Gin & Juice",
+        "artist": "Snoop Dogg",
+        "type": "music"
+      },
+      {
+        "start": 1329,
+        "end": 1580,
+        "song": "Servin' Em Heat",
+        "artist": "South Central Cartel",
+        "type": "music"
+      },
+      {
+        "start": 1581,
+        "end": 1802,
+        "song": "Nothin But The Cavi Hit",
+        "artist": "Mack 10",
+        "type": "music"
+      },
+      {
+        "start": 1803,
+        "end": 1994,
+        "song": "Appetite For Destruction",
+        "artist": "NWA",
+        "type": "music"
+      },
+      {
+        "start": 1995,
+        "end": 2174,
+        "song": "Sherm Stick",
+        "artist": "Jayo Felony",
+        "type": "music"
+      },
+      {
+        "start": 2175,
+        "end": 2393,
+        "song": "This Dj",
+        "artist": "Warren G",
+        "type": "music"
+      },
+      {
+        "start": 2394,
+        "end": 2685,
+        "song": "Mind Playing Tricks On Me",
+        "artist": "Geto Boys",
+        "type": "music"
+      },
+      {
+        "start": 2686,
+        "end": 2891,
+        "song": "Bow Down",
+        "artist": "Westside Connection",
+        "type": "music"
+      },
+      {
+        "start": 2892,
+        "end": 3174,
+        "song": "Played Like A Piano",
+        "artist": "King Tee",
+        "type": "music"
+      },
+      {
+        "start": 3175,
+        "end": 3431,
+        "song": "The Next Episode",
+        "artist": "Dr. Dre Ft Snoop Dogg & Nate Dogg",
+        "type": "music"
+      },
+      {
+        "start": 3432,
+        "end": 3689,
+        "song": "What Would You Do",
+        "artist": "Tha Dogg Pound",
+        "type": "music"
+      },
+      {
+        "start": 3690,
+        "end": 3913,
+        "song": "Streight Up Menace",
+        "artist": "MC Eiht",
+        "type": "music"
+      },
+      {
+        "start": 3914,
+        "end": 4147,
+        "song": "Dollaz & Sense",
+        "artist": "Dj Quik",
+        "type": "music"
+      },
+      {
+        "start": 4148,
+        "end": 4438,
+        "song": "C-Walk",
+        "artist": "Kurupt",
+        "type": "music"
+      },
+      {
+        "start": 4439,
+        "end": 4679,
+        "song": "What You Wanna Do",
+        "artist": "Kausion Ft Ice Cube",
+        "type": "music"
+      },
+      {
+        "start": 4680,
+        "end": 4869,
+        "song": "Wanna Be A Ganster",
+        "artist": "Too $hort",
+        "type": "music"
+      },
+      {
+        "start": 4870,
+        "end": 5122,
+        "song": "Save A Hoe",
+        "artist": "E-40 Ft The Captain",
+        "type": "music"
+      },
+      {
+        "start": 5123,
+        "end": 5349,
+        "song": "Gansta Gansta",
+        "artist": "NWA",
+        "type": "music"
+      },
+      {
+        "start": 5350,
+        "end": 5639,
+        "song": "Ambitionz Az A Ridah",
+        "artist": "2Pac Shakur",
+        "type": "music"
+      },
+      {
+        "start": 5640,
+        "end": 5946,
+        "song": "I Got 5 On It",
+        "artist": "Luniz",
+        "type": "music"
+      },
+      {
+        "start": 5947,
+        "end": 6172,
+        "song": "The Murda Show",
+        "artist": "Spice 1",
+        "type": "talk"
+      },
+      {
+        "start": 6173,
+        "end": 6407,
+        "song": "We Roll",
+        "artist": "The Conscious Daughters",
+        "type": "music"
+      },
+      {
+        "start": 6408,
+        "end": 6697,
+        "song": "No More Questions",
+        "artist": "Eazy E",
+        "type": "music"
+      },
+      {
+        "start": 6698,
+        "end": 6942,
+        "song": "Late Nite Hype",
+        "artist": "Compton Most Wanted",
+        "type": "music"
+      },
+      {
+        "start": 6943,
+        "end": 7292,
+        "song": "1st Of Tha Month",
+        "artist": "Bone Thugs-N-Harmony",
+        "type": "music"
+      }
+    ]
+  },
+  {
     "id": "blaine-county-talk-radio",
     "gameId": "gta5",
     "name": "Blaine County Talk Radio",
@@ -146,7 +2339,7 @@
         "start": 1600,
         "end": 1860,
         "song": "I Am A Madman",
-        "artist": "Lee “Scratch” Perry",
+        "artist": "Lee \u201cScratch\u201d Perry",
         "type": "music"
       },
       {
@@ -159,7 +2352,7 @@
       {
         "start": 2165,
         "end": 2382,
-        "song": "Grumblin’ Dub",
+        "song": "Grumblin\u2019 Dub",
         "artist": "The Upsetters",
         "type": "music"
       },
@@ -223,14 +2416,14 @@
         "start": 4022,
         "end": 4319,
         "song": "Money Come & Money Go",
-        "artist": "Lee “Scratch” Perry",
+        "artist": "Lee \u201cScratch\u201d Perry",
         "type": "music"
       },
       {
         "start": 4320,
         "end": 4579,
         "song": "Roast Fish & Cornbread",
-        "artist": "Lee “Scratch” Perry",
+        "artist": "Lee \u201cScratch\u201d Perry",
         "type": "music"
       },
       {
@@ -675,6 +2868,17 @@
     ]
   },
   {
+    "id": "radio-off",
+    "gameId": "gta5",
+    "name": "Radio Off",
+    "genre": "Off",
+    "logoUrl": "/logos/gta5/radio-off.png",
+    "audioUrl": "",
+    "duration": 0,
+    "initialOffset": 1560,
+    "timestamps": []
+  },
+  {
     "id": "the-lowdown-911",
     "gameId": "gta5",
     "name": "The Lowdown 91.1",
@@ -696,7 +2900,7 @@
       {
         "start": 264,
         "end": 491,
-        "song": "Do It (‘Til You’re Satisfied)",
+        "song": "Do It (\u2018Til You\u2019re Satisfied)",
         "artist": "B.T. Express",
         "type": "music"
       },
@@ -745,7 +2949,7 @@
       {
         "start": 1718,
         "end": 1988,
-        "song": "Ashley’s Roachclip",
+        "song": "Ashley\u2019s Roachclip",
         "artist": "The Soul Searchers",
         "type": "music"
       },
@@ -781,7 +2985,7 @@
         "start": 3026,
         "end": 3232,
         "song": "Superman Lover",
-        "artist": "Johnny “Guitar” Watson",
+        "artist": "Johnny \u201cGuitar\u201d Watson",
         "type": "music"
       },
       {
@@ -1304,7 +3508,7 @@
         "start": 11782,
         "end": 12043,
         "song": "Smalltalk (Four Tet Remix)",
-        "artist": "Ultraísta",
+        "artist": "Ultra\u00edsta",
         "type": "music"
       },
       {
@@ -2532,2204 +4736,11 @@
     ]
   },
   {
-    "id": "los-santos-rock-radio",
-    "gameId": "gta5",
-    "name": "Los Santos Rock Radio",
-    "genre": "Classic Rock & Pop Rock",
-    "host": "Kenny Loggins",
-    "logoUrl": "/logos/gta5/los-santos-rock-radio.png",
-    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/Los%20Santos%20Rock%20Radio.mp3",
-    "duration": 8971,
-    "initialOffset": 2760,
-    "timestamps": [
-      {
-        "start": 7,
-        "end": 279,
-        "song": "All the Things She Said",
-        "artist": "Simple Minds",
-        "type": "music"
-      },
-      {
-        "start": 280,
-        "end": 443,
-        "song": "The Breakup Song (They Don't Write 'Em)",
-        "artist": "The Greg Kihn Band",
-        "type": "music"
-      },
-      {
-        "start": 444,
-        "end": 665,
-        "song": "Saturday Night's Alright (For Fighting)",
-        "artist": "Elton John",
-        "type": "music"
-      },
-      {
-        "start": 666,
-        "end": 888,
-        "song": "Shadows of the Night",
-        "artist": "Pat Benatar",
-        "type": "music"
-      },
-      {
-        "start": 889,
-        "end": 1131,
-        "song": "Circle in the Sand",
-        "artist": "Belinda Carlisle",
-        "type": "music"
-      },
-      {
-        "start": 1132,
-        "end": 1292,
-        "song": "Mississippi Queen",
-        "artist": "Mountain",
-        "type": "music"
-      },
-      {
-        "start": 1293,
-        "end": 1597,
-        "song": "We Built This City",
-        "artist": "Starship",
-        "type": "music"
-      },
-      {
-        "start": 1598,
-        "end": 1802,
-        "song": "What a Fool Believes",
-        "artist": "The Doobie Brothers",
-        "type": "music"
-      },
-      {
-        "start": 1803,
-        "end": 2048,
-        "song": "Hollywood Nights",
-        "artist": "Bob Seger & The Silver Bullet Band",
-        "type": "music"
-      },
-      {
-        "start": 2049,
-        "end": 2368,
-        "song": "Carry On Wayward Son",
-        "artist": "Kansas",
-        "type": "music"
-      },
-      {
-        "start": 2369,
-        "end": 2585,
-        "song": "Photograph",
-        "artist": "Def Leppard",
-        "type": "music"
-      },
-      {
-        "start": 2586,
-        "end": 2723,
-        "song": "Fortunate Son",
-        "artist": "Creedence Clearwater Revival",
-        "type": "music"
-      },
-      {
-        "start": 2724,
-        "end": 2935,
-        "song": "I'm Free (Heaven Helps the Man)",
-        "artist": "Kenny Loggins",
-        "type": "music"
-      },
-      {
-        "start": 2936,
-        "end": 3249,
-        "song": "I Don't Care Anymore",
-        "artist": "Phil Collins",
-        "type": "music"
-      },
-      {
-        "start": 3250,
-        "end": 3445,
-        "song": "Too Late for Goodbyes",
-        "artist": "Julian Lennon",
-        "type": "music"
-      },
-      {
-        "start": 3446,
-        "end": 3735,
-        "song": "Peace of Mind",
-        "artist": "Boston",
-        "type": "music"
-      },
-      {
-        "start": 3736,
-        "end": 3986,
-        "song": "Night Moves",
-        "artist": "Bob Seger & The Silver Bullet Band",
-        "type": "music"
-      },
-      {
-        "start": 3987,
-        "end": 4195,
-        "song": "Danger Zone",
-        "artist": "Kenny Loggins",
-        "type": "music"
-      },
-      {
-        "start": 4196,
-        "end": 4550,
-        "song": "Baker Street",
-        "artist": "Gerry Rafferty",
-        "type": "music"
-      },
-      {
-        "start": 4551,
-        "end": 4811,
-        "song": "I Can't Wait",
-        "artist": "Stevie Nicks",
-        "type": "music"
-      },
-      {
-        "start": 4812,
-        "end": 5031,
-        "song": "If You Leave Me Now",
-        "artist": "Chicago",
-        "type": "music"
-      },
-      {
-        "start": 5032,
-        "end": 5227,
-        "song": "I Wouldn't Want to Be Like You",
-        "artist": "The Alan Parsons Project",
-        "type": "music"
-      },
-      {
-        "start": 5228,
-        "end": 5457,
-        "song": "Heartbeat",
-        "artist": "Don Johnson",
-        "type": "music"
-      },
-      {
-        "start": 5458,
-        "end": 5732,
-        "song": "Black Velvet",
-        "artist": "Alannah Myles",
-        "type": "music"
-      },
-      {
-        "start": 5733,
-        "end": 5947,
-        "song": "Gimme All Your Lovin'",
-        "artist": "ZZ Top",
-        "type": "music"
-      },
-      {
-        "start": 5948,
-        "end": 6094,
-        "song": "Ogdens' Nut Gone Flake",
-        "artist": "Small Faces",
-        "type": "music"
-      },
-      {
-        "start": 6095,
-        "end": 6304,
-        "song": "30 Days in the Hole",
-        "artist": "Humble Pie",
-        "type": "music"
-      },
-      {
-        "start": 6305,
-        "end": 6481,
-        "song": "Rock'n Me",
-        "artist": "Steve Miller Band",
-        "type": "music"
-      },
-      {
-        "start": 6482,
-        "end": 6793,
-        "song": "Radio Ga Ga",
-        "artist": "Queen",
-        "type": "music"
-      },
-      {
-        "start": 6794,
-        "end": 7022,
-        "song": "Burning Heart",
-        "artist": "Survivor",
-        "type": "music"
-      },
-      {
-        "start": 7023,
-        "end": 7545,
-        "song": "Roundabout",
-        "artist": "Yes",
-        "type": "music"
-      },
-      {
-        "start": 7546,
-        "end": 7773,
-        "song": "Rain",
-        "artist": "The Cult",
-        "type": "music"
-      },
-      {
-        "start": 7774,
-        "end": 8001,
-        "song": "Cat's in the Cradle",
-        "artist": "Harry Chapin",
-        "type": "music"
-      },
-      {
-        "start": 8002,
-        "end": 8244,
-        "song": "Lonely Is the Night",
-        "artist": "Billy Squier",
-        "type": "music"
-      },
-      {
-        "start": 8245,
-        "end": 8463,
-        "song": "Big Log",
-        "artist": "Robert Plant",
-        "type": "music"
-      },
-      {
-        "start": 8464,
-        "end": 8753,
-        "song": "Higher Love",
-        "artist": "Steve Winwood",
-        "type": "music"
-      },
-      {
-        "start": 8754,
-        "end": 8971,
-        "song": "Dirty White Boy",
-        "artist": "Foreigner",
-        "type": "music"
-      }
-    ]
-  },
-  {
-    "id": "non-stop-pop-fm",
-    "gameId": "gta5",
-    "name": "Non-Stop Pop FM",
-    "genre": "Pop, Dance & R&B",
-    "host": "Cara Delevingne",
-    "frequency": "100.7 FM",
-    "logoUrl": "/logos/gta5/non-stop-pop-fm.png",
-    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/Non-Stop-Pop%20FM.mp3",
-    "duration": 13878,
-    "initialOffset": 2640,
-    "timestamps": [
-      {
-        "start": 6,
-        "end": 244,
-        "song": "Glamorous",
-        "artist": "Fergie feat. Ludacris",
-        "type": "music"
-      },
-      {
-        "start": 245,
-        "end": 479,
-        "song": "Send Me An Angel '89",
-        "artist": "Real Life",
-        "type": "music"
-      },
-      {
-        "start": 480,
-        "end": 702,
-        "song": "The Rhythm of the Night (Rapino Bros. 7\" Single)",
-        "artist": "Corona",
-        "type": "music"
-      },
-      {
-        "start": 703,
-        "end": 894,
-        "song": "Work (Freemasons Remix)",
-        "artist": "Kelly Rowland",
-        "type": "music"
-      },
-      {
-        "start": 895,
-        "end": 1127,
-        "song": "Something Got Me Started (Hurley's House Mix)",
-        "artist": "Simply Red",
-        "type": "music"
-      },
-      {
-        "start": 1128,
-        "end": 1324,
-        "song": "Wait",
-        "artist": "The Blow Monkeys & Kym Mazelle",
-        "type": "music"
-      },
-      {
-        "start": 1325,
-        "end": 1546,
-        "song": "I Want It That Way",
-        "artist": "Backstreet Boys",
-        "type": "music"
-      },
-      {
-        "start": 1547,
-        "end": 1842,
-        "song": "Days Go By",
-        "artist": "Dirty Vegas",
-        "type": "music"
-      },
-      {
-        "start": 1843,
-        "end": 2070,
-        "song": "The Time Is Now",
-        "artist": "Moloko",
-        "type": "music"
-      },
-      {
-        "start": 2071,
-        "end": 2289,
-        "song": "1 Thing",
-        "artist": "Amerie",
-        "type": "music"
-      },
-      {
-        "start": 2290,
-        "end": 2560,
-        "song": "Kids",
-        "artist": "Robbie Williams & Kylie Minogue",
-        "type": "music"
-      },
-      {
-        "start": 2561,
-        "end": 2771,
-        "song": "Moves like Jagger",
-        "artist": "Maroon 5 feat. Christina Aguilera",
-        "type": "music"
-      },
-      {
-        "start": 2772,
-        "end": 2976,
-        "song": "Anthem",
-        "artist": "N-Joi",
-        "type": "music"
-      },
-      {
-        "start": 2977,
-        "end": 3208,
-        "song": "Everything She Wants",
-        "artist": "Wham!",
-        "type": "music"
-      },
-      {
-        "start": 3209,
-        "end": 3448,
-        "song": "Scandalous",
-        "artist": "Mis-Teeq",
-        "type": "music"
-      },
-      {
-        "start": 3449,
-        "end": 3671,
-        "song": "Cooler Than Me (Single Mix)",
-        "artist": "Mike Posner",
-        "type": "music"
-      },
-      {
-        "start": 3672,
-        "end": 3893,
-        "song": "Applause",
-        "artist": "Lady Gaga",
-        "type": "music"
-      },
-      {
-        "start": 3894,
-        "end": 4141,
-        "song": "Pure Shores",
-        "artist": "All Saints",
-        "type": "music"
-      },
-      {
-        "start": 4142,
-        "end": 4441,
-        "song": "Alright",
-        "artist": "Jamiroquai",
-        "type": "music"
-      },
-      {
-        "start": 4442,
-        "end": 4576,
-        "song": "Lady (Hear Me Tonight)",
-        "artist": "Modjo",
-        "type": "music"
-      },
-      {
-        "start": 4577,
-        "end": 4786,
-        "song": "Tennis Court",
-        "artist": "Lorde",
-        "type": "music"
-      },
-      {
-        "start": 4787,
-        "end": 4997,
-        "song": "Tell It to My Heart",
-        "artist": "Taylor Dayne",
-        "type": "music"
-      },
-      {
-        "start": 4998,
-        "end": 5232,
-        "song": "Let's Go All the Way",
-        "artist": "Sly Fox",
-        "type": "music"
-      },
-      {
-        "start": 5233,
-        "end": 5461,
-        "song": "With Every Heartbeat",
-        "artist": "Robyn feat. Kleerup",
-        "type": "music"
-      },
-      {
-        "start": 5462,
-        "end": 5730,
-        "song": "On Our Own",
-        "artist": "Bobby Brown",
-        "type": "music"
-      },
-      {
-        "start": 5731,
-        "end": 5957,
-        "song": "New Sensation",
-        "artist": "INXS",
-        "type": "music"
-      },
-      {
-        "start": 5958,
-        "end": 6188,
-        "song": "Promises, Promises",
-        "artist": "Naked Eyes",
-        "type": "music"
-      },
-      {
-        "start": 6189,
-        "end": 6419,
-        "song": "Bad Girls",
-        "artist": "M.I.A.",
-        "type": "music"
-      },
-      {
-        "start": 6420,
-        "end": 6696,
-        "song": "Adult Education",
-        "artist": "Hall & Oates",
-        "type": "music"
-      },
-      {
-        "start": 6697,
-        "end": 6920,
-        "song": "6 Underground",
-        "artist": "Sneaker Pimps",
-        "type": "music"
-      },
-      {
-        "start": 6921,
-        "end": 7152,
-        "song": "Only Girl (In the World)",
-        "artist": "Rihanna",
-        "type": "music"
-      },
-      {
-        "start": 7153,
-        "end": 7368,
-        "song": "Gimme More",
-        "artist": "Britney Spears",
-        "type": "music"
-      },
-      {
-        "start": 7369,
-        "end": 7628,
-        "song": "Meet Me Halfway",
-        "artist": "The Black Eyed Peas",
-        "type": "music"
-      },
-      {
-        "start": 7629,
-        "end": 7863,
-        "song": "Feel Good Inc.",
-        "artist": "Gorillaz feat. De La Soul",
-        "type": "music"
-      },
-      {
-        "start": 7864,
-        "end": 8048,
-        "song": "Living in a Box",
-        "artist": "Living in a Box",
-        "type": "music"
-      },
-      {
-        "start": 8049,
-        "end": 8264,
-        "song": "Midnight City",
-        "artist": "M83",
-        "type": "music"
-      },
-      {
-        "start": 8265,
-        "end": 8540,
-        "song": "Smalltown Boy",
-        "artist": "Bronski Beat",
-        "type": "music"
-      },
-      {
-        "start": 8541,
-        "end": 8750,
-        "song": "Tape Loop (Original)",
-        "artist": "Morcheeba",
-        "type": "music"
-      },
-      {
-        "start": 8751,
-        "end": 8980,
-        "song": "Tape Loop (Shortcheeba Mix)",
-        "artist": "Morcheeba",
-        "type": "music"
-      },
-      {
-        "start": 8981,
-        "end": 9207,
-        "song": "West End Girls",
-        "artist": "Pet Shop Boys",
-        "type": "music"
-      },
-      {
-        "start": 9208,
-        "end": 9404,
-        "song": "Me & U",
-        "artist": "Cassie",
-        "type": "music"
-      },
-      {
-        "start": 9405,
-        "end": 9620,
-        "song": "Don't Wanna Fall in Love",
-        "artist": "Jane Child",
-        "type": "music"
-      },
-      {
-        "start": 9621,
-        "end": 9864,
-        "song": "Music Sounds Better with You",
-        "artist": "Stardust",
-        "type": "music"
-      },
-      {
-        "start": 9865,
-        "end": 10087,
-        "song": "Animal",
-        "artist": "Neon Trees",
-        "type": "music"
-      },
-      {
-        "start": 10088,
-        "end": 10337,
-        "song": "You Make Me Feel...",
-        "artist": "Cobra Starship feat. Sabi",
-        "type": "music"
-      },
-      {
-        "start": 10338,
-        "end": 10534,
-        "song": "Circle in the Sand",
-        "artist": "Belinda Carlisle",
-        "type": "music"
-      },
-      {
-        "start": 10535,
-        "end": 10793,
-        "song": "Everybody Wants to Rule the World",
-        "artist": "Tears for Fears",
-        "type": "music"
-      },
-      {
-        "start": 10794,
-        "end": 11033,
-        "song": "Animal",
-        "artist": "Miike Snow",
-        "type": "music"
-      },
-      {
-        "start": 11034,
-        "end": 11272,
-        "song": "Hold On",
-        "artist": "Wilson Phillips",
-        "type": "music"
-      },
-      {
-        "start": 11273,
-        "end": 11489,
-        "song": "Jam",
-        "artist": "Michael Jackson",
-        "type": "music"
-      },
-      {
-        "start": 11490,
-        "end": 11849,
-        "song": "Love Foolosophy",
-        "artist": "Jamiroquai",
-        "type": "music"
-      },
-      {
-        "start": 11850,
-        "end": 12019,
-        "song": "Physical",
-        "artist": "Olivia Newton-John",
-        "type": "music"
-      },
-      {
-        "start": 12020,
-        "end": 12260,
-        "song": "I Like It",
-        "artist": "Enrique Iglesias feat. Pitbull",
-        "type": "music"
-      },
-      {
-        "start": 12261,
-        "end": 12540,
-        "song": "American Boy",
-        "artist": "Estelle feat. Kanye West",
-        "type": "music"
-      },
-      {
-        "start": 12541,
-        "end": 12795,
-        "song": "Let It Rock",
-        "artist": "Kevin Rudolf feat. Lil Wayne",
-        "type": "music"
-      },
-      {
-        "start": 12796,
-        "end": 13047,
-        "song": "Serious",
-        "artist": "Duran Duran",
-        "type": "music"
-      },
-      {
-        "start": 13048,
-        "end": 13310,
-        "song": "Future Love Paradise",
-        "artist": "Seal",
-        "type": "music"
-      },
-      {
-        "start": 13311,
-        "end": 13493,
-        "song": "The Way I Are",
-        "artist": "Timbaland feat. Keri Hilson & D.O.E.",
-        "type": "music"
-      },
-      {
-        "start": 13494,
-        "end": 13665,
-        "song": "Surrender",
-        "artist": "Kylie Minogue",
-        "type": "music"
-      },
-      {
-        "start": 13666,
-        "end": 13878,
-        "song": "Starlight",
-        "artist": "Supermen Lovers",
-        "type": "music"
-      }
-    ]
-  },
-  {
-    "id": "radio-los-santos",
-    "gameId": "gta5",
-    "name": "Radio Los Santos",
-    "genre": "Modern Hip-Hop & Trap",
-    "host": "Big Boy",
-    "frequency": "105.9 FM",
-    "logoUrl": "/logos/gta5/radio-los-santos.png",
-    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/Radio%20Los%20Santos.mp3",
-    "duration": 21384,
-    "initialOffset": 2520,
-    "timestamps": [
-      {
-        "start": 10,
-        "end": 201,
-        "song": "Relaxin'",
-        "artist": "G-Side feat. G-Mane",
-        "type": "music"
-      },
-      {
-        "start": 202,
-        "end": 399,
-        "song": "A.D.H.D",
-        "artist": "Kendrick Lamar",
-        "type": "music"
-      },
-      {
-        "start": 400,
-        "end": 685,
-        "song": "Bugatti",
-        "artist": "Ace Hood feat. Future & Rick Ross",
-        "type": "music"
-      },
-      {
-        "start": 686,
-        "end": 850,
-        "song": "Coochie",
-        "artist": "Tia Corine",
-        "type": "music"
-      },
-      {
-        "start": 851,
-        "end": 1035,
-        "song": "I Can't Wait",
-        "artist": "Young Scooter feat. Trinidad James",
-        "type": "music"
-      },
-      {
-        "start": 1036,
-        "end": 1167,
-        "song": "LEMONHEAD",
-        "artist": "Tyler, The Creator feat. 42 Dugg",
-        "type": "music"
-      },
-      {
-        "start": 1168,
-        "end": 1346,
-        "song": "Ski",
-        "artist": "Young Stoner Life, Young Thug & Gunna",
-        "type": "music"
-      },
-      {
-        "start": 1347,
-        "end": 1624,
-        "song": "Collard Greens",
-        "artist": "ScHoolboy Q feat. Kendrick Lamar",
-        "type": "music"
-      },
-      {
-        "start": 1625,
-        "end": 1915,
-        "song": "Work",
-        "artist": "Young Scooter feat. Gucci Mane",
-        "type": "music"
-      },
-      {
-        "start": 1916,
-        "end": 2147,
-        "song": "ZEZE",
-        "artist": "Kodak Black feat. Travis Scott & Offset",
-        "type": "music"
-      },
-      {
-        "start": 2148,
-        "end": 2452,
-        "song": "Diamond Mind",
-        "artist": "Dr. Dre feat. Nipsey Hustle & Ty Dolla Sign",
-        "type": "music"
-      },
-      {
-        "start": 2453,
-        "end": 2640,
-        "song": "Hunnid Stax",
-        "artist": "Ab-Soul feat. ScHoolboy Q",
-        "type": "music"
-      },
-      {
-        "start": 2641,
-        "end": 2848,
-        "song": "Bassheads",
-        "artist": "Gangrene",
-        "type": "music"
-      },
-      {
-        "start": 2849,
-        "end": 3057,
-        "song": "Smokin' and Ridin'",
-        "artist": "BJ the Chicago Kid feat. Freddie Gibbs & Problem",
-        "type": "music"
-      },
-      {
-        "start": 3058,
-        "end": 3217,
-        "song": "My Type",
-        "artist": "Saweetie",
-        "type": "music"
-      },
-      {
-        "start": 3218,
-        "end": 3398,
-        "song": "What a Life",
-        "artist": "Big Sean & Hit-Boy",
-        "type": "music"
-      },
-      {
-        "start": 3399,
-        "end": 3684,
-        "song": "Came Thru/Easily",
-        "artist": "Chuck Inglish feat. Ab-Soul & Mac Miller",
-        "type": "music"
-      },
-      {
-        "start": 3685,
-        "end": 3886,
-        "song": "Big Fish",
-        "artist": "Vince Staples feat. Juicy J",
-        "type": "music"
-      },
-      {
-        "start": 3887,
-        "end": 4073,
-        "song": "Plain Jane",
-        "artist": "A$AP Ferg",
-        "type": "music"
-      },
-      {
-        "start": 4074,
-        "end": 4285,
-        "song": "Hold Up",
-        "artist": "Marion Band$ feat. Nipsey Hussle",
-        "type": "music"
-      },
-      {
-        "start": 4286,
-        "end": 4583,
-        "song": "Go Live",
-        "artist": "Fredo Santana feat. Chief Keef, Ball Out & Tadoe",
-        "type": "music"
-      },
-      {
-        "start": 4584,
-        "end": 4808,
-        "song": "Slow Down",
-        "artist": "Clyde Carson feat. The Team",
-        "type": "music"
-      },
-      {
-        "start": 4809,
-        "end": 5088,
-        "song": "Illuminate",
-        "artist": "Ab-Soul feat. Kendrick Lamar",
-        "type": "music"
-      },
-      {
-        "start": 5089,
-        "end": 5259,
-        "song": "Upper Echelon",
-        "artist": "Travis Scott feat. 2 Chainz & T.I.",
-        "type": "music"
-      },
-      {
-        "start": 5260,
-        "end": 5482,
-        "song": "It’s a Vibe",
-        "artist": "2 Chainz feat. Ty Dolla $ign, Trey Songz & Jhené Aiko",
-        "type": "music"
-      },
-      {
-        "start": 5483,
-        "end": 5725,
-        "song": "Millions",
-        "artist": "Skeme",
-        "type": "music"
-      },
-      {
-        "start": 5726,
-        "end": 5842,
-        "song": "Hoppin’ Out",
-        "artist": "Mozzy feat. YG",
-        "type": "music"
-      },
-      {
-        "start": 5843,
-        "end": 6123,
-        "song": "Ali Bomaye",
-        "artist": "The Game feat. 2 Chainz & Rick Ross",
-        "type": "music"
-      },
-      {
-        "start": 6124,
-        "end": 6341,
-        "song": "Still Livin'",
-        "artist": "Freddie Gibbs",
-        "type": "music"
-      },
-      {
-        "start": 6342,
-        "end": 6485,
-        "song": "Bad News",
-        "artist": "Danny Brown & Action Bronson",
-        "type": "talk"
-      },
-      {
-        "start": 6486,
-        "end": 6729,
-        "song": "How It Was",
-        "artist": "DJ Esco feat. Future",
-        "type": "music"
-      },
-      {
-        "start": 6730,
-        "end": 6916,
-        "song": "Life of a Mack",
-        "artist": "100s",
-        "type": "music"
-      },
-      {
-        "start": 6917,
-        "end": 7143,
-        "song": "Stir Fry",
-        "artist": "Migos",
-        "type": "music"
-      },
-      {
-        "start": 7144,
-        "end": 7361,
-        "song": "Swimming Pools (Drank)",
-        "artist": "Kendrick Lamar",
-        "type": "music"
-      },
-      {
-        "start": 7362,
-        "end": 7594,
-        "song": "Fallin Up",
-        "artist": "Dr. Dre feat. THURZ & Cocoa Sarai",
-        "type": "music"
-      },
-      {
-        "start": 7595,
-        "end": 7750,
-        "song": "So Fancy",
-        "artist": "Mike Dean and Offset",
-        "type": "music"
-      },
-      {
-        "start": 7751,
-        "end": 7892,
-        "song": "R-Cali",
-        "artist": "A$AP Rocky feat. Aston Matthews & Joey Fatts",
-        "type": "music"
-      },
-      {
-        "start": 7893,
-        "end": 8088,
-        "song": "Blue Cheese",
-        "artist": "Mike Dean and Rich the Kid",
-        "type": "music"
-      },
-      {
-        "start": 8089,
-        "end": 8330,
-        "song": "ETA",
-        "artist": "Dr. Dre feat. Anderson .Paak, Snoop Dogg & Busta Rhymes",
-        "type": "music"
-      },
-      {
-        "start": 8331,
-        "end": 8577,
-        "song": "Chrome Hearts",
-        "artist": "D-Block Europe & Offset",
-        "type": "music"
-      },
-      {
-        "start": 8578,
-        "end": 8807,
-        "song": "Lockjaw",
-        "artist": "French Montana feat. Kodak Black",
-        "type": "music"
-      },
-      {
-        "start": 8808,
-        "end": 9062,
-        "song": "Kush Coma",
-        "artist": "Danny Brown feat. A$AP Rocky & Zelooperz",
-        "type": "music"
-      },
-      {
-        "start": 9063,
-        "end": 9332,
-        "song": "XL",
-        "artist": "Hit-Boy feat. Dom Kennedy",
-        "type": "music"
-      },
-      {
-        "start": 9333,
-        "end": 9505,
-        "song": "Flex",
-        "artist": "Polo G feat. Juice WRLD",
-        "type": "music"
-      },
-      {
-        "start": 9506,
-        "end": 9693,
-        "song": "Work",
-        "artist": "A$AP Ferg",
-        "type": "music"
-      },
-      {
-        "start": 9694,
-        "end": 9893,
-        "song": "The Scenic Route",
-        "artist": "Dr. Dre feat. Rick Ross & Anderson .Paak",
-        "type": "music"
-      },
-      {
-        "start": 9894,
-        "end": 10148,
-        "song": "Sellin' Dope",
-        "artist": "Freddie Gibbs & Mike Dean",
-        "type": "music"
-      },
-      {
-        "start": 10149,
-        "end": 10324,
-        "song": "Let’s Get It",
-        "artist": "NEZ feat. ScHoolboy Q",
-        "type": "music"
-      },
-      {
-        "start": 10325,
-        "end": 10497,
-        "song": "Say That Then",
-        "artist": "Problem feat. Glasses Malone",
-        "type": "music"
-      },
-      {
-        "start": 10498,
-        "end": 10679,
-        "song": "I'm a Real 1",
-        "artist": "YG",
-        "type": "music"
-      },
-      {
-        "start": 10680,
-        "end": 11001,
-        "song": "Low Life",
-        "artist": "Future feat. The Weeknd",
-        "type": "music"
-      },
-      {
-        "start": 11002,
-        "end": 11229,
-        "song": "Too Hood",
-        "artist": "Gucci Mane feat. Ciara",
-        "type": "music"
-      },
-      {
-        "start": 11230,
-        "end": 11438,
-        "song": "Do It Big",
-        "artist": "Problem & IamSu feat. Bad Lucc & Sage The Gemini",
-        "type": "music"
-      },
-      {
-        "start": 11439,
-        "end": 11616,
-        "song": "Feed Me Dope",
-        "artist": "Future",
-        "type": "music"
-      },
-      {
-        "start": 11617,
-        "end": 11851,
-        "song": "Miami Vice",
-        "artist": "Freddie Gibbs feat. Pusha T & Kevin Cossom",
-        "type": "music"
-      },
-      {
-        "start": 11852,
-        "end": 12020,
-        "song": "Black Privilege",
-        "artist": "Dr. Dre",
-        "type": "music"
-      },
-      {
-        "start": 12021,
-        "end": 12201,
-        "song": "Everyday",
-        "artist": "Gucci Mane feat. Trouble",
-        "type": "music"
-      },
-      {
-        "start": 12202,
-        "end": 12474,
-        "song": "Hood Gone Love It",
-        "artist": "Jay Rock feat. Kendrick Lamar",
-        "type": "music"
-      },
-      {
-        "start": 12475,
-        "end": 12678,
-        "song": "The Box",
-        "artist": "Roddy Ricch",
-        "type": "music"
-      },
-      {
-        "start": 12679,
-        "end": 12949,
-        "song": "Big Subwoofer",
-        "artist": "Mount Westmore",
-        "type": "music"
-      },
-      {
-        "start": 12950,
-        "end": 13123,
-        "song": "Wow Freestyle",
-        "artist": "Jay Rock feat. Kendrick Lamar",
-        "type": "music"
-      },
-      {
-        "start": 13124,
-        "end": 13336,
-        "song": "Gospel",
-        "artist": "Dr. Dre feat. Eminem",
-        "type": "music"
-      },
-      {
-        "start": 13337,
-        "end": 13567,
-        "song": "Pick the Phone Up",
-        "artist": "Freddie Gibbs feat. Juicy J",
-        "type": "music"
-      },
-      {
-        "start": 13568,
-        "end": 13776,
-        "song": "Kung Fu",
-        "artist": "Cordae",
-        "type": "music"
-      },
-      {
-        "start": 13777,
-        "end": 13987,
-        "song": "Adorn",
-        "artist": "Miguel",
-        "type": "music"
-      },
-      {
-        "start": 13988,
-        "end": 14300,
-        "song": "That Candy Paint",
-        "artist": "E-40 feat. Slim Thug & Bun B",
-        "type": "music"
-      },
-      {
-        "start": 14301,
-        "end": 14498,
-        "song": "Rough",
-        "artist": "Young Jeezy feat. Freddie Gibbs",
-        "type": "music"
-      },
-      {
-        "start": 14499,
-        "end": 14763,
-        "song": "Do It for You",
-        "artist": "Young Jeezy feat. Freddie Gibbs",
-        "type": "music"
-      },
-      {
-        "start": 14764,
-        "end": 15111,
-        "song": "Mercy",
-        "artist": "Kanye West feat. Big Sean, Pusha T & 2 Chainz",
-        "type": "music"
-      },
-      {
-        "start": 15112,
-        "end": 15375,
-        "song": "No Sympathy",
-        "artist": "Glasses Malone feat. Jay Rock",
-        "type": "music"
-      },
-      {
-        "start": 15376,
-        "end": 15601,
-        "song": "Work Hard, Play Hard",
-        "artist": "Wiz Khalifa",
-        "type": "music"
-      },
-      {
-        "start": 15602,
-        "end": 15861,
-        "song": "No Lie",
-        "artist": "2 Chainz feat. Drake",
-        "type": "music"
-      },
-      {
-        "start": 15862,
-        "end": 16099,
-        "song": "You Know Me",
-        "artist": "WC feat. Young Maylay & Ice Cube",
-        "type": "music"
-      },
-      {
-        "start": 16100,
-        "end": 16359,
-        "song": "Fuckin' Problems",
-        "artist": "A$AP Rocky feat. Drake, 2 Chainz & Kendrick Lamar",
-        "type": "music"
-      },
-      {
-        "start": 16360,
-        "end": 16638,
-        "song": "Bandz a Make Her Dance",
-        "artist": "Juicy J feat. Lil Wayne & 2 Chainz",
-        "type": "music"
-      },
-      {
-        "start": 16639,
-        "end": 16824,
-        "song": "Rack City",
-        "artist": "Tyga",
-        "type": "music"
-      },
-      {
-        "start": 16825,
-        "end": 17072,
-        "song": "Initiation",
-        "artist": "Wiz Khalifa feat. Lola Monroe",
-        "type": "music"
-      },
-      {
-        "start": 17073,
-        "end": 17269,
-        "song": "Boomerang",
-        "artist": "Jay Rock",
-        "type": "music"
-      },
-      {
-        "start": 17270,
-        "end": 17580,
-        "song": "Pop That",
-        "artist": "French Montana feat. Rick Ross, Drake & Lil Wayne",
-        "type": "music"
-      },
-      {
-        "start": 17581,
-        "end": 17779,
-        "song": "Cold War",
-        "artist": "Clams Casino",
-        "type": "music"
-      },
-      {
-        "start": 17780,
-        "end": 18015,
-        "song": "Believe It",
-        "artist": "Meek Mill feat. Rick Ross",
-        "type": "music"
-      },
-      {
-        "start": 18016,
-        "end": 18217,
-        "song": "Brick $ell Phone",
-        "artist": "100s",
-        "type": "music"
-      },
-      {
-        "start": 18218,
-        "end": 18403,
-        "song": "Rooster in My Rari",
-        "artist": "Waka Flocka Flame",
-        "type": "music"
-      },
-      {
-        "start": 18404,
-        "end": 18618,
-        "song": "I'm Different",
-        "artist": "2 Chainz",
-        "type": "music"
-      },
-      {
-        "start": 18619,
-        "end": 18803,
-        "song": "Awesome Awesome",
-        "artist": "Buddy",
-        "type": "music"
-      },
-      {
-        "start": 18804,
-        "end": 19001,
-        "song": "Loud",
-        "artist": "Mac Miller",
-        "type": "music"
-      },
-      {
-        "start": 19002,
-        "end": 19230,
-        "song": "Wild Boy",
-        "artist": "Machine Gun Kelly feat. Waka Flocka Flame",
-        "type": "music"
-      },
-      {
-        "start": 19231,
-        "end": 19422,
-        "song": "What It Do",
-        "artist": "T.I. feat. Trae tha Truth",
-        "type": "music"
-      },
-      {
-        "start": 19423,
-        "end": 19617,
-        "song": "Love Sosa",
-        "artist": "Chief Keef",
-        "type": "music"
-      },
-      {
-        "start": 19618,
-        "end": 19834,
-        "song": "Dollar General",
-        "artist": "Stevie Stones feat. Yelawolf",
-        "type": "music"
-      },
-      {
-        "start": 19835,
-        "end": 20101,
-        "song": "Angel",
-        "artist": "The Game feat. Common",
-        "type": "music"
-      },
-      {
-        "start": 20102,
-        "end": 20369,
-        "song": "Pull Up",
-        "artist": "Big K.R.I.T feat. Big Sant & Bun B",
-        "type": "music"
-      },
-      {
-        "start": 20370,
-        "end": 20522,
-        "song": "From the Block",
-        "artist": "Fenix Flexin feat. D-Block Europe",
-        "type": "music"
-      },
-      {
-        "start": 20523,
-        "end": 20711,
-        "song": "Glory Bridge",
-        "artist": "Chief Keef feat. A Boogie wit da Hoodie",
-        "type": "music"
-      },
-      {
-        "start": 20712,
-        "end": 20833,
-        "song": "4 Thangs",
-        "artist": "Freddie Gibbs feat. Big Sean & Hit-Boy",
-        "type": "music"
-      },
-      {
-        "start": 20834,
-        "end": 20996,
-        "song": "Spin Again",
-        "artist": "Pacman Da Gunman feat. Richard Fisher",
-        "type": "music"
-      },
-      {
-        "start": 20997,
-        "end": 21190,
-        "song": "Leave Me Alone",
-        "artist": "Flipp Dinero",
-        "type": "music"
-      },
-      {
-        "start": 21191,
-        "end": 21384,
-        "song": "It Ain't My Fault",
-        "artist": "Chief Keef",
-        "type": "music"
-      }
-    ]
-  },
-  {
-    "id": "channel-x",
-    "gameId": "gta5",
-    "name": "Channel X",
-    "genre": "80s Punk Rock & Hardcore",
-    "host": "Keith Morris",
-    "logoUrl": "/logos/gta5/channel-x.png",
-    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/Channel%20X.mp3",
-    "duration": 2741,
-    "initialOffset": 2400,
-    "timestamps": [
-      {
-        "start": 0,
-        "end": 143,
-        "song": "Linda Blair",
-        "artist": "Redd Kross",
-        "type": "music"
-      },
-      {
-        "start": 144,
-        "end": 331,
-        "song": "Subliminal",
-        "artist": "Suicidal Tendencies",
-        "type": "music"
-      },
-      {
-        "start": 332,
-        "end": 526,
-        "song": "The Enemy",
-        "artist": "D.O.A.",
-        "type": "music"
-      },
-      {
-        "start": 527,
-        "end": 650,
-        "song": "Abolish Government/Silent Majority",
-        "artist": "T.S.O.L.",
-        "type": "music"
-      },
-      {
-        "start": 651,
-        "end": 832,
-        "song": "Blown Away",
-        "artist": "Youth Brigade",
-        "type": "music"
-      },
-      {
-        "start": 833,
-        "end": 1056,
-        "song": "My War",
-        "artist": "Black Flag",
-        "type": "music"
-      },
-      {
-        "start": 1057,
-        "end": 1167,
-        "song": "Pervert",
-        "artist": "Descendents",
-        "type": "music"
-      },
-      {
-        "start": 1168,
-        "end": 1385,
-        "song": "Amoeba",
-        "artist": "Adolescents",
-        "type": "music"
-      },
-      {
-        "start": 1386,
-        "end": 1507,
-        "song": "John Wayne Was a Nazi",
-        "artist": "M.D.C.",
-        "type": "music"
-      },
-      {
-        "start": 1508,
-        "end": 1668,
-        "song": "Los Angeles",
-        "artist": "X",
-        "type": "music"
-      },
-      {
-        "start": 1669,
-        "end": 1796,
-        "song": "Lexicon Devil",
-        "artist": "The Germs",
-        "type": "music"
-      },
-      {
-        "start": 1797,
-        "end": 1951,
-        "song": "Rock House",
-        "artist": "Circle Jerks",
-        "type": "music"
-      },
-      {
-        "start": 1952,
-        "end": 2083,
-        "song": "The Mouth Don't Stop (The Trouble With Women Is)",
-        "artist": "Fear",
-        "type": "music"
-      },
-      {
-        "start": 2084,
-        "end": 2222,
-        "song": "Bored of You",
-        "artist": "Agent Orange",
-        "type": "music"
-      },
-      {
-        "start": 2223,
-        "end": 2353,
-        "song": "Life of Crime",
-        "artist": "The Weirdos",
-        "type": "music"
-      },
-      {
-        "start": 2354,
-        "end": 2498,
-        "song": "Don't Push Me Around",
-        "artist": "The Zeros",
-        "type": "music"
-      },
-      {
-        "start": 2499,
-        "end": 2647,
-        "song": "What's Next",
-        "artist": "OFF!",
-        "type": "music"
-      },
-      {
-        "start": 2648,
-        "end": 2741,
-        "song": "I Don't Need Society",
-        "artist": "D.R.I.",
-        "type": "music"
-      }
-    ]
-  },
-  {
-    "id": "wctr",
-    "gameId": "gta5",
-    "name": "WCTR",
-    "genre": "Public Talk Radio",
-    "host": "Fernando Martinez",
-    "logoUrl": "/logos/gta5/wctr.png",
-    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/West%20Coast%20Talk%20Radio.mp3",
-    "duration": 5815,
-    "initialOffset": 2280,
-    "timestamps": [
-      {
-        "start": 5,
-        "end": 1178,
-        "song": "The Fernando Show",
-        "artist": "WCTR",
-        "type": "talk"
-      },
-      {
-        "start": 1179,
-        "end": 3068,
-        "song": "Chakra Attack 1",
-        "artist": "WCTR",
-        "type": "talk"
-      },
-      {
-        "start": 3069,
-        "end": 4481,
-        "song": "Chattersphere",
-        "artist": "WCTR",
-        "type": "talk"
-      },
-      {
-        "start": 4482,
-        "end": 5815,
-        "song": "Chakra Attack 2",
-        "artist": "WCTR",
-        "type": "talk"
-      }
-    ]
-  },
-  {
-    "id": "rebel-radio",
-    "gameId": "gta5",
-    "name": "Rebel Radio",
-    "genre": "Outlaw Country & Rockabilly",
-    "host": "Jesco White",
-    "logoUrl": "/logos/gta5/rebel-radio.webp",
-    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/Rebel%20Radio.mp3",
-    "duration": 3457,
-    "initialOffset": 2160,
-    "timestamps": [
-      {
-        "start": 35,
-        "end": 220,
-        "song": "Can't Hardly Stand It",
-        "artist": "Charles Feathers",
-        "type": "music"
-      },
-      {
-        "start": 221,
-        "end": 400,
-        "song": "It Don't Hurt Anymore",
-        "artist": "Hank Thompson",
-        "type": "music"
-      },
-      {
-        "start": 401,
-        "end": 639,
-        "song": "Get Out Of My Car",
-        "artist": "Hasil Adkins",
-        "type": "music"
-      },
-      {
-        "start": 640,
-        "end": 799,
-        "song": "You Took All The Ramblin Out Of Me",
-        "artist": "Jerry Reed",
-        "type": "music"
-      },
-      {
-        "start": 800,
-        "end": 974,
-        "song": "General Lee",
-        "artist": "Johnny Cash",
-        "type": "music"
-      },
-      {
-        "start": 975,
-        "end": 1154,
-        "song": "It Won't Be Long (And I'll Be Hating You)",
-        "artist": "Johnny Paycheck",
-        "type": "music"
-      },
-      {
-        "start": 1155,
-        "end": 1427,
-        "song": "If You Wanna Get To Heaven",
-        "artist": "Ozark Mountain Daredevils",
-        "type": "music"
-      },
-      {
-        "start": 1428,
-        "end": 1626,
-        "song": "Are You Sure Hank Done It This Way?",
-        "artist": "Waylon Jennings",
-        "type": "music"
-      },
-      {
-        "start": 1627,
-        "end": 1875,
-        "song": "I Ain't Living Long Like This?",
-        "artist": "Waylon Jennings",
-        "type": "music"
-      },
-      {
-        "start": 1876,
-        "end": 2125,
-        "song": "Whiskey River",
-        "artist": "Willie Nelson",
-        "type": "music"
-      },
-      {
-        "start": 2126,
-        "end": 2356,
-        "song": "Convoy",
-        "artist": "C.W. McCall",
-        "type": "music"
-      },
-      {
-        "start": 2357,
-        "end": 2494,
-        "song": "Get With It",
-        "artist": "Charlie Feathers",
-        "type": "music"
-      },
-      {
-        "start": 2495,
-        "end": 2649,
-        "song": "She Made Toothpicks Off the Timber Of My Heart",
-        "artist": "Homer and Jethro",
-        "type": "music"
-      },
-      {
-        "start": 2650,
-        "end": 2856,
-        "song": "Dippin' Stuff",
-        "artist": "Marvin Jackson",
-        "type": "music"
-      },
-      {
-        "start": 2857,
-        "end": 3026,
-        "song": "Crazy Arms",
-        "artist": "Ray Price",
-        "type": "music"
-      },
-      {
-        "start": 3027,
-        "end": 3217,
-        "song": "D.I.V.O.R.C.E",
-        "artist": "Tammy Wynette",
-        "type": "music"
-      },
-      {
-        "start": 3218,
-        "end": 3457,
-        "song": "Highwayman",
-        "artist": "The Highwaymen",
-        "type": "music"
-      }
-    ]
-  },
-  {
-    "id": "soulwax-fm",
-    "gameId": "gta5",
-    "name": "Soulwax FM",
-    "genre": "Electro & Tech House",
-    "host": "Soulwax",
-    "logoUrl": "/logos/gta5/soulwax-fm.jpg",
-    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/Soulwax%20FM.mp3",
-    "duration": 2566,
-    "initialOffset": 2040,
-    "timestamps": [
-      {
-        "start": 0,
-        "end": 158,
-        "song": "Stock (Soulwax Remix) (High Pitch)",
-        "artist": "Palmbomen",
-        "type": "music"
-      },
-      {
-        "start": 159,
-        "end": 290,
-        "song": "Fatal Error",
-        "artist": "Fatal Error",
-        "type": "music"
-      },
-      {
-        "start": 291,
-        "end": 369,
-        "song": "Let's Beam Him Up (High Pitch)",
-        "artist": "Supersempfft",
-        "type": "music"
-      },
-      {
-        "start": 370,
-        "end": 508,
-        "song": "Mingi",
-        "artist": "Mim Suleiman",
-        "type": "music"
-      },
-      {
-        "start": 509,
-        "end": 638,
-        "song": "The Strange Art (In Flagranti Remix)",
-        "artist": "FKCLUB",
-        "type": "music"
-      },
-      {
-        "start": 639,
-        "end": 869,
-        "song": "El Sucu Tucu (Remix)",
-        "artist": "Matias Aguayo",
-        "type": "music"
-      },
-      {
-        "start": 870,
-        "end": 966,
-        "song": "Naive Response (High Pitch)",
-        "artist": "Daniel Avery",
-        "type": "music"
-      },
-      {
-        "start": 967,
-        "end": 1149,
-        "song": "Gabriel (Soulwax Remix) (Low Pitch)",
-        "artist": "Joe Goddard feat. Valentina",
-        "type": "music"
-      },
-      {
-        "start": 1150,
-        "end": 1262,
-        "song": "Body Music (Original Mix)",
-        "artist": "Daniel Maloso",
-        "type": "music"
-      },
-      {
-        "start": 1263,
-        "end": 1394,
-        "song": "Lazer Beams",
-        "artist": "Green Velvet & Harvard Bass",
-        "type": "music"
-      },
-      {
-        "start": 1395,
-        "end": 1490,
-        "song": "Tryouts (Low Pitch)",
-        "artist": "Zombie Nation",
-        "type": "music"
-      },
-      {
-        "start": 1491,
-        "end": 1643,
-        "song": "Nothing But Pleasure (High Pitch to Normal Pitch)",
-        "artist": "Tom Rowlands",
-        "type": "music"
-      },
-      {
-        "start": 1644,
-        "end": 1825,
-        "song": "Arp #1 (Low Pitch)",
-        "artist": "Jackson and his Computerband",
-        "type": "music"
-      },
-      {
-        "start": 1826,
-        "end": 1975,
-        "song": "Synrise (Soulwax Remix) (Low Pitch)",
-        "artist": "Goose",
-        "type": "music"
-      },
-      {
-        "start": 1976,
-        "end": 2097,
-        "song": "Mr. Croissant Taker (Low Pitch)",
-        "artist": "Transistorcake",
-        "type": "music"
-      },
-      {
-        "start": 2098,
-        "end": 2232,
-        "song": "Plush (Jacques Lu Cont Remix)",
-        "artist": "Tiga",
-        "type": "music"
-      },
-      {
-        "start": 2233,
-        "end": 2323,
-        "song": "Shockwave (Gesaffelstein Remix)",
-        "artist": "The Hacker",
-        "type": "music"
-      },
-      {
-        "start": 2324,
-        "end": 2566,
-        "song": "After You (Soulwax Remix)",
-        "artist": "Pulp",
-        "type": "music"
-      }
-    ]
-  },
-  {
-    "id": "east-los-fm",
-    "gameId": "gta5",
-    "name": "East Los FM",
-    "genre": "Mexican Electronic & Cumbia",
-    "host": "Camilo Lara & Don Cheto",
-    "frequency": "106.2 FM",
-    "logoUrl": "/logos/gta5/east-los-fm.png",
-    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/East%20Los%20FM.mp3",
-    "duration": 2465,
-    "initialOffset": 1920,
-    "timestamps": [
-      {
-        "start": 7,
-        "end": 154,
-        "song": "El Kocaino",
-        "artist": "Los Buitres de Culiacan Sinaloa",
-        "type": "music"
-      },
-      {
-        "start": 155,
-        "end": 255,
-        "song": "Es-Toy",
-        "artist": "Mexican Institute of Sound",
-        "type": "music"
-      },
-      {
-        "start": 256,
-        "end": 349,
-        "song": "Criminal Sound (El Hijo De La Cumbia Remix)",
-        "artist": "Niña Dioz",
-        "type": "music"
-      },
-      {
-        "start": 350,
-        "end": 503,
-        "song": "Radio Capital",
-        "artist": "La Vida Bohème",
-        "type": "music"
-      },
-      {
-        "start": 504,
-        "end": 636,
-        "song": "Autos, Moda Y Rock N Roll",
-        "artist": "Fandango",
-        "type": "music"
-      },
-      {
-        "start": 637,
-        "end": 838,
-        "song": "El Tatuado",
-        "artist": "Don Cheto",
-        "type": "music"
-      },
-      {
-        "start": 839,
-        "end": 987,
-        "song": "Se Me Perdió La Cadenita",
-        "artist": "La Sonora Dinamita",
-        "type": "music"
-      },
-      {
-        "start": 988,
-        "end": 1218,
-        "song": "Fiebre De Jack",
-        "artist": "She's A Tease",
-        "type": "music"
-      },
-      {
-        "start": 1219,
-        "end": 1394,
-        "song": "Pachuco",
-        "artist": "Maldita Vecindad",
-        "type": "music"
-      },
-      {
-        "start": 1395,
-        "end": 1574,
-        "song": "El Sonidito",
-        "artist": "Hechizeros Band",
-        "type": "music"
-      },
-      {
-        "start": 1575,
-        "end": 1778,
-        "song": "Fresco",
-        "artist": "Milkman",
-        "type": "music"
-      },
-      {
-        "start": 1779,
-        "end": 1950,
-        "song": "Maldito",
-        "artist": "Jessy Bulbo",
-        "type": "music"
-      },
-      {
-        "start": 1951,
-        "end": 2121,
-        "song": "Tengo El Don",
-        "artist": "La Liga feat. Alika",
-        "type": "music"
-      },
-      {
-        "start": 2122,
-        "end": 2344,
-        "song": "La Granja",
-        "artist": "Los Tigres Del Norte",
-        "type": "music"
-      },
-      {
-        "start": 2345,
-        "end": 2465,
-        "song": "El Rey Y Yo",
-        "artist": "Los Ángeles Negros",
-        "type": "music"
-      }
-    ]
-  },
-  {
-    "id": "west-coast-classics",
-    "gameId": "gta5",
-    "name": "West Coast Classics",
-    "genre": "90s West Coast Rap",
-    "host": "DJ Pooh",
-    "frequency": "94.1 FM",
-    "logoUrl": "/logos/gta5/west-coast-classics.webp",
-    "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/West%20Coast%20Classics.mp3",
-    "duration": 7292,
-    "initialOffset": 1800,
-    "timestamps": [
-      {
-        "start": 19,
-        "end": 277,
-        "song": "Ballad Of Menace",
-        "artist": "CPO Ft MC Ren",
-        "type": "music"
-      },
-      {
-        "start": 278,
-        "end": 577,
-        "song": "Still DRE",
-        "artist": "Dr. Dre Ft Snoop Dogg",
-        "type": "music"
-      },
-      {
-        "start": 578,
-        "end": 853,
-        "song": "Afro Puffs",
-        "artist": "The Lady Of Rage Ft Snoop Dogg",
-        "type": "music"
-      },
-      {
-        "start": 854,
-        "end": 1072,
-        "song": "You Know How We Do It",
-        "artist": "Ice Cube",
-        "type": "music"
-      },
-      {
-        "start": 1073,
-        "end": 1328,
-        "song": "Gin & Juice",
-        "artist": "Snoop Dogg",
-        "type": "music"
-      },
-      {
-        "start": 1329,
-        "end": 1580,
-        "song": "Servin' Em Heat",
-        "artist": "South Central Cartel",
-        "type": "music"
-      },
-      {
-        "start": 1581,
-        "end": 1802,
-        "song": "Nothin But The Cavi Hit",
-        "artist": "Mack 10",
-        "type": "music"
-      },
-      {
-        "start": 1803,
-        "end": 1994,
-        "song": "Appetite For Destruction",
-        "artist": "NWA",
-        "type": "music"
-      },
-      {
-        "start": 1995,
-        "end": 2174,
-        "song": "Sherm Stick",
-        "artist": "Jayo Felony",
-        "type": "music"
-      },
-      {
-        "start": 2175,
-        "end": 2393,
-        "song": "This Dj",
-        "artist": "Warren G",
-        "type": "music"
-      },
-      {
-        "start": 2394,
-        "end": 2685,
-        "song": "Mind Playing Tricks On Me",
-        "artist": "Geto Boys",
-        "type": "music"
-      },
-      {
-        "start": 2686,
-        "end": 2891,
-        "song": "Bow Down",
-        "artist": "Westside Connection",
-        "type": "music"
-      },
-      {
-        "start": 2892,
-        "end": 3174,
-        "song": "Played Like A Piano",
-        "artist": "King Tee",
-        "type": "music"
-      },
-      {
-        "start": 3175,
-        "end": 3431,
-        "song": "The Next Episode",
-        "artist": "Dr. Dre Ft Snoop Dogg & Nate Dogg",
-        "type": "music"
-      },
-      {
-        "start": 3432,
-        "end": 3689,
-        "song": "What Would You Do",
-        "artist": "Tha Dogg Pound",
-        "type": "music"
-      },
-      {
-        "start": 3690,
-        "end": 3913,
-        "song": "Streight Up Menace",
-        "artist": "MC Eiht",
-        "type": "music"
-      },
-      {
-        "start": 3914,
-        "end": 4147,
-        "song": "Dollaz & Sense",
-        "artist": "Dj Quik",
-        "type": "music"
-      },
-      {
-        "start": 4148,
-        "end": 4438,
-        "song": "C-Walk",
-        "artist": "Kurupt",
-        "type": "music"
-      },
-      {
-        "start": 4439,
-        "end": 4679,
-        "song": "What You Wanna Do",
-        "artist": "Kausion Ft Ice Cube",
-        "type": "music"
-      },
-      {
-        "start": 4680,
-        "end": 4869,
-        "song": "Wanna Be A Ganster",
-        "artist": "Too $hort",
-        "type": "music"
-      },
-      {
-        "start": 4870,
-        "end": 5122,
-        "song": "Save A Hoe",
-        "artist": "E-40 Ft The Captain",
-        "type": "music"
-      },
-      {
-        "start": 5123,
-        "end": 5349,
-        "song": "Gansta Gansta",
-        "artist": "NWA",
-        "type": "music"
-      },
-      {
-        "start": 5350,
-        "end": 5639,
-        "song": "Ambitionz Az A Ridah",
-        "artist": "2Pac Shakur",
-        "type": "music"
-      },
-      {
-        "start": 5640,
-        "end": 5946,
-        "song": "I Got 5 On It",
-        "artist": "Luniz",
-        "type": "music"
-      },
-      {
-        "start": 5947,
-        "end": 6172,
-        "song": "The Murda Show",
-        "artist": "Spice 1",
-        "type": "talk"
-      },
-      {
-        "start": 6173,
-        "end": 6407,
-        "song": "We Roll",
-        "artist": "The Conscious Daughters",
-        "type": "music"
-      },
-      {
-        "start": 6408,
-        "end": 6697,
-        "song": "No More Questions",
-        "artist": "Eazy E",
-        "type": "music"
-      },
-      {
-        "start": 6698,
-        "end": 6942,
-        "song": "Late Nite Hype",
-        "artist": "Compton Most Wanted",
-        "type": "music"
-      },
-      {
-        "start": 6943,
-        "end": 7292,
-        "song": "1st Of Tha Month",
-        "artist": "Bone Thugs-N-Harmony",
-        "type": "music"
-      }
-    ]
-  },
-  {
     "id": "motomami-los-santos",
     "gameId": "gta5",
     "name": "Motomami Los Santos",
     "genre": "Latin Pop & Reggaeton",
-    "host": "Rosalía & Arca",
+    "host": "Rosal\u00eda & Arca",
     "logoUrl": "/logos/gta5/motomami.svg",
     "audioUrl": "https://archive.org/download/GTAVRadioStations/GTA%20V%20Radio%20Stations/East%20Los%20FM.mp3",
     "duration": 6906,
@@ -4745,8 +4756,8 @@
       {
         "start": 240,
         "end": 408,
-        "song": "DI MI NOMBRE (Cap.8: Éxtasis)",
-        "artist": "ROSALÍA",
+        "song": "DI MI NOMBRE (Cap.8: \u00c9xtasis)",
+        "artist": "ROSAL\u00cdA",
         "type": "music"
       },
       {
@@ -4760,7 +4771,7 @@
         "start": 636,
         "end": 766,
         "song": "Linda",
-        "artist": "Tokischa & ROSALÍA",
+        "artist": "Tokischa & ROSAL\u00cdA",
         "type": "music"
       },
       {
@@ -4774,7 +4785,7 @@
         "start": 963,
         "end": 1147,
         "song": "Con Altura",
-        "artist": "ROSALÍA & J Balvin feat. El Guincho",
+        "artist": "ROSAL\u00cdA & J Balvin feat. El Guincho",
         "type": "music"
       },
       {
@@ -4787,7 +4798,7 @@
       {
         "start": 1581,
         "end": 1774,
-        "song": "A La Mía",
+        "song": "A La M\u00eda",
         "artist": "Bad Gyal",
         "type": "music"
       },
@@ -4801,8 +4812,8 @@
       {
         "start": 1981,
         "end": 2144,
-        "song": "Vamos Pa’ La Disco",
-        "artist": "Las Guanábanas",
+        "song": "Vamos Pa\u2019 La Disco",
+        "artist": "Las Guan\u00e1banas",
         "type": "music"
       },
       {
@@ -4823,20 +4834,20 @@
         "start": 2606,
         "end": 2819,
         "song": "Volando Voy",
-        "artist": "Camarón De La Isla",
+        "artist": "Camar\u00f3n De La Isla",
         "type": "music"
       },
       {
         "start": 2820,
         "end": 3069,
-        "song": "100% of Disin’ You",
+        "song": "100% of Disin\u2019 You",
         "artist": "Armando",
         "type": "music"
       },
       {
         "start": 3070,
         "end": 3366,
-        "song": "Salgo Pa’ La Calle",
+        "song": "Salgo Pa\u2019 La Calle",
         "artist": "Daddy Yankee feat. Randy",
         "type": "music"
       },
@@ -4844,7 +4855,7 @@
         "start": 3367,
         "end": 3573,
         "song": "Snap and Roll",
-        "artist": "Soulja Boy Tell ‘Em",
+        "artist": "Soulja Boy Tell \u2018Em",
         "type": "music"
       },
       {
@@ -4865,13 +4876,13 @@
         "start": 3995,
         "end": 4254,
         "song": "KLK",
-        "artist": "Arca feat. ROSALÍA",
+        "artist": "Arca feat. ROSAL\u00cdA",
         "type": "music"
       },
       {
         "start": 4255,
         "end": 4430,
-        "song": "Algo Como Tú",
+        "song": "Algo Como T\u00fa",
         "artist": "Kaydy Cain feat. Los Del Control",
         "type": "music"
       },
@@ -4879,7 +4890,7 @@
         "start": 4431,
         "end": 4616,
         "song": "LA FAMA",
-        "artist": "ROSALÍA feat. The Weeknd",
+        "artist": "ROSAL\u00cdA feat. The Weeknd",
         "type": "music"
       },
       {
@@ -4948,22 +4959,22 @@
       {
         "start": 6335,
         "end": 6452,
-        "song": "A Palé",
-        "artist": "ROSALÍA",
+        "song": "A Pal\u00e9",
+        "artist": "ROSAL\u00cdA",
         "type": "music"
       },
       {
         "start": 6453,
         "end": 6688,
         "song": "Calle Luna Calle Sol",
-        "artist": "Willie Colón & Héctor Lavoe",
+        "artist": "Willie Col\u00f3n & H\u00e9ctor Lavoe",
         "type": "music"
       },
       {
         "start": 6689,
         "end": 6906,
         "song": "Vacilar Contigo",
-        "artist": "Ñejo & Dalmata",
+        "artist": "\u00d1ejo & Dalmata",
         "type": "music"
       }
     ]
@@ -5053,7 +5064,7 @@
         "start": 2992,
         "end": 3275,
         "song": "Connection (Reznik & Good Guy Mikesh Remix)",
-        "artist": "Télépopmusik feat. Young & Sick",
+        "artist": "T\u00e9l\u00e9popmusik feat. Young & Sick",
         "type": "music"
       },
       {
@@ -5143,7 +5154,7 @@
       {
         "start": 6867,
         "end": 7128,
-        "song": "I Can’t Kick This Feeling When It Hits",
+        "song": "I Can\u2019t Kick This Feeling When It Hits",
         "artist": "Moodymann",
         "type": "music"
       },
@@ -5206,7 +5217,7 @@
       {
         "start": 8765,
         "end": 9051,
-        "song": "I’ll Provide",
+        "song": "I\u2019ll Provide",
         "artist": "Moodymann",
         "type": "music"
       },
@@ -5381,7 +5392,7 @@
       {
         "start": 13606,
         "end": 13731,
-        "song": "It’s 2 Late 4 U and Me",
+        "song": "It\u2019s 2 Late 4 U and Me",
         "artist": "Moodymann",
         "type": "music"
       },
@@ -5452,7 +5463,7 @@
         "start": 15853,
         "end": 16149,
         "song": "Underwater (Adam Port Remix)",
-        "artist": "RÜFÜS DU SOL",
+        "artist": "R\u00dcF\u00dcS DU SOL",
         "type": "music"
       },
       {
@@ -5473,7 +5484,7 @@
         "start": 16674,
         "end": 16933,
         "song": "No War (Rampa Remix)",
-        "artist": "Âme",
+        "artist": "\u00c2me",
         "type": "music"
       },
       {
@@ -5528,7 +5539,7 @@
       {
         "start": 18799,
         "end": 19115,
-        "song": "Muyè",
+        "song": "Muy\u00e8",
         "artist": "Keinemusik",
         "type": "music"
       },
@@ -5591,15 +5602,15 @@
       {
         "start": 21198,
         "end": 21320,
-        "song": "Beja Imperial (12“ Version)",
+        "song": "Beja Imperial (12\u201c Version)",
         "artist": "Plastic Mode",
         "type": "music"
       },
       {
         "start": 21321,
         "end": 21442,
-        "song": "Let´s Make Love Tonight",
-        "artist": "L´Amour feat. Krystal",
+        "song": "Let\u00b4s Make Love Tonight",
+        "artist": "L\u00b4Amour feat. Krystal",
         "type": "music"
       },
       {
@@ -5612,7 +5623,7 @@
       {
         "start": 21633,
         "end": 21826,
-        "song": "Let the Music Play (Extended 12“Mix)",
+        "song": "Let the Music Play (Extended 12\u201cMix)",
         "artist": "Shannon",
         "type": "music"
       },
@@ -5641,7 +5652,7 @@
         "start": 22487,
         "end": 22608,
         "song": "Happy Song",
-        "artist": "Baby´s Gang",
+        "artist": "Baby\u00b4s Gang",
         "type": "music"
       },
       {
@@ -5661,7 +5672,7 @@
       {
         "start": 23033,
         "end": 23213,
-        "song": "Can You Feel It (Jackin Up the Dub 12“Mix",
+        "song": "Can You Feel It (Jackin Up the Dub 12\u201cMix",
         "artist": "Mario Diaz feat. Mr Lee",
         "type": "music"
       },
@@ -5704,7 +5715,7 @@
         "start": 24229,
         "end": 24355,
         "song": "Dream Girl (Wet Dream Mix)",
-        "artist": "Pierre´s Pfantasy Club",
+        "artist": "Pierre\u00b4s Pfantasy Club",
         "type": "music"
       },
       {
@@ -5717,7 +5728,7 @@
       {
         "start": 24520,
         "end": 24692,
-        "song": "String Free (12“ Club Leray Mix)",
+        "song": "String Free (12\u201c Club Leray Mix)",
         "artist": "Phortune",
         "type": "music"
       },
@@ -5920,7 +5931,7 @@
       {
         "start": 6443,
         "end": 6703,
-        "song": "Eisbär",
+        "song": "Eisb\u00e4r",
         "artist": "Grauzone",
         "type": "music"
       },
@@ -6010,7 +6021,7 @@
       {
         "start": 334,
         "end": 519,
-        "song": "The Devil’s Dance",
+        "song": "The Devil\u2019s Dance",
         "artist": "Josi Devi l",
         "type": "music"
       },
@@ -6080,7 +6091,7 @@
       {
         "start": 1965,
         "end": 2088,
-        "song": "Shippūden",
+        "song": "Shipp\u016bden",
         "artist": "Blanco",
         "type": "music"
       },
@@ -6101,7 +6112,7 @@
       {
         "start": 2340,
         "end": 2528,
-        "song": "Operation + Kay-O — WHIP (Acapella)",
+        "song": "Operation + Kay-O \u2014 WHIP (Acapella)",
         "artist": "Instinct (UK)",
         "type": "music"
       },
@@ -6137,7 +6148,7 @@
         "start": 3133,
         "end": 3252,
         "song": "Wealthy Humans",
-        "artist": "Céline Gillain",
+        "artist": "C\u00e9line Gillain",
         "type": "music"
       },
       {
@@ -6197,16 +6208,5 @@
         "type": "music"
       }
     ]
-  },
-  {
-    "id": "radio-off",
-    "gameId": "gta5",
-    "name": "Radio Off",
-    "genre": "Off",
-    "logoUrl": "/logos/gta5/radio-off.png",
-    "audioUrl": "",
-    "duration": 0,
-    "initialOffset": 1560,
-    "timestamps": []
   }
 ]

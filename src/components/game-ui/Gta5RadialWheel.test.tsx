@@ -505,5 +505,50 @@ describe('Gta5RadialWheel', () => {
       expect(onSelect).toHaveBeenCalledWith(mockStations[1]);
       expect(sfx.playClick).toHaveBeenCalled();
     });
+
+    it('triggers playTuningStaticBurst and click SFX when station is selected', () => {
+      const onSelect = vi.fn();
+      render(
+        <Gta5RadialWheel
+          stations={mockStations}
+          currentStation={mockStations[0]}
+          onSelectStation={onSelect}
+          isPlaying={false}
+        />
+      );
+
+      const sector = screen.getByTestId('gta5-sector-flylo-fm');
+      fireEvent.click(sector);
+
+      expect(sfx.playClick).toHaveBeenCalled();
+      expect(sfx.playTuningStaticBurst).toHaveBeenCalledWith(220);
+    });
+
+    it('renders Radio Off state in center hub when active station is radio-off', () => {
+      const offStation: Station = {
+        id: 'radio-off',
+        gameId: 'gta5',
+        name: 'Radio Off',
+        genre: 'Off',
+        logoUrl: '/logos/gta5/radio-off.png',
+        audioUrl: '',
+        duration: 0,
+        initialOffset: 0,
+        timestamps: [],
+      };
+
+      render(
+        <Gta5RadialWheel
+          stations={[...mockStations, offStation]}
+          currentStation={offStation}
+          onSelectStation={vi.fn()}
+          isPlaying={false}
+        />
+      );
+
+      expect(screen.getByTestId('gta5-center-hub')).toBeInTheDocument();
+      expect(screen.getByText(/radio off/i)).toBeInTheDocument();
+      expect(screen.getByTestId('gta5-station-emblem')).toHaveAttribute('src', '/logos/gta5/radio-off.png');
+    });
   });
 });

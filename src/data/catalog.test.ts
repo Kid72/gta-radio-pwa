@@ -60,8 +60,9 @@ describe('catalog', () => {
   });
 
   it('orders stations in canonical in-game sequences', () => {
-    expect(GAMES.gta5.stations[0].id).toBe('blaine-county-talk-radio');
-    expect(GAMES.gta5.stations[GAMES.gta5.stations.length - 1].id).toBe('radio-off');
+    expect(GAMES.gta5.stations[0].id).toBe('los-santos-rock-radio');
+    expect(GAMES.gta5.stations[13].id).toBe('radio-off');
+    expect(GAMES.gta5.stations[GAMES.gta5.stations.length - 1].id).toBe('still-slipping-los-santos');
 
     expect(GAMES.gtasa.stations[0].id).toBe('playback-fm');
     expect(GAMES.gtasa.stations[1].id).toBe('k-rose');
