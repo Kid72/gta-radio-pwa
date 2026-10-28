@@ -24,7 +24,7 @@ export const GAMES: Record<GameId, GameMetadata> = {
     theme: {
       accentColor: '#4ae891',
       bgWallpaper: resolveAssetUrl('/wallpapers/gta5.webp'),
-      fontFamily: "'Oswald', sans-serif",
+      fontFamily: "'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     },
     stations: gta5Stations,
   },
@@ -36,7 +36,7 @@ export const GAMES: Record<GameId, GameMetadata> = {
     theme: {
       accentColor: '#f59e0b',
       bgWallpaper: resolveAssetUrl('/wallpapers/gtasa.svg'),
-      fontFamily: "'Pricedown', sans-serif",
+      fontFamily: "'Pricedown', 'Impact', -apple-system, BlinkMacSystemFont, sans-serif",
     },
     stations: gtasaStations,
   },
@@ -48,7 +48,7 @@ export const GAMES: Record<GameId, GameMetadata> = {
     theme: {
       accentColor: '#eab308',
       bgWallpaper: resolveAssetUrl('/wallpapers/gta4.svg'),
-      fontFamily: "'Bank Gothic', sans-serif",
+      fontFamily: "'Bank Gothic', 'Rajdhani', 'Trebuchet MS', -apple-system, BlinkMacSystemFont, sans-serif",
     },
     stations: gta4Stations,
   },

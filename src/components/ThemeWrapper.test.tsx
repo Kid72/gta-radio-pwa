@@ -24,6 +24,7 @@ describe('ThemeWrapper Component', () => {
     expect(wrapper).toHaveClass('theme-gta5');
     expect(wrapper).toHaveAttribute('data-theme', 'gta5');
     expect(wrapper.style.getPropertyValue('--accent-color')).toBe('#4ae891');
+    expect(wrapper.style.getPropertyValue('--theme-font')).toContain('Oswald');
   });
 
   it('applies theme class and CSS variables for GTA San Andreas', () => {
@@ -36,6 +37,7 @@ describe('ThemeWrapper Component', () => {
     expect(wrapper).toHaveClass('theme-gtasa');
     expect(wrapper).toHaveAttribute('data-theme', 'gtasa');
     expect(wrapper.style.getPropertyValue('--accent-color')).toBe('#f59e0b');
+    expect(wrapper.style.getPropertyValue('--theme-font')).toContain('Pricedown');
   });
 
   it('applies theme class and CSS variables for GTA IV', () => {
@@ -48,6 +50,25 @@ describe('ThemeWrapper Component', () => {
     expect(wrapper).toHaveClass('theme-gta4');
     expect(wrapper).toHaveAttribute('data-theme', 'gta4');
     expect(wrapper.style.getPropertyValue('--accent-color')).toBe('#eab308');
+    expect(wrapper.style.getPropertyValue('--theme-font')).toContain('Bank Gothic');
+  });
+
+  it('sets authentic font family custom property containing Pricedown for SA and Bank Gothic for IV', () => {
+    const { rerender } = render(
+      <ThemeWrapper game="gtasa">
+        <div>SA</div>
+      </ThemeWrapper>
+    );
+    let wrapper = screen.getByTestId('theme-wrapper');
+    expect(wrapper.style.getPropertyValue('--theme-font')).toContain('Pricedown');
+
+    rerender(
+      <ThemeWrapper game="gta4">
+        <div>GTA4</div>
+      </ThemeWrapper>
+    );
+    wrapper = screen.getByTestId('theme-wrapper');
+    expect(wrapper.style.getPropertyValue('--theme-font')).toContain('Bank Gothic');
   });
 
   it('accepts GameMetadata object as game prop', () => {

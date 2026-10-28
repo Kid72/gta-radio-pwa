@@ -27,4 +27,16 @@ describe('resolveAssetUrl', () => {
     expect(resolved).not.toContain('//logos');
     expect(resolved).toContain('logos/gtasa/k-dst.png');
   });
+
+  it('handles relative ./ prefix cleanly and is idempotent', () => {
+    const fromDotSlash = resolveAssetUrl('./logos/gtasa/k-dst.png');
+    const fromSlash = resolveAssetUrl('/logos/gtasa/k-dst.png');
+    const fromPlain = resolveAssetUrl('logos/gtasa/k-dst.png');
+
+    expect(fromDotSlash).toBe(fromSlash);
+    expect(fromDotSlash).toBe(fromPlain);
+
+    // Calling again on the result produces the identical URL
+    expect(resolveAssetUrl(fromDotSlash)).toBe(fromDotSlash);
+  });
 });

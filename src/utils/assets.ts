@@ -16,7 +16,7 @@ export function resolveAssetUrl(path: string): string {
   const metaEnv = typeof import.meta !== 'undefined' ? (import.meta as Record<string, any>).env : undefined;
   const base = metaEnv && metaEnv.BASE_URL ? metaEnv.BASE_URL : './';
 
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  const cleanPath = path.replace(/^\.?\//, '');
   const cleanBase = base.endsWith('/') ? base : `${base}/`;
 
   return `${cleanBase}${cleanPath}`;
