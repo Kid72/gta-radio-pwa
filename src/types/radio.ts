@@ -39,9 +39,35 @@ export interface GameMetadata {
 export interface CachedStationRecord {
   stationId: string;
   gameId: GameId;
-  blob: Blob;
+  /**
+   * Legacy single-file audio blob. Present for records written by `saveStationAudio`
+   * (pre-chunk cache); summaries returned by `getAllCachedStations()` omit it, because
+   * chunked downloads are stored one blob per 120 s chunk in the `chunks` store.
+   */
+  blob?: Blob;
   sizeBytes: number;
   downloadedAt: number;
+}
+
+/** One stored audio chunk (120 s of a station), keyed `<gameId>:<stationId>:<NNN>`. */
+export interface CachedChunkRecord {
+  /** Composite primary key: `${gameId}:${stationId}:${chunkIndex padded to 3 digits}`. */
+  key: string;
+  gameId: GameId;
+  stationId: string;
+  chunkIndex: number;
+  blob: Blob;
+  sizeBytes: number;
+  savedAt: number;
+}
+
+/**
+ * Storage seam between the chunked playback controller and IndexedDB.
+ * The controller (`chunkedPlayback`) depends on this interface only, never on `storage/db`.
+ */
+export interface ChunkStorage {
+  saveChunkBlob(gameId: GameId, stationId: string, chunkIndex: number, blob: Blob): Promise<void>;
+  getChunkBlob(gameId: GameId, stationId: string, chunkIndex: number): Promise<Blob | null>;
 }
 
 export interface EngineState {
