@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getStationCurrentSecond, MASTER_BROADCAST_EPOCH } from './epochClock';
+import { getStationCurrentSecond, getStationSecondForDuration, MASTER_BROADCAST_EPOCH } from './epochClock';
 import { Station } from '../types/radio';
 
 describe('epochClock', () => {
@@ -49,6 +49,22 @@ describe('epochClock', () => {
     const pastMs = MASTER_BROADCAST_EPOCH - 100000;
     // elapsedSeconds = 0, so (0 + 600) % 3600 = 600
     expect(getStationCurrentSecond(station, pastMs)).toBe(600);
+  });
+
+  it('uses a manifest duration for the live offset', () => {
+    // `gtasa/playback-fm`: 2810 s in the catalog, 3168.054 s measured by ffprobe.
+    const playbackFm: Station = { ...station, duration: 2810, initialOffset: 600 };
+    const testNowMs = MASTER_BROADCAST_EPOCH + 3100 * 1000;
+
+    const fromManifest = getStationSecondForDuration(playbackFm, 3168.054, testNowMs);
+    const fromCatalog = getStationCurrentSecond(playbackFm, testNowMs);
+
+    // 3700 % 2810 = 890 by the catalog, 3700 % 3168.054 = 531.946 by the manifest.
+    expect(fromCatalog).toBe(890);
+    expect(fromManifest).toBeCloseTo(531.946, 3);
+    expect(fromManifest).toBeGreaterThanOrEqual(0);
+    expect(fromManifest).toBeLessThan(3168.054);
+    expect(fromManifest).not.toBeCloseTo(fromCatalog, 0);
   });
 
   it('uses Date.now() if masterEpochMs is omitted', () => {
