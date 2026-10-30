@@ -1,5 +1,6 @@
 import { Station, TrackCue } from '../types/radio';
 import { getTimingsForLoop } from '../data/trackTimings';
+import { hasForeignAudio } from '../data/audioOwners';
 
 /**
  * The cue table is authored against the catalog `station.duration`, while the
@@ -60,6 +61,11 @@ export function resolveCueTimeline(
 ): CueTimeline {
   const cues = station.timestamps ?? [];
   const loop = loopDuration > 0 ? loopDuration : 0;
+
+  // Shipped audio that belongs to a different station: no table can describe it.
+  if (hasForeignAudio(station.gameId, station.id)) {
+    return { cues: [], duration: loop, source: 'untrusted' };
+  }
 
   // Measured timings win: they are the only table that describes this audio.
   const measured = getTimingsForLoop(station.gameId, station.id, loop);

@@ -7,6 +7,7 @@ import {
 } from './trackTimings';
 import { getStationLoopDuration, getChunkMeta } from './chunkManifest';
 import { GAMES } from './catalog';
+import { AUDIO_OWNER_OVERRIDES } from './audioOwners';
 import { resolveCueTimeline, getCurrentCue } from '../utils/trackCues';
 import type { Station } from '../types/radio';
 
@@ -100,5 +101,30 @@ describe('shipped track timings', () => {
     // 17 of 55 stations passed the coverage/length gate; the rest keep station info
     expect(Object.keys(TRACK_TIMINGS).length).toBeGreaterThanOrEqual(15);
     expect(getChunkMeta('gta5', 'worldwide-fm')).not.toBeNull();
+  });
+});
+
+describe('audio owner overrides', () => {
+  it('marks the five stations whose file is another station copy', () => {
+    const keys = Object.keys(AUDIO_OWNER_OVERRIDES).sort();
+    expect(keys).toEqual([
+      'gta5:kult-fm',
+      'gta5:motomami-los-santos',
+      'gta5:still-slipping-los-santos',
+      'gta5:the-lowdown-911',
+      'gta5:the-music-locker',
+    ]);
+    expect(AUDIO_OWNER_OVERRIDES['gta5:the-lowdown-911'].owner).toBe('gta5:space-1032');
+  });
+
+  it('never names a track for a station playing someone else audio', () => {
+    for (const key of Object.keys(AUDIO_OWNER_OVERRIDES)) {
+      const station = byKey.get(key)!;
+      const loop = getStationLoopDuration(station);
+      const timeline = resolveCueTimeline(station, loop);
+      expect(timeline.source, key).toBe('untrusted');
+      const cue = getCurrentCue(station, loop / 3, loop);
+      expect(cue.song, key).toBe(station.name);
+    }
   });
 });
