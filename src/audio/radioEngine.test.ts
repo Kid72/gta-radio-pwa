@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { RadioEngine, EngineState } from './radioEngine';
+import { getStationSecondForDuration } from './epochClock';
 import { RadioSFX } from './sfx';
 import { Station } from '../types/radio';
 import { saveStationAudio, clearAllCachedStations } from '../storage/db';
@@ -272,6 +273,7 @@ describe('RadioEngine Core Audio Player', () => {
   });
 
   afterEach(() => {
+    vi.useRealTimers();
     engine.destroy();
     vi.restoreAllMocks();
   });
@@ -569,41 +571,76 @@ describe('RadioEngine Core Audio Player', () => {
     expect(engine.getCurrentBlobUrl()).toBeNull();
   });
 
-  it('falls back to stream start (currentTime = 0) if seeking stalls over 1500ms', async () => {
-    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+  it('keeps the planned broadcast second when the stream cannot seek yet (never restarts at 0)', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval'] });
     const mockAudio = createMockAudio();
+    Object.defineProperty(mockAudio, 'readyState', { value: 0, writable: true, configurable: true });
     const engine = new RadioEngine({ audio: mockAudio });
     const sampleStation = mockStations[0];
 
     await engine.playStation(sampleStation, true);
-    expect(mockAudio.currentTime).toBeGreaterThan(0);
+    const planned = engine.getState().currentTime;
+    expect(planned).toBeGreaterThan(0);
 
-    // Advance timer beyond 1500ms without firing 'canplay' or 'playing'
-    vi.advanceTimersByTime(1600);
-    expect(mockAudio.currentTime).toBe(0);
-    expect(mockAudio.removeEventListener).toHaveBeenCalledWith('loadedmetadata', expect.any(Function));
+    // No metadata for 5 s: the planned second survives instead of being
+    // replaced by 0 (the old watchdog behaviour).
+    vi.advanceTimersByTime(5000);
+    expect(mockAudio.currentTime).toBe(planned);
+    expect(engine.getState().currentTime).toBe(planned);
+
+    // Metadata finally arrives: the planned second is re-applied, never 0.
+    (mockAudio as unknown as { readyState: number }).readyState = 1;
+    mockAudio.dispatchEvent(new Event('canplay'));
+    expect(mockAudio.currentTime).toBe(planned);
+    expect(engine.getState().currentTime).toBe(planned);
 
     engine.destroy();
     vi.useRealTimers();
   });
 
-  it('does not reset currentTime to 0 if playback begins before 1500ms', async () => {
-    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+  it('applies the broadcast second as soon as the element is seekable', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval'] });
     const mockAudio = createMockAudio();
     const engine = new RadioEngine({ audio: mockAudio });
-    const sampleStation = mockStations[0];
 
-    await engine.playStation(sampleStation, true);
-    expect(mockAudio.currentTime).toBeGreaterThan(0);
-    const initialTime = mockAudio.currentTime;
+    await engine.playStation(mockStations[0], true);
+    const planned = engine.getState().currentTime;
+    expect(planned).toBeGreaterThan(0);
 
-    // Stream connects within 800ms
-    vi.advanceTimersByTime(800);
-    mockAudio.dispatchEvent(new Event('playing'));
+    vi.advanceTimersByTime(600);
+    expect(mockAudio.currentTime).toBeCloseTo(planned, 0);
 
-    // Advance past 1500ms
-    vi.advanceTimersByTime(1000);
-    expect(mockAudio.currentTime).toBe(initialTime);
+    engine.destroy();
+    vi.useRealTimers();
+  });
+
+  it('uses the measured loop length for the broadcast position, not the stale catalog duration', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    const frozen = new Date('2026-10-30T00:00:00Z');
+    vi.setSystemTime(frozen);
+
+    // catalog says 6955 s, the shipped file is 7232.002 s (ffprobe)
+    const worldwideFm: Station = {
+      ...mockStations[0],
+      id: 'worldwide-fm',
+      gameId: 'gta5',
+      name: 'WorldWide FM',
+      duration: 6955,
+      initialOffset: 1080,
+      timestamps: [],
+    };
+    const mockAudio = createMockAudio();
+    const engine = new RadioEngine({ audio: mockAudio, stations: [worldwideFm] });
+
+    await engine.playStation(worldwideFm, true);
+    const state = engine.getState();
+
+    expect(state.duration).toBeCloseTo(7232.002, 3);
+    const expected = getStationSecondForDuration(worldwideFm, 7232.002, frozen.getTime());
+    expect(state.currentTime).toBeCloseTo(expected, 0);
+    // the catalog value would have put us ~1800 s away from the real timeline
+    const catalogSecond = getStationSecondForDuration(worldwideFm, 6955, frozen.getTime());
+    expect(Math.abs(catalogSecond - expected)).toBeGreaterThan(60);
 
     engine.destroy();
     vi.useRealTimers();

@@ -1,6 +1,7 @@
 import { Station, EngineState } from '../types/radio';
-import { getStationCurrentSecond } from './epochClock';
+import { getStationSecondForDuration } from './epochClock';
 import { getCurrentCue } from '../utils/trackCues';
+import { getStationLoopDuration } from '../data/chunkManifest';
 import { getCachedStationAudio } from '../storage/db';
 import { getAllStations, getStationsForGame } from '../data/catalog';
 import { sfx, RadioSFX } from './sfx';
@@ -22,6 +23,16 @@ export class RadioEngine {
   private isDestroyed: boolean = false;
   private sfxInstance: RadioSFX;
   private subscribers: Set<(state: EngineState) => void> = new Set();
+  /**
+   * Planned broadcast position for the current tune. A seek can only be applied
+   * once the element knows its duration, and network audio can take seconds —
+   * so the target is kept here and re-applied until it sticks. It is NEVER
+   * replaced by 0: falling back to the file start is what made every tune
+   * restart the station from the beginning.
+   */
+  private pendingSeekTarget: number | null = null;
+  private pendingSeekTimer: ReturnType<typeof setInterval> | null = null;
+  private pendingSeekAttempts = 0;
   private seekWatchdogTimer: ReturnType<typeof setTimeout> | null = null;
 
   private state: EngineState = {
@@ -94,13 +105,57 @@ export class RadioEngine {
     }
   }
 
+  /**
+   * Applies the planned broadcast position once the element can seek.
+   * Returns true when the target is now in effect (or there was none).
+   */
+  private applyPendingSeek(): boolean {
+    if (this.pendingSeekTarget === null) return true;
+    if (!this.audio) return false;
+    const ready = typeof this.audio.readyState === 'number' ? this.audio.readyState : 1;
+    if (ready < 1) return false; // duration still unknown
+    try {
+      this.audio.currentTime = this.pendingSeekTarget;
+    } catch {
+      return false;
+    }
+    this.pendingSeekTarget = null;
+    this.clearPendingSeek();
+    return true;
+  }
+
+  /** Belt and braces: re-applies the pending position for ~15 s of slow network. */
+  private schedulePendingSeek(reqId: number): void {
+    this.clearPendingSeek();
+    if (this.pendingSeekTarget === null) return;
+    this.pendingSeekAttempts = 0;
+    this.pendingSeekTimer = setInterval(() => {
+      if (reqId !== this.requestId || this.isDestroyed) {
+        this.clearPendingSeek();
+        return;
+      }
+      this.pendingSeekAttempts += 1;
+      if (this.applyPendingSeek()) return;
+      if (this.pendingSeekAttempts >= 30) this.clearPendingSeek();
+    }, 500);
+  }
+
+  private clearPendingSeek(): void {
+    if (this.pendingSeekTimer !== null) {
+      clearInterval(this.pendingSeekTimer);
+      this.pendingSeekTimer = null;
+    }
+  }
+
   // --- HTML5 Audio Event Handlers ---
 
   private onTimeUpdate = () => {
     if (!this.state.currentStation) return;
     const currentTime = this.audio.currentTime || 0;
-    const currentCue = getCurrentCue(this.state.currentStation, currentTime);
-    const duration = this.state.currentStation.duration || this.audio.duration || 0;
+    const loopDuration =
+      getStationLoopDuration(this.state.currentStation) || this.audio.duration || 0;
+    const currentCue = getCurrentCue(this.state.currentStation, currentTime, loopDuration);
+    const duration = loopDuration || this.audio.duration || 0;
 
     this.state.currentTime = currentTime;
     this.state.currentCue = currentCue;
@@ -110,6 +165,7 @@ export class RadioEngine {
 
   private onPlaying = () => {
     this.clearSeekWatchdog();
+    this.applyPendingSeek();
     this.sfxInstance.stopStaticHiss(60);
     this.state.isPlaying = true;
     this.state.isLoading = false;
@@ -131,6 +187,7 @@ export class RadioEngine {
 
   private onCanPlay = () => {
     this.clearSeekWatchdog();
+    this.applyPendingSeek();
     this.sfxInstance.stopStaticHiss(60);
     this.state.isLoading = false;
     this.notify();
@@ -266,7 +323,8 @@ export class RadioEngine {
     // Mask connection latency with continuous soft static hiss
     this.sfxInstance.startStaticHiss();
 
-    const targetTime = instantLiveSync ? getStationCurrentSecond(station) : 0;
+    const loopDuration = getStationLoopDuration(station) || station.duration;
+    const targetTime = instantLiveSync ? getStationSecondForDuration(station, loopDuration) : 0;
 
     // One-time seek fallback on metadata load
     let metadataHandled = false;
@@ -288,32 +346,17 @@ export class RadioEngine {
       }
     };
 
-    // Fast-start watchdog: if seeking mid-epoch stalls > 1500ms, fall back to currentTime = 0
-    if (targetTime > 0) {
-      this.seekWatchdogTimer = setTimeout(() => {
-        if (reqId !== this.requestId || this.isDestroyed) return;
-        this.seekWatchdogTimer = null;
-        if (this.audio) {
-          try {
-            if (typeof this.audio.removeEventListener === 'function') {
-              this.audio.removeEventListener('loadedmetadata', onMetadata);
-            }
-            this.audio.currentTime = 0;
-          } catch {}
-        }
-        this.state.currentTime = 0;
-        if (this.state.currentStation) {
-          this.state.currentCue = getCurrentCue(this.state.currentStation, 0);
-        }
-        this.notify();
-      }, 1500);
-    }
+    // Hold the planned broadcast position until the element can seek. There is
+    // deliberately no "fall back to 0" timer: restarting the station from the
+    // beginning is the exact bug this replaces.
+    this.pendingSeekTarget = targetTime > 0 ? targetTime : null;
+    this.schedulePendingSeek(reqId);
 
     // Set immediate UI state
     this.state.currentStation = station;
     this.state.currentTime = targetTime;
-    this.state.duration = station.duration;
-    this.state.currentCue = getCurrentCue(station, targetTime);
+    this.state.duration = loopDuration;
+    this.state.currentCue = getCurrentCue(station, targetTime, loopDuration);
     this.state.isLoading = true;
     this.state.error = null;
     this.notify();
@@ -415,7 +458,8 @@ export class RadioEngine {
     // Mask connection latency with continuous soft static hiss
     this.sfxInstance.startStaticHiss();
 
-    const targetTime = getStationCurrentSecond(station);
+    const loopDuration = getStationLoopDuration(station) || station.duration;
+    const targetTime = getStationSecondForDuration(station, loopDuration);
 
     // One-time seek fallback on metadata load (WebKit live epoch sync)
     let metadataHandled = false;
@@ -437,33 +481,18 @@ export class RadioEngine {
       }
     };
 
-    // Fast-start watchdog: if seeking mid-epoch stalls > 1500ms, fall back to currentTime = 0
-    if (targetTime > 0) {
-      this.seekWatchdogTimer = setTimeout(() => {
-        if (reqId !== this.requestId || this.isDestroyed) return;
-        this.seekWatchdogTimer = null;
-        if (this.audio) {
-          try {
-            if (typeof this.audio.removeEventListener === 'function') {
-              this.audio.removeEventListener('loadedmetadata', onMetadata);
-            }
-            this.audio.currentTime = 0;
-          } catch {}
-        }
-        this.state.currentTime = 0;
-        if (this.state.currentStation) {
-          this.state.currentCue = getCurrentCue(this.state.currentStation, 0);
-        }
-        this.notify();
-      }, 1500);
-    }
+    // Hold the planned broadcast position until the element can seek. There is
+    // deliberately no "fall back to 0" timer: restarting the station from the
+    // beginning is the exact bug this replaces.
+    this.pendingSeekTarget = targetTime > 0 ? targetTime : null;
+    this.schedulePendingSeek(reqId);
 
     this.revokeCurrentBlob();
 
     this.state.currentStation = station;
     this.state.currentTime = targetTime;
-    this.state.duration = station.duration;
-    this.state.currentCue = getCurrentCue(station, targetTime);
+    this.state.duration = loopDuration;
+    this.state.currentCue = getCurrentCue(station, targetTime, loopDuration);
     this.state.isLoading = true;
     this.state.isOffline = false;
     this.state.error = null;
@@ -598,14 +627,17 @@ export class RadioEngine {
     }
 
     // Re-lock to the simulated universal live broadcast epoch
-    const liveTime = getStationCurrentSecond(this.state.currentStation);
+    const loopDuration =
+      getStationLoopDuration(this.state.currentStation) || this.state.currentStation.duration;
+    const liveTime = getStationSecondForDuration(this.state.currentStation, loopDuration);
     if (this.audio) {
       try {
         this.audio.currentTime = liveTime;
       } catch {}
     }
     this.state.currentTime = liveTime;
-    this.state.currentCue = getCurrentCue(this.state.currentStation, liveTime);
+    this.state.currentCue = getCurrentCue(this.state.currentStation, liveTime, loopDuration);
+    this.state.duration = loopDuration;
 
     if (this.audio) {
       try {

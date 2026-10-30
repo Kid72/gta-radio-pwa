@@ -28,6 +28,23 @@ export function getChunkMeta(gameId: GameId, stationId: string): ChunkMeta | nul
   return CHUNK_MANIFEST[chunkManifestKey(gameId, stationId)] ?? null;
 }
 
+/**
+ * Real loop length of the audio we actually play, in seconds.
+ *
+ * The catalog `station.duration` is only an estimate and is wrong for many
+ * stations — `gta5:radio-los-santos` claims 21384 s while the file is 6691 s,
+ * `gta5:non-stop-pop-fm` claims 13878 s against 10006 s — so any broadcast
+ * arithmetic done with it lands outside the file or at the wrong offset. The
+ * manifest (ffprobe on the shipped audio) wins whenever it exists.
+ */
+export function getStationLoopDuration(station: Station): number {
+  const meta = getChunkMeta(station.gameId, station.id);
+  if (meta && Number.isFinite(meta.duration) && meta.duration > 0) {
+    return meta.duration;
+  }
+  return Number.isFinite(station.duration) && station.duration > 0 ? station.duration : 0;
+}
+
 function isPlayable(station: Station): boolean {
   return Boolean(station.audioUrl) && station.duration > 0;
 }

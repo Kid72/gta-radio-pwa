@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getCurrentCue } from './trackCues';
+import { getCurrentCue, resolveCueTimeline } from './trackCues';
 import { Station } from '../types/radio';
 
 describe('getCurrentCue', () => {
@@ -65,5 +65,59 @@ describe('getCurrentCue', () => {
     const noHostStation: Station = { ...mockStation, duration: 0, host: undefined };
     const cue = getCurrentCue(noHostStation, 10);
     expect(cue.artist).toBe('Pop');
+  });
+
+  describe('cue timeline vs the real audio loop', () => {
+    // A full-playlist table that ends exactly at the catalog duration
+    const fullTableStation: Station = {
+      ...mockStation,
+      duration: 1000,
+      timestamps: [
+        { start: 0, end: 500, song: 'First', artist: 'A', type: 'music' },
+        { start: 500, end: 1000, song: 'Second', artist: 'B', type: 'music' },
+      ],
+    };
+
+    it('uses the table as-is when it matches the audio loop', () => {
+      const timeline = resolveCueTimeline(fullTableStation, 1000);
+      expect(timeline.source).toBe('exact');
+      expect(getCurrentCue(fullTableStation, 250, 1000).song).toBe('First');
+      expect(getCurrentCue(fullTableStation, 750, 1000).song).toBe('Second');
+    });
+
+    it('maps a re-edited table linearly onto a longer file (fades, ad trims)', () => {
+      // catalog 1000 s, shipped file 1040 s (4% longer)
+      const timeline = resolveCueTimeline(fullTableStation, 1040);
+      expect(timeline.source).toBe('scaled');
+      expect(timeline.duration).toBe(1040);
+      expect(timeline.cues[1].start).toBeCloseTo(520, 5);
+      // 520 is the real boundary: 519 is still the first track
+      expect(getCurrentCue(fullTableStation, 519, 1040).song).toBe('First');
+      expect(getCurrentCue(fullTableStation, 521, 1040).song).toBe('Second');
+    });
+
+    it('refuses to name a track when the table cannot describe the file', () => {
+      // gta5:radio-los-santos shape: 1000 s table, 1500 s file (50% off)
+      const timeline = resolveCueTimeline(fullTableStation, 1500);
+      expect(timeline.source).toBe('untrusted');
+      expect(timeline.cues).toHaveLength(0);
+
+      const cue = getCurrentCue(fullTableStation, 700, 1500);
+      expect(cue.song).toBe('Non-Stop Pop FM');
+      expect(cue.type).toBe('talk');
+    });
+
+    it('keeps partial hand-made tables on the catalog timeline (legacy fixtures)', () => {
+      // mockStation's table ends at 400 s while the catalog says 1000 s
+      const timeline = resolveCueTimeline(mockStation, 1000);
+      expect(timeline.source).toBe('partial');
+      expect(timeline.duration).toBe(1000);
+      expect(getCurrentCue(mockStation, 100, 1000).song).toBe('Music Sounds Better with You');
+    });
+
+    it('normalizes by the loop length of the audio, not the catalog duration', () => {
+      // 1300 s in a 1040 s file is 260 s into the loop, i.e. still track one
+      expect(getCurrentCue(fullTableStation, 1300, 1040).song).toBe('First');
+    });
   });
 });
