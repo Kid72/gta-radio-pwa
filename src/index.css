@@ -20,6 +20,100 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── App shell: dynamic viewport height + notch/safe-area handling ──────
+   `100vh` on mobile Safari/Chrome includes the collapsing URL bar, so a
+   `h-screen` shell pushes the player bar below the visible area and clips
+   the HUD. `100dvh` tracks the *visible* viewport instead. */
+html {
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  height: 100%;
+  min-height: 100%;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-shell {
+  height: 100vh; /* fallback for browsers without dvh */
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  /* landscape notch / rounded-corner insets apply to the whole shell */
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+@supports not (height: 100dvh) {
+  .app-shell {
+    height: 100vh;
+    max-height: 100vh;
+  }
+}
+
+/* A scroll region inside the shell: must be allowed to shrink (min-h-0)
+   and must not chain its scroll to the page behind it. */
+.scroll-region {
+  min-height: 0;
+  overflow-y: auto;
+  /* decorative HUD glows (e.g. the GTA V wheel vignette) must not turn the
+     station viewport into a sideways-scrolling box */
+  overflow-x: clip;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+/* Volume slider: 44px touch height with a slim visual track.
+   A 6px-tall <input type=range> is un-tappable in a car / on a tablet. */
+.range-touch {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 44px;
+  background: transparent;
+  cursor: pointer;
+}
+.range-touch::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.range-touch::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  margin-top: -6px;
+  border-radius: 9999px;
+  background: var(--accent-color, #4ae891);
+}
+.range-touch::-moz-range-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.2);
+}
+.range-touch::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 9999px;
+  background: var(--accent-color, #4ae891);
+}
+
+/* Snapping station rails/tuners */
+.snap-y-proximity {
+  scroll-snap-type: y proximity;
+}
+.snap-x-proximity {
+  scroll-snap-type: x proximity;
+}
+.snap-center-item {
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
 :root {
   --accent-color: #4ae891;
   --accent-rgb: 74, 232, 145;

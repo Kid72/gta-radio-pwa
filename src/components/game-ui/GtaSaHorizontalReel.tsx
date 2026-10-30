@@ -74,8 +74,9 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const isDraggingRef = useRef<boolean>(false);
   const dragStartXRef = useRef<number | null>(null);
+  const dragOffsetRef = useRef<number>(0);
+  const pointerIdRef = useRef<number | null>(null);
   const lastWheelTimeRef = useRef<number>(0);
-  const touchStartXRef = useRef<number | null>(null);
 
   const activeIndex = currentStation
     ? stations.findIndex((s) => s.id === currentStation.id)
@@ -140,94 +141,96 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [cycleStation]);
 
-  // Desktop Mouse Drag Navigation
-  const handleMouseDown = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.button !== 0) return; // Only left-click drags
+  // Pointer drag navigation (mouse / touch / pen unified).
+  const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
     dragStartXRef.current = e.clientX;
     isDraggingRef.current = true;
     setIsDragging(true);
+    pointerIdRef.current = e.pointerId;
+    try {
+      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    } catch {
+      /* pointer capture is best-effort */
+    }
   }, []);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDraggingRef.current || dragStartXRef.current === null) return;
-      const diff = e.clientX - dragStartXRef.current;
-      setDragOffset(diff);
-    };
+  const handlePointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isDraggingRef.current || dragStartXRef.current === null) return;
+    const diff = e.clientX - dragStartXRef.current;
+    dragOffsetRef.current = diff;
+    setDragOffset(diff);
+  }, []);
 
-    const handleMouseUp = (e: MouseEvent) => {
+  const endDrag = useCallback(
+    (clientX: number) => {
       if (!isDraggingRef.current) return;
       isDraggingRef.current = false;
       setIsDragging(false);
-
-      if (dragStartXRef.current !== null) {
-        const diff = e.clientX - dragStartXRef.current;
-        dragStartXRef.current = null;
-        setDragOffset(0);
-
-        if (diff < -25) {
-          cycleStation('next');
-        } else if (diff > 25) {
-          cycleStation('prev');
-        }
+      const start = dragStartXRef.current;
+      dragStartXRef.current = null;
+      dragOffsetRef.current = 0;
+      setDragOffset(0);
+      if (start === null) return;
+      const diff = clientX - start;
+      if (diff < -25) {
+        cycleStation('next');
+      } else if (diff > 25) {
+        cycleStation('prev');
       }
-    };
+    },
+    [cycleStation]
+  );
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [cycleStation]);
+  const handlePointerUp = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (pointerIdRef.current !== null) {
+        try {
+          (e.currentTarget as HTMLElement).releasePointerCapture(pointerIdRef.current);
+        } catch {
+          /* ignore */
+        }
+        pointerIdRef.current = null;
+      }
+      endDrag(e.clientX);
+    },
+    [endDrag]
+  );
 
-  // Mouse wheel scroll navigation — must use non-passive native listener so we can preventDefault
+  const handlePointerCancel = useCallback(() => {
+    isDraggingRef.current = false;
+    dragStartXRef.current = null;
+    dragOffsetRef.current = 0;
+    pointerIdRef.current = null;
+    setIsDragging(false);
+    setDragOffset(0);
+  }, []);
+
+  // Mouse wheel scroll navigation — non-passive so we can preventDefault
   // (React's onWheel is passive in modern browsers and can't prevent page scroll)
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
     const handleWheel = (e: WheelEvent) => {
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (Math.abs(delta) <= 3) return;
+      // the reel consumes the gesture: never let the page behind it scroll
       e.preventDefault();
+
       const now = Date.now();
       if (now - lastWheelTimeRef.current < 120) return;
-
-      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      if (Math.abs(delta) > 3) {
-        lastWheelTimeRef.current = now;
-        if (delta > 0) {
-          cycleStation('next');
-        } else {
-          cycleStation('prev');
-        }
+      lastWheelTimeRef.current = now;
+      if (delta > 0) {
+        cycleStation('next');
+      } else {
+        cycleStation('prev');
       }
     };
 
     el.addEventListener('wheel', handleWheel, { passive: false });
     return () => el.removeEventListener('wheel', handleWheel);
   }, [cycleStation]);
-
-  // Mobile touch swipe gestures
-  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
-    if (e.touches.length > 0) {
-      touchStartXRef.current = e.touches[0].clientX;
-    }
-  }, []);
-
-  const handleTouchEnd = useCallback(
-    (e: React.TouchEvent<HTMLDivElement>) => {
-      if (touchStartXRef.current !== null && e.changedTouches.length > 0) {
-        const deltaX = e.changedTouches[0].clientX - touchStartXRef.current;
-        touchStartXRef.current = null;
-        if (deltaX < -30) {
-          cycleStation('next');
-        } else if (deltaX > 30) {
-          cycleStation('prev');
-        }
-      }
-    },
-    [cycleStation]
-  );
 
   const handleImageError = useCallback((id: string) => {
     setImgErrors((prev) => ({ ...prev, [id]: true }));
@@ -242,9 +245,7 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
       role="region"
       aria-label="GTA San Andreas Radio HUD"
       tabIndex={0}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      className={`relative w-full max-w-2xl mx-auto flex flex-col items-center select-none pt-2 pb-4 px-3 outline-none ${className}`}
+      className={`relative w-full max-w-2xl mx-auto flex flex-col items-center select-none pt-1 pb-2 px-2 sm:px-3 outline-none ${className}`}
     >
       {/* San Andreas Amber Strip HUD Backdrop */}
       <div className="w-full bg-gradient-to-b from-black/90 via-amber-950/20 to-black/85 backdrop-blur-md rounded-2xl border border-amber-500/30 p-3 shadow-[0_8px_32px_rgba(0,0,0,0.85),0_0_20px_rgba(245,158,11,0.15)] relative overflow-hidden">
@@ -258,11 +259,11 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
         />
 
         {/* Top Header Row with quick cyclic arrows and title */}
-        <div className="flex items-center justify-between px-2 pb-1 border-b border-amber-500/20 text-amber-500/80 text-xs font-mono tracking-wider">
+        <div className="flex items-center justify-between gap-1 px-1 sm:px-2 pb-1 border-b border-amber-500/20 text-amber-500/80 text-xs font-mono tracking-wider">
           <button
             type="button"
             onClick={() => cycleStation('prev')}
-            className="flex items-center gap-1 hover:text-amber-300 transition-colors cursor-pointer py-0.5 px-1.5 rounded hover:bg-amber-500/10"
+            className="inline-flex items-center justify-center gap-1 min-w-11 min-h-11 hover:text-amber-300 transition-colors cursor-pointer rounded hover:bg-amber-500/10"
             aria-label="Previous Station"
           >
             <ChevronLeft size={14} />
@@ -271,7 +272,7 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
 
           <div className="flex items-center gap-2">
             <Radio size={14} className="text-amber-400 animate-pulse" />
-            <span className="uppercase tracking-widest font-bold text-amber-400">
+            <span className="uppercase tracking-widest font-bold text-amber-400 truncate text-[11px] sm:text-xs">
               San Andreas Radio
             </span>
           </div>
@@ -279,7 +280,7 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
           <button
             type="button"
             onClick={() => cycleStation('next')}
-            className="flex items-center gap-1 hover:text-amber-300 transition-colors cursor-pointer py-0.5 px-1.5 rounded hover:bg-amber-500/10"
+            className="inline-flex items-center justify-center gap-1 min-w-11 min-h-11 hover:text-amber-300 transition-colors cursor-pointer rounded hover:bg-amber-500/10"
             aria-label="Next Station"
           >
             <span className="hidden sm:inline">]</span>
@@ -289,11 +290,18 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
 
         {/* Filmstrip Viewport with edge gradient masking */}
         <div
-          onMouseDown={handleMouseDown}
-          className={`relative w-full h-24 sm:h-28 flex items-center justify-center overflow-hidden my-2 select-none ${
+          data-testid="gtasa-reel-viewport"
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerCancel}
+          className={`relative w-full h-20 sm:h-28 flex items-center justify-center overflow-hidden my-1.5 sm:my-2 select-none ${
             isDragging ? 'cursor-grabbing' : 'cursor-grab'
           }`}
           style={{
+            // `pan-y`: horizontal drags belong to the reel, vertical drags still
+            // scroll the page — the browser never steals our gesture.
+            touchAction: 'pan-y',
             maskImage:
               'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
             WebkitMaskImage:
@@ -394,7 +402,7 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
           <div className="flex flex-col items-center justify-center text-center mt-1 mb-2">
             <h2
               data-testid="gtasa-station-title"
-              className="text-2xl sm:text-3xl text-amber-400 tracking-wider uppercase font-['Pricedown'] font-normal"
+              className="max-w-full px-1 text-xl sm:text-3xl text-amber-400 tracking-wider uppercase font-['Pricedown'] font-normal leading-tight"
               style={{
                 fontFamily: "'Pricedown', 'Impact', sans-serif",
                 textShadow:
@@ -429,7 +437,7 @@ export const GtaSaHorizontalReel: React.FC<GtaSaHorizontalReelProps> = ({
               <VolumeX size={22} />
             </div>
             <h2
-              className="text-2xl sm:text-3xl text-amber-500 font-['Pricedown'] tracking-wider uppercase"
+              className="max-w-full px-1 text-xl sm:text-3xl text-amber-500 font-['Pricedown'] tracking-wider uppercase"
               style={{
                 fontFamily: "'Pricedown', 'Impact', sans-serif",
                 textShadow:

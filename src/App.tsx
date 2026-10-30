@@ -163,6 +163,10 @@ export default function App({
         return;
       }
 
+      // The active game HUD (GTA IV tuner, SA reel, GTA V wheel) owns arrow
+      // keys while it has focus and marks them handled — do not double-tune.
+      if (e.defaultPrevented) return;
+
       if (e.code === 'Space') {
         e.preventDefault();
         activeEngine.togglePlay();
@@ -275,29 +279,26 @@ export default function App({
   const cachedCount = cachedKeys.size;
 
   return (
-    <ThemeWrapper
-      game={currentGameId}
-      className="flex flex-col h-screen max-h-screen overflow-hidden select-none"
-    >
+    <ThemeWrapper game={currentGameId} className="flex flex-col min-h-0 select-none">
       {/* ── Top Header Bar ── */}
       <header
         role="banner"
-        className="relative z-20 flex-shrink-0 w-full border-b border-white/10 bg-black/60 backdrop-blur-2xl px-3 py-2.5 sm:px-6 sm:py-3 transition-colors duration-500"
+        className="relative z-20 flex-shrink-0 w-full border-b border-white/10 bg-black/60 backdrop-blur-2xl px-3 pb-2.5 pt-[max(0.5rem,env(safe-area-inset-top))] sm:px-6 sm:pb-3 sm:pt-[max(0.75rem,env(safe-area-inset-top))] transition-colors duration-500"
       >
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2 md:gap-3">
           {/* Game Selector Tabs */}
           <div className="w-full md:w-auto flex-1 max-w-xl">
             <GameSelector currentGame={currentGameId} onSelectGame={handleSelectGame} />
           </div>
 
           {/* Quick Action Utilities */}
-          <div className="flex items-center gap-2 self-end md:self-auto">
+          <div className="flex items-center gap-1.5 sm:gap-2 self-end md:self-auto">
             {/* View Mode Toggle (Radial Wheel vs Car Grid) */}
             <button
               onClick={handleToggleView}
               data-testid="view-toggle-button"
               aria-label={viewMode === 'wheel' ? 'Switch to Car Grid view' : 'Switch to Radial Wheel view'}
-              className="flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-xs font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-all active:scale-[0.98]"
+              className="flex items-center justify-center gap-1.5 min-w-11 min-h-11 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-xs font-semibold tracking-wider uppercase text-neutral-300 hover:text-white transition-all active:scale-[0.98]"
             >
               {viewMode === 'wheel' ? (
                 <>
@@ -318,7 +319,7 @@ export default function App({
               data-testid="sfx-toggle-button"
               aria-label={sfxEnabled ? 'Disable Radio Tuning SFX' : 'Enable Radio Tuning SFX'}
               title={sfxEnabled ? 'Tuning static enabled' : 'Tuning static disabled'}
-              className={`p-2 rounded-xl border transition-all active:scale-[0.98] ${
+              className={`inline-flex items-center justify-center min-w-11 min-h-11 rounded-xl border transition-all active:scale-[0.98] ${
                 sfxEnabled
                   ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400 shadow-[0_0_12px_rgba(74,232,145,0.2)]'
                   : 'bg-white/5 border-white/10 text-neutral-500 hover:text-neutral-300'
@@ -332,7 +333,7 @@ export default function App({
               onClick={() => setIsStorageOpen(true)}
               data-testid="storage-button"
               aria-label="Open Offline Commute Storage Manager"
-              className="relative flex items-center gap-1.5 py-1.5 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-xs font-semibold tracking-wider text-neutral-300 hover:text-white transition-all active:scale-[0.98]"
+              className="relative flex items-center justify-center gap-1.5 min-w-11 min-h-11 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-xs font-semibold tracking-wider text-neutral-300 hover:text-white transition-all active:scale-[0.98]"
             >
               <HardDrive className="w-4 h-4 text-amber-400" />
               <span className="hidden sm:inline">Offline</span>
@@ -349,13 +350,17 @@ export default function App({
         </div>
       </header>
 
-      {/* ── Main Body Station Viewport ── */}
+      {/* ── Main Body Station Viewport ──
+          scroll-region keeps `min-height: 0` so the flex child can actually
+          shrink (otherwise content is clipped by the shell), and the children
+          use `m-auto` instead of `justify-center` so an oversized HUD stays
+          reachable by scrolling instead of being cut off at the top. */}
       <main
         role="main"
-        className="relative z-10 flex-1 flex flex-col items-center justify-center overflow-y-auto w-full px-2 py-4 sm:p-6"
+        className="scroll-region relative z-10 flex-1 flex flex-col items-center w-full px-2 py-3 sm:p-6"
       >
         {viewMode === 'wheel' ? (
-          <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto my-auto py-2">
+          <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto my-auto py-1 sm:py-2">
             <GameRadioSelector
               gameId={currentGameId}
               stations={currentStations}
@@ -365,14 +370,14 @@ export default function App({
               currentCue={currentCue}
               coverArtUrl={coverArtUrl}
             />
-            <div className="mt-4 text-center">
+            <div className="mt-2 sm:mt-4 text-center px-2">
               <span className="text-[11px] text-neutral-500 tracking-wider uppercase">
-                Tap or drag wheel to tune • Press <kbd className="px-1 py-0.5 rounded bg-white/10 text-neutral-300 font-mono text-[10px]">Q</kbd> for quick select
+                Tap or drag to tune • Press <kbd className="px-1 py-0.5 rounded bg-white/10 text-neutral-300 font-mono text-[10px]">Q</kbd> for quick select
               </span>
             </div>
           </div>
         ) : (
-          <div className="w-full max-w-6xl mx-auto h-full flex flex-col justify-start">
+          <div className="w-full max-w-6xl mx-auto flex-1 min-h-0 flex flex-col justify-start">
             <CarQuickGrid
               stations={currentStations}
               currentStation={currentStation}
@@ -388,14 +393,17 @@ export default function App({
         )}
       </main>
 
+      {/* ── Install prompt: docked above the player bar (never overlays the HUD) ── */}
+      <InstallPrompt />
+
       {/* ── Persistent Bottom CarPlay Player Bar ── */}
       <footer
         role="region"
         aria-label="Audio Playback Bar"
         data-testid="player-bar"
-        className="relative z-20 flex-shrink-0 w-full bg-black/85 backdrop-blur-2xl border-t border-white/15 px-3 py-2.5 sm:px-6 sm:py-3.5 shadow-[0_-10px_35px_rgba(0,0,0,0.85)]"
+        className="relative z-20 flex-shrink-0 w-full bg-black/85 backdrop-blur-2xl border-t border-white/15 px-3 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 sm:px-6 sm:pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:pt-3 shadow-[0_-10px_35px_rgba(0,0,0,0.85)]"
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 sm:gap-6">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-6">
           {/* Current Station Info */}
           <div className="flex items-center gap-3 min-w-0 flex-1 sm:flex-initial sm:w-72">
             <div className="relative flex-shrink-0 w-11 h-11 sm:w-14 sm:h-14 rounded-xl bg-black/60 border border-white/15 overflow-hidden flex items-center justify-center shadow-lg">
@@ -459,12 +467,12 @@ export default function App({
           </div>
 
           {/* Central Playback Controls */}
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-1.5 sm:gap-4">
             <button
               onClick={handlePrevStation}
               data-testid="player-prev-button"
               aria-label="Previous Station"
-              className="p-2 sm:p-2.5 rounded-full bg-white/5 hover:bg-white/15 text-neutral-300 hover:text-white transition-all active:scale-95"
+              className="inline-flex items-center justify-center min-w-11 min-h-11 sm:p-2.5 rounded-full bg-white/5 hover:bg-white/15 text-neutral-300 hover:text-white transition-all active:scale-95"
             >
               <SkipBack className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
@@ -491,7 +499,7 @@ export default function App({
               onClick={handleNextStation}
               data-testid="player-next-button"
               aria-label="Next Station"
-              className="p-2 sm:p-2.5 rounded-full bg-white/5 hover:bg-white/15 text-neutral-300 hover:text-white transition-all active:scale-95"
+              className="inline-flex items-center justify-center min-w-11 min-h-11 sm:p-2.5 rounded-full bg-white/5 hover:bg-white/15 text-neutral-300 hover:text-white transition-all active:scale-95"
             >
               <SkipForward className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
@@ -503,7 +511,7 @@ export default function App({
               onClick={handleToggleMute}
               data-testid="volume-mute-button"
               aria-label={engineState.isMuted ? 'Unmute Audio' : 'Mute Audio'}
-              className="p-2 rounded-xl text-neutral-400 hover:text-white hover:bg-white/10 transition-colors"
+              className="inline-flex items-center justify-center min-w-11 min-h-11 rounded-xl text-neutral-400 hover:text-white hover:bg-white/10 transition-colors"
             >
               {engineState.isMuted || engineState.volume === 0 ? (
                 <VolumeX className="w-5 h-5 text-red-400" />
@@ -521,7 +529,7 @@ export default function App({
               onChange={handleVolumeChange}
               data-testid="volume-slider"
               aria-label="Volume Slider"
-              className="w-24 h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-emerald-400"
+              className="range-touch w-24 accent-emerald-400"
             />
           </div>
         </div>
@@ -533,9 +541,6 @@ export default function App({
         onClose={() => setIsStorageOpen(false)}
         onStorageChanged={refreshCachedKeys}
       />
-
-      {/* ── Standalone Apple CarPlay & PWA Install Prompt ── */}
-      <InstallPrompt />
     </ThemeWrapper>
   );
 }

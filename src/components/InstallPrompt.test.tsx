@@ -27,8 +27,11 @@ describe('InstallPrompt Component', () => {
     });
 
     render(<InstallPrompt forceShow={true} />);
+    // iOS gets the manual Share → Add to Home Screen copy instead of an
+    // install button (iOS has no programmatic install prompt).
     expect(screen.getByTestId('install-ios-instructions')).toBeInTheDocument();
-    expect(screen.getByText(/Add to Home Screen/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Add to Home Screen/i).length).toBeGreaterThan(0);
+    expect(screen.queryByTestId('install-button')).not.toBeInTheDocument();
 
     Object.defineProperty(navigator, 'userAgent', {
       value: originalUA,

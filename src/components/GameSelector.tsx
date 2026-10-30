@@ -44,7 +44,7 @@ export const GameSelector: React.FC<GameSelectorProps> = ({
             aria-selected={isSelected}
             aria-label={`${game.shortTitle} - ${game.title}`}
             onClick={() => onSelectGame(game.id)}
-            className={`flex-1 relative group flex flex-col items-center justify-center py-2 px-2 sm:px-4 rounded-xl border transition-all duration-200 cursor-pointer select-none active:scale-[0.98] ${
+            className={`flex-1 min-w-0 min-h-11 relative group flex flex-col items-center justify-center py-1.5 px-1 sm:px-4 rounded-xl border transition-all duration-200 cursor-pointer select-none active:scale-[0.98] ${
               isSelected
                 ? `${themeActiveClasses} font-semibold`
                 : 'border-white/5 bg-white/[0.03] text-neutral-400 hover:text-neutral-200 hover:bg-white/[0.07] hover:border-white/15'
@@ -63,7 +63,7 @@ export const GameSelector: React.FC<GameSelectorProps> = ({
 
             {/* Game Title */}
             <span
-              className={`text-xs sm:text-sm font-bold tracking-wider uppercase transition-colors ${
+              className={`max-w-full truncate text-[11px] sm:text-sm font-bold tracking-wider uppercase transition-colors ${
                 isSelected ? 'text-white' : 'text-neutral-300 group-hover:text-white'
               }`}
             >
@@ -71,9 +71,9 @@ export const GameSelector: React.FC<GameSelectorProps> = ({
             </span>
 
             {/* Badges Row: Station count & Release year */}
-            <div className="flex items-center gap-1.5 mt-1">
+            <div className="flex items-center gap-1 sm:gap-1.5 mt-1 min-w-0">
               <span
-                className={`text-[10px] sm:text-[11px] font-medium px-1.5 py-0.5 rounded-md transition-colors ${
+                className={`whitespace-nowrap text-[9px] sm:text-[11px] font-medium px-1 sm:px-1.5 py-0.5 rounded-md transition-colors ${
                   isSelected
                     ? 'bg-black/50 text-white font-semibold'
                     : 'bg-white/5 text-neutral-400'
@@ -82,7 +82,7 @@ export const GameSelector: React.FC<GameSelectorProps> = ({
               >
                 {stationCount} Stations
               </span>
-              <span className="text-[10px] sm:text-[11px] font-mono text-neutral-400">
+              <span className="whitespace-nowrap text-[9px] sm:text-[11px] font-mono text-neutral-400">
                 {game.year}
               </span>
             </div>

@@ -30,7 +30,7 @@ export const ThemeWrapper: React.FC<ThemeWrapperProps> = ({
       data-testid="theme-wrapper"
       data-theme={gameMetadata.id}
       data-game={gameMetadata.id}
-      className={`min-h-screen relative overflow-hidden bg-black text-white theme-${gameMetadata.id} ${className}`}
+      className={`app-shell relative bg-black text-white theme-${gameMetadata.id} ${className}`}
       style={style}
     >
       {/* Background authentic wallpaper backdrop */}
@@ -54,7 +54,7 @@ export const ThemeWrapper: React.FC<ThemeWrapperProps> = ({
       )}
 
       {/* Main app viewport content */}
-      <div className="relative z-0 flex flex-col w-full h-full min-h-screen select-none">
+      <div className="relative z-0 flex flex-col w-full h-full min-h-0 select-none">
         {children}
       </div>
     </div>

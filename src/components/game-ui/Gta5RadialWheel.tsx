@@ -128,10 +128,34 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
       : -1;
   const activeStation = displayIndex >= 0 ? stations[displayIndex] : null;
 
+  // The HUD is a fixed 520px disc by design; on phones that is wider than the
+  // screen and the wheel gets clipped. Shrink the geometry (never the design)
+  // to the space actually available.
+  const [autoSize, setAutoSize] = useState<number>(size);
+  useEffect(() => {
+    const measure = () => {
+      const el = containerRef.current;
+      if (!el) return;
+      const avail = Math.min(
+        el.parentElement?.clientWidth || size,
+        typeof window !== 'undefined' ? window.innerWidth - 16 : size
+      );
+      if (avail > 0) setAutoSize(Math.max(260, Math.floor(Math.min(size, avail))));
+    };
+    measure();
+    if (typeof window === 'undefined') return;
+    window.addEventListener('resize', measure);
+    window.addEventListener('orientationchange', measure);
+    return () => {
+      window.removeEventListener('resize', measure);
+      window.removeEventListener('orientationchange', measure);
+    };
+  }, [size]);
+
   // Geometry configuration
-  const scale = size / 520;
-  const cx = size / 2;
-  const cy = size / 2;
+  const scale = autoSize / 520;
+  const cx = autoSize / 2;
+  const cy = autoSize / 2;
   const rIn = 110 * scale;
   const rOutBase = 215 * scale;
   const rOutActive = (215 + 14) * scale;
@@ -332,8 +356,8 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
       onTouchEnd={handleTouchEnd}
       onKeyDown={handleKeyDown}
       style={{
-        width: `${size}px`,
-        height: `${size}px`,
+        width: `${autoSize}px`,
+        height: `${autoSize}px`,
         fontFamily: GTA5_HUD_FONT,
       }}
       className={`relative mx-auto flex items-center justify-center select-none touch-none outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full ${className}`}
@@ -351,7 +375,7 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
       {/* SVG Annular Radial Wheel */}
       <svg
         data-testid="gta5-radial-svg"
-        viewBox={`0 0 ${size} ${size}`}
+        viewBox={`0 0 ${autoSize} ${autoSize}`}
         className="absolute inset-0 w-full h-full overflow-visible pointer-events-auto"
       >
         <defs>

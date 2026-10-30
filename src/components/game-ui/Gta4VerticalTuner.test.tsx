@@ -9,6 +9,31 @@ import {
 import { Station, TrackCue } from '../../types/radio';
 import { sfx } from '../../audio/sfx';
 
+/**
+ * jsdom has no PointerEvent, so fireEvent.pointerDown drops the coordinates the
+ * handler needs. A MouseEvent with the pointer type exercises the same path.
+ */
+function dispatchPointer(
+  el: Element,
+  type: 'pointerdown' | 'pointerup' | 'pointercancel',
+  props: { clientY: number; clientX?: number; pointerId?: number; pointerType?: string }
+) {
+  const ev = new MouseEvent(type, {
+    bubbles: true,
+    cancelable: true,
+    clientX: props.clientX ?? 0,
+    clientY: props.clientY,
+    button: 0,
+  });
+  Object.assign(ev, {
+    pointerId: props.pointerId ?? 1,
+    pointerType: props.pointerType ?? 'touch',
+    isPrimary: true,
+  });
+  fireEvent(el, ev);
+}
+
+
 vi.mock('../../audio/sfx', () => ({
   sfx: {
     playClick: vi.fn(),
@@ -465,7 +490,7 @@ describe('Gta4VerticalTuner', () => {
       expect(onSelect).toHaveBeenCalledTimes(1);
     });
 
-    it('stops propagation of mouse wheel over gta4-station-list to permit natural scrolling through all stations without cycling tuner', () => {
+    it('lets the wheel scroll the station list instead of retuning (list owns its scroll)', () => {
       const onSelect = vi.fn();
       render(
         <Gta4VerticalTuner
@@ -478,18 +503,35 @@ describe('Gta4VerticalTuner', () => {
 
       const stationList = screen.getByTestId('gta4-station-list');
 
-      // Wheel event on station list should have stopPropagation called and NOT trigger onSelectStation
+      // Wheel over the list must not be cancelled (native scroll) and must not retune
       const wheelEvent = new WheelEvent('wheel', { deltaY: 60, bubbles: true, cancelable: true });
-      const stopPropagationSpy = vi.spyOn(wheelEvent, 'stopPropagation');
-
+      const preventDefaultSpy = vi.spyOn(wheelEvent, 'preventDefault');
       stationList.dispatchEvent(wheelEvent);
 
-      expect(stopPropagationSpy).toHaveBeenCalled();
+      expect(preventDefaultSpy).not.toHaveBeenCalled();
+      expect(wheelEvent.defaultPrevented).toBe(false);
       expect(onSelect).not.toHaveBeenCalled();
     });
 
-    it('invokes scrollIntoView on mount and on explicit station cycle, without locking the list during scrolling', () => {
+    it('declares pan-y on the station list and none on the dial so touch gestures are never stolen', () => {
+      render(
+        <Gta4VerticalTuner
+          stations={mockStations}
+          currentStation={mockStations[1]}
+          onSelectStation={vi.fn()}
+        />
+      );
+
+      expect(screen.getByTestId('gta4-station-list').style.touchAction).toBe('pan-y');
+      expect(screen.getByTestId('gta4-dial').style.touchAction).toBe('none');
+    });
+
+    it('centers the active row inside the list without touching document scroll', () => {
       const onSelect = vi.fn();
+      const scrollToSpy = vi.fn();
+      const scrollIntoViewSpy = vi.mocked(Element.prototype.scrollIntoView);
+      scrollIntoViewSpy.mockClear();
+
       const { rerender } = render(
         <Gta4VerticalTuner
           stations={mockStations}
@@ -499,15 +541,13 @@ describe('Gta4VerticalTuner', () => {
         />
       );
 
-      // On initial mount, active station item scrollIntoView is called with auto behavior
-      expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({
-        block: 'nearest',
-        behavior: 'auto',
-      });
+      const stationList = screen.getByTestId('gta4-station-list');
+      // jsdom has no layout; provide the minimal scroll surface we rely on
+      (stationList as unknown as { scrollTo: unknown }).scrollTo = scrollToSpy;
+      Object.defineProperty(stationList, 'clientHeight', { configurable: true, value: 300 });
+      Object.defineProperty(stationList, 'scrollHeight', { configurable: true, value: 1200 });
 
-      vi.mocked(Element.prototype.scrollIntoView).mockClear();
-
-      // Rerendering with same active station (e.g. while scrolling through stations) does NOT call scrollIntoView
+      // Rerendering with the same active station must not scroll anything
       rerender(
         <Gta4VerticalTuner
           stations={mockStations}
@@ -516,13 +556,12 @@ describe('Gta4VerticalTuner', () => {
           isPlaying={true}
         />
       );
-      expect(Element.prototype.scrollIntoView).not.toHaveBeenCalled();
+      expect(scrollToSpy).not.toHaveBeenCalled();
 
-      // Explicitly cycling via ArrowDown triggers scrollIntoView on next selection
+      // Explicit cycling via ArrowDown re-centers the new active row
       fireEvent.keyDown(window, { key: 'ArrowDown' });
       expect(onSelect).toHaveBeenCalledWith(mockStations[1]);
 
-      // When parent updates currentStation after cycleStation
       rerender(
         <Gta4VerticalTuner
           stations={mockStations}
@@ -531,10 +570,11 @@ describe('Gta4VerticalTuner', () => {
           isPlaying={true}
         />
       );
-      expect(Element.prototype.scrollIntoView).toHaveBeenCalledWith({
-        block: 'nearest',
-        behavior: 'smooth',
-      });
+
+      expect(scrollToSpy).toHaveBeenCalledTimes(1);
+      expect(scrollToSpy.mock.calls[0][0]).toMatchObject({ behavior: 'smooth' });
+      // never fall back to scrollIntoView, which also scrolls the page shell
+      expect(scrollIntoViewSpy).not.toHaveBeenCalled();
     });
 
     it('renders all 19 real GTA IV stations with logos and frequencies', async () => {
@@ -559,7 +599,7 @@ describe('Gta4VerticalTuner', () => {
       });
     });
 
-    it('handles mobile touch swipe up and down gestures to navigate stations', () => {
+    it('handles touch swipe up and down on the dial via pointer events', () => {
       const onSelect = vi.fn();
       render(
         <Gta4VerticalTuner
@@ -570,25 +610,23 @@ describe('Gta4VerticalTuner', () => {
         />
       );
 
-      const container = screen.getByTestId('gta4-vertical-tuner');
+      const dial = screen.getByTestId('gta4-dial');
 
-      // Swipe up: touchStartY = 200, touchEndY = 150 (deltaY = -50) -> next station
-      fireEvent.touchStart(container, {
-        touches: [{ clientY: 200 }],
-      });
-      fireEvent.touchEnd(container, {
-        changedTouches: [{ clientY: 150 }],
-      });
+      // Swipe up: start 200 -> 150 (deltaY = -50) -> next station
+      dispatchPointer(dial, 'pointerdown', { clientY: 200, pointerType: 'touch', pointerId: 21 });
+      dispatchPointer(dial, 'pointerup', { clientY: 150, pointerType: 'touch', pointerId: 21 });
       expect(onSelect).toHaveBeenCalledWith(mockStations[2]);
 
-      // Swipe down: touchStartY = 100, touchEndY = 160 (deltaY = +60) -> prev station
-      fireEvent.touchStart(container, {
-        touches: [{ clientY: 100 }],
-      });
-      fireEvent.touchEnd(container, {
-        changedTouches: [{ clientY: 160 }],
-      });
+      // Swipe down: start 100 -> 160 (deltaY = +60) -> prev station
+      dispatchPointer(dial, 'pointerdown', { clientY: 100, pointerType: 'touch', pointerId: 22 });
+      dispatchPointer(dial, 'pointerup', { clientY: 160, pointerType: 'touch', pointerId: 22 });
       expect(onSelect).toHaveBeenCalledWith(mockStations[0]);
+
+      // A tap (no movement) must not retune
+      onSelect.mockClear();
+      dispatchPointer(dial, 'pointerdown', { clientY: 120, pointerType: 'touch', pointerId: 23 });
+      dispatchPointer(dial, 'pointerup', { clientY: 125, pointerType: 'touch', pointerId: 23 });
+      expect(onSelect).not.toHaveBeenCalled();
     });
 
     it('navigates stations via header navigation buttons', () => {

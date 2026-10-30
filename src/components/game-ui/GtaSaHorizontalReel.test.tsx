@@ -9,6 +9,33 @@ import {
 import { Station, TrackCue } from '../../types/radio';
 import { sfx } from '../../audio/sfx';
 
+/**
+ * jsdom does not implement PointerEvent, so `fireEvent.pointerDown` drops
+ * clientX/pointerType. Dispatch a MouseEvent with the pointer type instead —
+ * React's onPointer* handlers read exactly those fields, so this exercises the
+ * same code path the browser uses.
+ */
+function firePointer(
+  el: Element,
+  type: 'pointerdown' | 'pointermove' | 'pointerup' | 'pointercancel',
+  props: { clientX: number; clientY?: number; pointerId?: number; pointerType?: string; button?: number }
+) {
+  const ev = new MouseEvent(type, {
+    bubbles: true,
+    cancelable: true,
+    clientX: props.clientX,
+    clientY: props.clientY ?? 0,
+    button: props.button ?? 0,
+  });
+  Object.assign(ev, {
+    pointerId: props.pointerId ?? 1,
+    pointerType: props.pointerType ?? 'mouse',
+    isPrimary: true,
+  });
+  fireEvent(el, ev);
+}
+
+
 vi.mock('../../audio/sfx', () => ({
   sfx: {
     playClick: vi.fn(),
@@ -472,7 +499,7 @@ describe('GtaSaHorizontalReel', () => {
       nowSpy.mockRestore();
     });
 
-    describe('Desktop Mouse Drag Navigation', () => {
+    describe('Pointer Drag Navigation (mouse / touch / pen)', () => {
       it('drags left to shift reel and cycle to next station on release', () => {
         const onSelect = vi.fn();
         render(
@@ -484,20 +511,20 @@ describe('GtaSaHorizontalReel', () => {
         );
 
         const reelTrack = screen.getByTestId('gtasa-reel-track');
-        const viewport = reelTrack.parentElement!;
+        const viewport = screen.getByTestId('gtasa-reel-viewport');
 
-        // Mouse down to begin dragging at X=300
-        fireEvent.mouseDown(viewport, { button: 0, clientX: 300 });
+        // Pointer down to begin dragging at X=300
+        firePointer(viewport, 'pointerdown', { button: 0, clientX: 300, pointerId: 1, pointerType: 'mouse' });
 
-        // Mouse move to the left by 60px (diff = -60)
-        fireEvent.mouseMove(window, { clientX: 240 });
+        // Drag to the left by 60px (diff = -60)
+        firePointer(viewport, 'pointermove', { clientX: 240, pointerId: 1, pointerType: 'mouse' });
 
         // Verify reel track transform shifted by dragOffset
         expect(reelTrack.style.transform).toContain('-60px');
         expect(reelTrack.style.transition).toBe('none');
 
-        // Mouse up at X=240 (diff = -60 < -25 -> cycle next)
-        fireEvent.mouseUp(window, { clientX: 240 });
+        // Release at X=240 (diff = -60 < -25 -> cycle next)
+        firePointer(viewport, 'pointerup', { clientX: 240, pointerId: 1, pointerType: 'mouse' });
 
         expect(onSelect).toHaveBeenCalledWith(mockStations[2]);
         expect(sfx.playClick).toHaveBeenCalled();
@@ -515,17 +542,13 @@ describe('GtaSaHorizontalReel', () => {
         );
 
         const reelTrack = screen.getByTestId('gtasa-reel-track');
-        const viewport = reelTrack.parentElement!;
+        const viewport = screen.getByTestId('gtasa-reel-viewport');
 
-        // Mouse down at X=200
-        fireEvent.mouseDown(viewport, { button: 0, clientX: 200 });
-
-        // Drag right to X=280 (diff = +80)
-        fireEvent.mouseMove(window, { clientX: 280 });
+        firePointer(viewport, 'pointerdown', { button: 0, clientX: 200, pointerId: 1, pointerType: 'mouse' });
+        firePointer(viewport, 'pointermove', { clientX: 280, pointerId: 1, pointerType: 'mouse' });
         expect(reelTrack.style.transform).toContain('80px');
 
-        // Mouse up (diff = +80 > 25 -> cycle prev)
-        fireEvent.mouseUp(window, { clientX: 280 });
+        firePointer(viewport, 'pointerup', { clientX: 280, pointerId: 1, pointerType: 'mouse' });
 
         expect(onSelect).toHaveBeenCalledWith(mockStations[0]);
       });
@@ -540,17 +563,16 @@ describe('GtaSaHorizontalReel', () => {
           />
         );
 
-        const reelTrack = screen.getByTestId('gtasa-reel-track');
-        const viewport = reelTrack.parentElement!;
+        const viewport = screen.getByTestId('gtasa-reel-viewport');
 
-        fireEvent.mouseDown(viewport, { button: 0, clientX: 200 });
-        fireEvent.mouseMove(window, { clientX: 215 }); // diff = +15
-        fireEvent.mouseUp(window, { clientX: 215 });
+        firePointer(viewport, 'pointerdown', { button: 0, clientX: 200, pointerId: 1, pointerType: 'mouse' });
+        firePointer(viewport, 'pointermove', { clientX: 215, pointerId: 1, pointerType: 'mouse' }); // diff = +15
+        firePointer(viewport, 'pointerup', { clientX: 215, pointerId: 1, pointerType: 'mouse' });
 
         expect(onSelect).not.toHaveBeenCalled();
       });
 
-      it('ignores non-left mouse button clicks (e.g. right click button 2)', () => {
+      it('ignores non-left pointer buttons (e.g. right click button 2)', () => {
         const onSelect = vi.fn();
         render(
           <GtaSaHorizontalReel
@@ -560,12 +582,11 @@ describe('GtaSaHorizontalReel', () => {
           />
         );
 
-        const reelTrack = screen.getByTestId('gtasa-reel-track');
-        const viewport = reelTrack.parentElement!;
+        const viewport = screen.getByTestId('gtasa-reel-viewport');
 
-        fireEvent.mouseDown(viewport, { button: 2, clientX: 200 });
-        fireEvent.mouseMove(window, { clientX: 100 });
-        fireEvent.mouseUp(window, { clientX: 100 });
+        firePointer(viewport, 'pointerdown', { button: 2, clientX: 200, pointerId: 1, pointerType: 'mouse' });
+        firePointer(viewport, 'pointermove', { clientX: 100, pointerId: 1, pointerType: 'mouse' });
+        firePointer(viewport, 'pointerup', { clientX: 100, pointerId: 1, pointerType: 'mouse' });
 
         expect(onSelect).not.toHaveBeenCalled();
       });
@@ -591,7 +612,7 @@ describe('GtaSaHorizontalReel', () => {
       });
     });
 
-    it('handles mobile touch swipe gestures to navigate stations', () => {
+    it('handles mobile touch swipes through the same pointer pipeline', () => {
       const onSelect = vi.fn();
       render(
         <GtaSaHorizontalReel
@@ -601,17 +622,51 @@ describe('GtaSaHorizontalReel', () => {
         />
       );
 
-      const container = screen.getByTestId('gtasa-reel-container');
+      const viewport = screen.getByTestId('gtasa-reel-viewport');
 
-      // Swipe Left (drag left -> next station)
-      fireEvent.touchStart(container, { touches: [{ clientX: 200, clientY: 50 }] });
-      fireEvent.touchEnd(container, { changedTouches: [{ clientX: 120, clientY: 50 }] });
+      // Swipe left -> next station
+      firePointer(viewport, 'pointerdown', { clientX: 200, clientY: 50, pointerId: 11, pointerType: 'touch' });
+      firePointer(viewport, 'pointermove', { clientX: 150, clientY: 50, pointerId: 11, pointerType: 'touch' });
+      firePointer(viewport, 'pointerup', { clientX: 120, clientY: 50, pointerId: 11, pointerType: 'touch' });
       expect(onSelect).toHaveBeenCalledWith(mockStations[2]);
 
-      // Swipe Right (drag right -> prev station)
-      fireEvent.touchStart(container, { touches: [{ clientX: 100, clientY: 50 }] });
-      fireEvent.touchEnd(container, { changedTouches: [{ clientX: 180, clientY: 50 }] });
+      // Swipe right -> previous station
+      firePointer(viewport, 'pointerdown', { clientX: 100, clientY: 50, pointerId: 12, pointerType: 'touch' });
+      firePointer(viewport, 'pointermove', { clientX: 150, clientY: 50, pointerId: 12, pointerType: 'touch' });
+      firePointer(viewport, 'pointerup', { clientX: 180, clientY: 50, pointerId: 12, pointerType: 'touch' });
       expect(onSelect).toHaveBeenCalledWith(mockStations[0]);
+    });
+
+    it('declares pan-y on the reel viewport so horizontal drags are never stolen by page scroll', () => {
+      render(
+        <GtaSaHorizontalReel
+          stations={mockStations}
+          currentStation={mockStations[1]}
+          onSelectStation={vi.fn()}
+        />
+      );
+
+      const viewport = screen.getByTestId('gtasa-reel-viewport');
+      expect(viewport.style.touchAction).toBe('pan-y');
+    });
+
+    it('cancels an in-flight drag without retuning', () => {
+      const onSelect = vi.fn();
+      render(
+        <GtaSaHorizontalReel
+          stations={mockStations}
+          currentStation={mockStations[1]}
+          onSelectStation={onSelect}
+        />
+      );
+
+      const viewport = screen.getByTestId('gtasa-reel-viewport');
+      firePointer(viewport, 'pointerdown', { clientX: 300, pointerId: 3, pointerType: 'touch' });
+      firePointer(viewport, 'pointermove', { clientX: 200, pointerId: 3, pointerType: 'touch' });
+      firePointer(viewport, 'pointercancel', { clientX: 200, pointerId: 3, pointerType: 'touch' });
+      firePointer(viewport, 'pointerup', { clientX: 200, pointerId: 3, pointerType: 'touch' });
+
+      expect(onSelect).not.toHaveBeenCalled();
     });
 
     it('handles image error fallback for station logo', () => {

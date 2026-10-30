@@ -86,11 +86,13 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
   className = '',
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const dialRef = useRef<HTMLDivElement>(null);
   const stationListRef = useRef<HTMLDivElement>(null);
   const activeItemRef = useRef<HTMLButtonElement | null>(null);
   const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
   const lastWheelTimeRef = useRef<number>(0);
   const touchStartYRef = useRef<number | null>(null);
+  const pointerIdRef = useRef<number | null>(null);
 
   const activeIndex = currentStation
     ? stations.findIndex((s) => s.id === currentStation.id)
@@ -99,17 +101,37 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
   const shouldScrollRef = useRef<boolean>(false);
   const isFirstMountRef = useRef<boolean>(true);
 
+  /**
+   * Centers the active row inside the station list only — never touches the
+   * page/document scroll (scrollIntoView used to drag the whole shell around).
+   */
+  const centerActiveItem = useCallback((smooth: boolean) => {
+    const list = stationListRef.current;
+    const item = activeItemRef.current;
+    if (!list || !item) return;
+    const listRect = list.getBoundingClientRect();
+    const itemRect = item.getBoundingClientRect();
+    const target =
+      list.scrollTop +
+      (itemRect.top - listRect.top) -
+      (list.clientHeight - itemRect.height) / 2;
+    const max = Math.max(0, list.scrollHeight - list.clientHeight);
+    const top = Math.min(Math.max(0, target), max);
+    if (typeof list.scrollTo === 'function') {
+      list.scrollTo({ top, behavior: smooth ? 'smooth' : 'auto' });
+    } else {
+      list.scrollTop = top;
+    }
+  }, []);
+
   // Scroll active item into view on station change only when triggered by keyboard / chevrons or initial mount
   useEffect(() => {
     if ((isFirstMountRef.current || shouldScrollRef.current) && activeItemRef.current) {
-      activeItemRef.current.scrollIntoView({
-        block: 'nearest',
-        behavior: isFirstMountRef.current ? 'auto' : 'smooth',
-      });
+      centerActiveItem(!isFirstMountRef.current);
       isFirstMountRef.current = false;
       shouldScrollRef.current = false;
     }
-  }, [activeIndex]);
+  }, [activeIndex, centerActiveItem]);
 
   const handleSelect = useCallback(
     (station: Station) => {
@@ -174,25 +196,32 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [cycleStation]);
 
-  // Mouse wheel scroll navigation — must use non-passive native listener so we can preventDefault
-  // (React's onWheel is passive in modern browsers and can't prevent page scroll)
+  // Mouse wheel navigation — non-passive so we can preventDefault.
+  // Over the station list the list must win: the wheel scrolls the rows and the
+  // tuner stays silent (otherwise you can never scroll past the visible items).
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
     const handleWheel = (e: WheelEvent) => {
+      const target = e.target as Element | null;
+      if (target && target.closest('[data-testid="gta4-station-list"]')) {
+        // native list scroll; no preventDefault, no retune
+        return;
+      }
+      const delta = e.deltaY;
+      if (Math.abs(delta) <= 5) return;
+
+      // the tuner consumes this gesture: stop the page behind it from scrolling
       e.preventDefault();
+
       const now = Date.now();
       if (now - lastWheelTimeRef.current < 180) return;
-
-      const delta = e.deltaY;
-      if (Math.abs(delta) > 5) {
-        lastWheelTimeRef.current = now;
-        if (delta > 0) {
-          cycleStation('next');
-        } else {
-          cycleStation('prev');
-        }
+      lastWheelTimeRef.current = now;
+      if (delta > 0) {
+        cycleStation('next');
+      } else {
+        cycleStation('prev');
       }
     };
 
@@ -200,41 +229,46 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
     return () => el.removeEventListener('wheel', handleWheel);
   }, [cycleStation]);
 
-  // Station list native wheel listener: stop propagation so the list can scroll
-  // naturally without triggering the outer tuner wheel cycling
-  useEffect(() => {
-    const el = stationListRef.current;
-    if (!el) return;
-
-    const handleListWheel = (e: WheelEvent) => {
-      e.stopPropagation();
-    };
-
-    el.addEventListener('wheel', handleListWheel, { passive: true });
-    return () => el.removeEventListener('wheel', handleListWheel);
-  }, []);
-
-  // Mobile touch swipe gestures (vertical drag)
-  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
-    if (e.touches.length > 0) {
-      touchStartYRef.current = e.touches[0].clientY;
+  // Pointer drag / swipe on the dial (header + banner): works for mouse, touch
+  // and pen. The dial is `touch-action: none` so a vertical swipe tunes instead
+  // of scroll-fighting the shell.
+  const handlePointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    touchStartYRef.current = e.clientY;
+    pointerIdRef.current = e.pointerId;
+    try {
+      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    } catch {
+      /* pointer capture is best-effort */
     }
   }, []);
 
-  const handleTouchEnd = useCallback(
-    (e: React.TouchEvent<HTMLDivElement>) => {
-      if (touchStartYRef.current !== null && e.changedTouches.length > 0) {
-        const deltaY = e.changedTouches[0].clientY - touchStartYRef.current;
-        touchStartYRef.current = null;
-        if (deltaY < -30) {
-          cycleStation('next');
-        } else if (deltaY > 30) {
-          cycleStation('prev');
+  const handlePointerUp = useCallback(
+    (e: React.PointerEvent<HTMLDivElement>) => {
+      if (pointerIdRef.current !== null) {
+        try {
+          (e.currentTarget as HTMLElement).releasePointerCapture(pointerIdRef.current);
+        } catch {
+          /* ignore */
         }
+        pointerIdRef.current = null;
+      }
+      if (touchStartYRef.current === null) return;
+      const deltaY = e.clientY - touchStartYRef.current;
+      touchStartYRef.current = null;
+      if (deltaY < -30) {
+        cycleStation('next');
+      } else if (deltaY > 30) {
+        cycleStation('prev');
       }
     },
     [cycleStation]
   );
+
+  const handlePointerCancel = useCallback(() => {
+    touchStartYRef.current = null;
+    pointerIdRef.current = null;
+  }, []);
 
   const handleImageError = useCallback((id: string) => {
     setImgErrors((prev) => ({ ...prev, [id]: true }));
@@ -262,8 +296,6 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
       role="region"
       aria-label="GTA IV Liberty City Radio Tuner"
       tabIndex={0}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
       className={`relative w-full max-w-xl mx-auto flex flex-col select-none outline-none ${className}`}
     >
       {/* Industrial Dark Slate Container with Liberty City Gritty Styling */}
@@ -282,35 +314,51 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
           }}
         />
 
+        {/* Dial head: header + now-playing banner. `touch-action: none` +
+            pointer capture makes a vertical swipe tune the dial instead of
+            scrolling the page. */}
+        <div
+          ref={dialRef}
+          data-testid="gta4-dial"
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerCancel}
+          style={{ touchAction: 'none' }}
+        >
         {/* Industrial Header Bar */}
-        <div className="flex items-center justify-between px-3 py-2 bg-slate-950/80 border-b border-yellow-500/30 text-xs">
-          <div className="flex items-center gap-2">
-            <Radio size={14} className="text-yellow-400 animate-pulse" />
-            <span className="font-['Bank_Gothic','Rajdhani',sans-serif] font-bold tracking-widest text-yellow-400 uppercase text-xs sm:text-sm">
+        <div className="flex items-center justify-between gap-2 px-3 py-2 bg-slate-950/80 border-b border-yellow-500/30 text-xs">
+          <div className="flex items-center gap-2 min-w-0">
+            <Radio size={14} className="text-yellow-400 animate-pulse flex-shrink-0" />
+            <span className="font-['Bank_Gothic','Rajdhani',sans-serif] font-bold tracking-wide sm:tracking-widest text-yellow-400 uppercase text-[10px] sm:text-sm truncate">
               Liberty City Tuner
             </span>
           </div>
 
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono text-slate-400">
-              [ {activeIndex >= 0 ? (activeIndex + 1).toString().padStart(2, '0') : '--'} / {stations.length.toString().padStart(2, '0')} ]
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <span className="hidden min-[360px]:inline whitespace-nowrap text-[10px] sm:text-[11px] font-mono text-slate-400">
+              <span className="hidden sm:inline">[ </span>
+              {activeIndex >= 0 ? (activeIndex + 1).toString().padStart(2, '0') : '--'}
+              <span className="hidden sm:inline"> / </span>
+              <span className="sm:hidden">/</span>
+              {stations.length.toString().padStart(2, '0')}
+              <span className="hidden sm:inline"> ]</span>
             </span>
-            <div className="flex items-center gap-1 border-l border-slate-700/80 pl-2">
+            <div className="flex items-center gap-0.5 sm:gap-1 border-l border-slate-700/80 pl-1.5 sm:pl-2">
               <button
                 type="button"
                 onClick={() => cycleStation('prev')}
-                className="p-1 text-slate-400 hover:text-yellow-400 hover:bg-yellow-500/10 transition-colors cursor-pointer"
+                className="inline-flex items-center justify-center min-w-11 min-h-11 text-slate-400 hover:text-yellow-400 hover:bg-yellow-500/10 transition-colors cursor-pointer"
                 aria-label="Previous Station"
               >
-                <ChevronUp size={15} />
+                <ChevronUp size={18} />
               </button>
               <button
                 type="button"
                 onClick={() => cycleStation('next')}
-                className="p-1 text-slate-400 hover:text-yellow-400 hover:bg-yellow-500/10 transition-colors cursor-pointer"
+                className="inline-flex items-center justify-center min-w-11 min-h-11 text-slate-400 hover:text-yellow-400 hover:bg-yellow-500/10 transition-colors cursor-pointer"
                 aria-label="Next Station"
               >
-                <ChevronDown size={15} />
+                <ChevronDown size={18} />
               </button>
             </div>
           </div>
@@ -420,20 +468,20 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
             </div>
           </div>
         )}
+        </div>
+        {/* /dial head */}
 
         {/* Scrollable Vertical Station List */}
         <div
           ref={stationListRef}
           data-testid="gta4-station-list"
-          onWheel={(e) => {
-            // Allow smooth natural wheel scrolling over the list without outer tuner hijacking
-            e.stopPropagation();
-          }}
           style={{
+            touchAction: 'pan-y',
+            overscrollBehavior: 'contain',
             scrollbarWidth: 'thin',
             scrollbarColor: '#eab308 rgba(15, 23, 42, 0.6)',
           }}
-          className="max-h-80 sm:max-h-96 overflow-y-auto overscroll-contain divide-y divide-slate-800/80 scrollbar-thin scrollbar-thumb-yellow-500/40 scrollbar-track-slate-950/60"
+          className="snap-y-proximity max-h-[clamp(10rem,38dvh,24rem)] overflow-y-auto overscroll-contain divide-y divide-slate-800/80 scrollbar-thin scrollbar-thumb-yellow-500/40 scrollbar-track-slate-950/60"
         >
           {stations.map((station) => {
             const isActive = currentStation?.id === station.id;
@@ -448,7 +496,7 @@ export const Gta4VerticalTuner: React.FC<Gta4VerticalTunerProps> = ({
                 data-active={isActive ? 'true' : 'false'}
                 aria-selected={isActive}
                 onClick={() => handleSelect(station)}
-                className={`w-full text-left flex items-center justify-between p-2.5 transition-colors cursor-pointer group ${
+                className={`snap-center-item w-full min-h-11 text-left flex items-center justify-between gap-2 p-2.5 transition-colors cursor-pointer group ${
                   isActive
                     ? 'bg-yellow-500/15 border-l-4 border-yellow-500'
                     : 'bg-slate-900/40 hover:bg-slate-800/60 border-l-4 border-transparent'

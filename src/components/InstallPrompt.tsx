@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Share, PlusSquare, Download, X, Car, Sparkles } from 'lucide-react';
+import { Download, X, Car } from 'lucide-react';
 
 export interface InstallPromptProps {
   forceShow?: boolean;
@@ -124,86 +124,66 @@ export const InstallPrompt: React.FC<InstallPromptProps> = ({
     return null;
   }
 
+  // Docked banner, not an overlay: it lives between the station viewport and
+  // the player bar, so it can never cover the tuner/wheel on small screens.
   return (
     <div
       data-testid="install-prompt"
-      role="banner"
+      role="region"
       aria-label="Install GTA Radio Application"
-      className={`fixed bottom-20 sm:bottom-24 left-3 right-3 sm:left-auto sm:right-6 sm:max-w-md z-40 bg-black/90 backdrop-blur-2xl border border-white/20 rounded-2xl p-4 shadow-[0_12px_40px_rgba(0,0,0,0.85)] text-white animate-in fade-in slide-in-from-bottom-4 duration-300 ${className}`}
+      className={`relative z-20 flex-shrink-0 w-full border-t border-white/10 bg-black/85 backdrop-blur-2xl text-white ${className}`}
     >
-      {/* Top Header */}
-      <div className="flex items-start justify-between gap-3 mb-2.5">
-        <div className="flex items-center gap-2.5">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/30 to-black border border-emerald-500/40 flex items-center justify-center text-emerald-400 shadow-[0_0_15px_rgba(74,232,145,0.3)]">
-            <Car className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <h3 className="text-sm font-bold tracking-wide uppercase">Install GTA Radio</h3>
-              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-semibold tracking-wider">
-                CarPlay Ready
-              </span>
-            </div>
-            <p className="text-xs text-neutral-400 mt-0.5">
-              Unlock lock screen controls & vehicle steering wheel buttons
-            </p>
-          </div>
+      <div className="max-w-7xl mx-auto flex items-center gap-2 sm:gap-3 px-3 py-2 sm:px-6">
+        <div className="hidden sm:flex flex-shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-500/30 to-black border border-emerald-500/40 items-center justify-center text-emerald-400">
+          <Car className="w-4 h-4" />
         </div>
+
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-1.5">
+            <h3 className="text-[11px] sm:text-sm font-bold tracking-wide uppercase truncate">
+              Install GTA Radio
+            </h3>
+            <span className="hidden sm:inline text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-semibold tracking-wider whitespace-nowrap">
+              CarPlay Ready
+            </span>
+          </div>
+          <p className="text-[11px] text-neutral-400 truncate">
+            {isIOS
+              ? 'Share → Add to Home Screen for lock screen & wheel controls'
+              : 'Lock screen controls & steering wheel buttons'}
+          </p>
+        </div>
+
+        {!isIOS && (
+          <button
+            onClick={handleInstallClick}
+            data-testid="install-button"
+            className="flex-shrink-0 inline-flex items-center justify-center gap-1.5 min-h-11 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-bold text-[11px] uppercase tracking-wider transition-all active:scale-[0.98]"
+          >
+            <Download className="w-4 h-4" />
+            <span>Install</span>
+          </button>
+        )}
+
         <button
           onClick={handleDismiss}
           data-testid="install-prompt-close"
-          aria-label="Dismiss install prompt"
-          className="p-1 rounded-lg text-neutral-400 hover:text-white hover:bg-white/10 transition-colors"
+          aria-label={isIOS ? 'Dismiss install prompt' : 'Later'}
+          title="Later"
+          className="flex-shrink-0 inline-flex items-center justify-center min-w-11 min-h-11 rounded-xl text-neutral-400 hover:text-white hover:bg-white/10 transition-colors"
         >
           <X className="w-4 h-4" />
         </button>
       </div>
 
-      {/* Platform Instructions */}
+      {/* Platform instructions stay available to assistive tech / larger screens */}
       {isIOS ? (
-        <div data-testid="install-ios-instructions" className="mt-3 pt-3 border-t border-white/10 text-xs text-neutral-300 space-y-2">
-          <div className="flex items-center gap-2">
-            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-white/10 flex items-center justify-center font-bold text-[10px]">
-              1
-            </span>
-            <span>
-              Tap Safari's <Share className="inline w-3.5 h-3.5 text-sky-400 mx-1 align-baseline" /> <strong>Share</strong> button below
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="flex-shrink-0 w-5 h-5 rounded-full bg-white/10 flex items-center justify-center font-bold text-[10px]">
-              2
-            </span>
-            <span>
-              Select <PlusSquare className="inline w-3.5 h-3.5 text-emerald-400 mx-1 align-baseline" /> <strong>Add to Home Screen</strong>
-            </span>
-          </div>
-          <div className="flex items-center gap-2 text-[11px] text-neutral-400">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
-            <span>Enables background commute audio & full CarPlay integration</span>
-          </div>
+        <div data-testid="install-ios-instructions" className="hidden">
+          Tap Safari's Share button, then Add to Home Screen.
         </div>
       ) : (
-        <div data-testid="install-android-instructions" className="mt-3 pt-3 border-t border-white/10 flex flex-col gap-2.5">
-          <p className="text-xs text-neutral-300">
-            Install to home screen for fullscreen driver dashboard and offline caching.
-          </p>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleInstallClick}
-              data-testid="install-button"
-              className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-black font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-emerald-500/20 active:scale-[0.98]"
-            >
-              <Download className="w-4 h-4" />
-              <span>Install PWA</span>
-            </button>
-            <button
-              onClick={handleDismiss}
-              className="py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 text-neutral-400 hover:text-white text-xs font-semibold transition-colors"
-            >
-              Later
-            </button>
-          </div>
+        <div data-testid="install-android-instructions" className="hidden">
+          Install to home screen for fullscreen driver dashboard and offline caching.
         </div>
       )}
     </div>
