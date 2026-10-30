@@ -12,6 +12,9 @@ export default defineConfig({
           vendor: ['react', 'react-dom'],
           icons: ['lucide-react'],
           storage: ['idb'],
+          // ~150 KB of pre-built cover URLs: keep it out of the entry chunk
+          // so the app shell stays small (it is fetched in parallel).
+          coverIndex: ['./src/data/cover-index.json'],
         },
       },
     },

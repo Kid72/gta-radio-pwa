@@ -4,7 +4,7 @@ import { getGame, getStationsForGame } from './data/catalog';
 import { RadioEngine, radioEngine } from './audio/radioEngine';
 import { setupMediaSession, updateMediaSession } from './audio/mediaSession';
 import { sfx } from './audio/sfx';
-import { coverArtService } from './services/coverArtService';
+import { coverArtService, coverArtOnError } from './services/coverArtService';
 import { generateVinylCoverSvg } from './utils/coverFallback';
 import { listCachedStationKeys, deleteCachedStationAudio } from './storage/db';
 import { downloadStationWithProgress } from './storage/downloadManager';
@@ -404,17 +404,18 @@ export default function App({
                   src={coverArtUrl || currentStation?.logoUrl}
                   alt={currentStation ? currentStation.name : 'Radio'}
                   className="w-full h-full object-contain p-1"
-                  onError={() => {
-                    if (currentCue?.type === 'music' && currentStation) {
-                      setCoverArtUrl(
-                        generateVinylCoverSvg({
-                          song: currentCue.song,
-                          artist: currentCue.artist,
-                          stationName: currentStation.name,
-                          accentColor: activeGame.theme.accentColor,
-                        })
-                      );
-                    }
+                  onError={(event) => {
+                    // Never leave a broken <img> on screen: swap in the procedural
+                    // sleeve. coverArtOnError() is a no-op on the sleeve itself,
+                    // so a failing image can never loop.
+                    setCoverArtUrl(
+                      coverArtOnError(event.currentTarget.getAttribute('src'), {
+                        song: currentCue?.song,
+                        artist: currentCue?.artist,
+                        stationName: currentStation?.name,
+                        accentColor: activeGame.theme.accentColor,
+                      })
+                    );
                   }}
                 />
               ) : (
