@@ -1,9 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { RadioEngine, EngineState } from './radioEngine';
-import { getStationSecondForDuration } from './epochClock';
 import { RadioSFX } from './sfx';
-import { Station } from '../types/radio';
-import { saveStationAudio, clearAllCachedStations } from '../storage/db';
+import { MASTER_BROADCAST_EPOCH } from './epochClock';
+import { locate, resolveTimeline } from './chunkedSource';
+import type { ChunkMeta } from '../data/chunkManifest';
+import type { ChunkStorage, Station } from '../types/radio';
 
 const mockStations: Station[] = [
   {
@@ -51,62 +52,119 @@ const mockStations: Station[] = [
   },
 ];
 
-function createMockAudio(): HTMLAudioElement {
+/**
+ * `gtasa:playback-fm` as measured by ffprobe: the catalog says 2810 s (24 chunks),
+ * the file is 3168.054 s (27 chunks). Everything past second 2810 is a tail that
+ * catalog arithmetic cannot address.
+ */
+const playbackFm: Station = {
+  id: 'playback-fm',
+  gameId: 'gtasa',
+  name: 'Playback FM',
+  genre: 'Hip-hop',
+  logoUrl: '/logos/playback-fm.png',
+  audioUrl: 'https://archive.org/playback-fm.mp3',
+  duration: 2810,
+  initialOffset: 0,
+  timestamps: [],
+};
+
+const PLAYBACK_FM_META: ChunkMeta = {
+  chunkSeconds: 120,
+  count: 27,
+  duration: 3168.054,
+  bytes: [],
+};
+
+/** No IndexedDB in the engine tests: the storage seam is injected (plan #14). */
+const emptyStorage: ChunkStorage = {
+  saveChunkBlob: async () => {},
+  getChunkBlob: async () => null,
+};
+
+/**
+ * Fixed clock: 6 000 030 s after the master epoch. With `radiox` (duration 3600,
+ * initialOffset 120) the live second is 2550 — chunk 21, offset 30 — so a
+ * chunk-local position of 0 can never be mistaken for a valid epoch position.
+ */
+const FIXED_CLOCK_MS = MASTER_BROADCAST_EPOCH + 6_000_030_000;
+const FIXED_LIVE_SECOND = 2550;
+const FIXED_CHUNK_OFFSET = 30;
+
+interface FakeAudio extends HTMLAudioElement {
+  writes: number[];
+  events: string[];
+  setReadyState(value: number): void;
+}
+
+/**
+ * `<audio>` stand-in with the three things the chunk path needs: a readable
+ * `readyState`, recorded `currentTime` writes (the "never zeroes" assertion) and
+ * an ordered event log (`src` before `play` on the CarPlay path).
+ */
+function createFakeAudio(): FakeAudio {
   const listeners: Record<string, EventListener[]> = {};
-  let _currentTime = 0;
-  let _volume = 1;
-  let _muted = false;
-  let _src = '';
+  const writes: number[] = [];
+  const events: string[] = [];
+  let currentTime = 0;
+  let source = '';
+  let readyStateValue = 0;
 
   const audio = {
     get currentTime() {
-      return _currentTime;
+      return currentTime;
     },
-    set currentTime(val: number) {
-      _currentTime = val;
+    set currentTime(value: number) {
+      currentTime = value;
+      writes.push(value);
+      events.push('currentTime');
     },
-    duration: 3600,
-    get volume() {
-      return _volume;
-    },
-    set volume(val: number) {
-      _volume = val;
-    },
-    get muted() {
-      return _muted;
-    },
-    set muted(val: boolean) {
-      _muted = val;
+    get readyState() {
+      return readyStateValue;
     },
     get src() {
-      return _src;
+      return source;
     },
-    set src(val: string) {
-      _src = val;
+    set src(value: string) {
+      source = value;
+      events.push('src');
     },
-    preload: '',
+    get currentSrc() {
+      return source;
+    },
+    duration: 120,
+    paused: true,
     loop: false,
-    play: vi.fn().mockImplementation(() => Promise.resolve()),
+    preload: '',
+    volume: 1,
+    muted: false,
+    error: null,
+    play: vi.fn(() => {
+      events.push('play');
+      return Promise.resolve();
+    }),
     pause: vi.fn(),
     load: vi.fn(),
     setAttribute: vi.fn(),
     getAttribute: vi.fn().mockReturnValue(''),
-    addEventListener: vi.fn((event: string, cb: EventListener) => {
-      listeners[event] = listeners[event] || [];
-      listeners[event].push(cb);
-    }),
-    removeEventListener: vi.fn((event: string, cb: EventListener) => {
-      if (listeners[event]) {
-        listeners[event] = listeners[event].filter((fn) => fn !== cb);
-      }
-    }),
-    dispatchEvent: vi.fn((event: Event) => {
-      const cbs = listeners[event.type] || [];
-      cbs.forEach((cb) => cb(event));
+    addEventListener: (type: string, cb: EventListener) => {
+      listeners[type] = listeners[type] || [];
+      listeners[type].push(cb);
+    },
+    removeEventListener: (type: string, cb: EventListener) => {
+      if (listeners[type]) listeners[type] = listeners[type].filter((fn) => fn !== cb);
+    },
+    dispatchEvent: (event: Event) => {
+      (listeners[event.type] || []).forEach((cb) => cb(event));
       return true;
-    }),
-  } as unknown as HTMLAudioElement;
+    },
+  } as unknown as FakeAudio;
 
+  (audio as any).writes = writes;
+  (audio as any).events = events;
+  (audio as any).setReadyState = (value: number) => {
+    readyStateValue = value;
+  };
   return audio;
 }
 
@@ -244,9 +302,7 @@ describe('RadioEngine Core Audio Player', () => {
   let createObjectURLSpy: any;
   let revokeObjectURLSpy: any;
 
-  beforeEach(async () => {
-    await clearAllCachedStations();
-
+  beforeEach(() => {
     // Spies for Blob URL creation & revocation
     createObjectURLSpy = vi.spyOn(URL, 'createObjectURL').mockImplementation(() => 'blob:mock-uuid');
     revokeObjectURLSpy = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
@@ -269,12 +325,15 @@ describe('RadioEngine Core Audio Player', () => {
       stations: mockStations,
       sfx: mockSFX,
       initialVolume: 0.8,
+      // Manifest geometry is injected: the engine tests must not depend on producer data.
+      getChunkMeta: () => null,
+      chunkStorage: emptyStorage,
     });
   });
 
   afterEach(() => {
+    engine?.destroy();
     vi.useRealTimers();
-    engine.destroy();
     vi.restoreAllMocks();
   });
 
@@ -284,7 +343,8 @@ describe('RadioEngine Core Audio Player', () => {
     expect(audio.getAttribute('playsinline')).toBe('');
     expect(audio.getAttribute('webkit-playsinline')).toBe('');
     expect(audio.preload).toBe('auto');
-    expect(audio.loop).toBe(true);
+    // Chunked playback never loops the element; the controller loops the station.
+    expect(audio.loop).toBe(false);
     expect(engine.getVolume()).toBe(0.8);
   });
 
@@ -294,21 +354,24 @@ describe('RadioEngine Core Audio Player', () => {
     defaultEngine.destroy();
   });
 
-  it('plays uncached station by streaming from audioUrl and sets epoch position', async () => {
+  it('tunes the station through the chunk source', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(FIXED_CLOCK_MS));
+
     const station = mockStations[0];
     await engine.playStation(station, true);
 
     const audio = engine.getAudioElement();
     expect(mockSFX.playClick).toHaveBeenCalled();
     expect(mockSFX.playTuningStatic).toHaveBeenCalled();
-    expect(audio.src).toBe(station.audioUrl);
+    // The chunk CDN is the source now, never the archive.org single file.
+    expect(audio.src).toBe('https://gta-media.pulsr.top/chunks/gtasa/radiox/021.mp3');
     expect(audio.play).toHaveBeenCalled();
 
     const state = engine.getState();
     expect(state.currentStation?.id).toBe(station.id);
     expect(state.isPlaying).toBe(true);
     expect(state.isOffline).toBe(false);
-    expect(state.currentTime).toBeGreaterThanOrEqual(0);
     expect(state.duration).toBe(station.duration);
     expect(state.currentCue).toBeDefined();
   });
@@ -318,52 +381,57 @@ describe('RadioEngine Core Audio Player', () => {
     await engine.playStation(station, false);
 
     const audio = engine.getAudioElement();
-    expect(audio.currentTime).toBe(0);
+    expect(audio.src).toContain('/chunks/gtasa/radiox/000.mp3');
     expect(engine.getState().currentTime).toBe(0);
   });
 
-  it('plays cached station using URL.createObjectURL and marks isOffline true', async () => {
+  it('plays a fully cached station from chunk blobs', async () => {
     const station = mockStations[1];
     const mockBlob = new Blob(['sample-mp3-bytes'], { type: 'audio/mp3' });
-
-    await saveStationAudio({
-      gameId: station.gameId,
-      stationId: station.id,
-      blob: mockBlob,
-      sizeBytes: mockBlob.size,
-      downloadedAt: Date.now(),
+    const cachedStorage: ChunkStorage = {
+      saveChunkBlob: async () => {},
+      getChunkBlob: async () => mockBlob,
+    };
+    const cachedEngine = new RadioEngine({
+      stations: mockStations,
+      sfx: mockSFX,
+      getChunkMeta: () => null,
+      chunkStorage: cachedStorage,
     });
 
-    await engine.playStation(station);
+    await cachedEngine.playStation(station);
 
-    const audio = engine.getAudioElement();
+    const audio = cachedEngine.getAudioElement();
     expect(createObjectURLSpy).toHaveBeenCalledWith(mockBlob);
     expect(audio.src).toContain('blob:');
-    expect(engine.getState().isOffline).toBe(true);
-    expect(engine.getCurrentBlobUrl()).toBe('blob:mock-uuid');
+    expect(cachedEngine.getState().isOffline).toBe(true);
+    cachedEngine.destroy();
   });
 
-  it('revokes previous Blob URL when switching stations to prevent memory leaks', async () => {
+  it('revokes the previous chunk blob URL when switching stations', async () => {
     const station1 = mockStations[0];
     const station2 = mockStations[1];
     const mockBlob = new Blob(['bytes'], { type: 'audio/mp3' });
-
-    await saveStationAudio({
-      gameId: station1.gameId,
-      stationId: station1.id,
-      blob: mockBlob,
-      sizeBytes: mockBlob.size,
-      downloadedAt: Date.now(),
+    let stored: Blob | null = mockBlob;
+    const switchStorage: ChunkStorage = {
+      saveChunkBlob: async () => {},
+      getChunkBlob: async () => stored,
+    };
+    const switchingEngine = new RadioEngine({
+      stations: mockStations,
+      sfx: mockSFX,
+      getChunkMeta: () => null,
+      chunkStorage: switchStorage,
     });
 
-    await engine.playStation(station1);
+    await switchingEngine.playStation(station1);
     expect(createObjectURLSpy).toHaveBeenCalledTimes(1);
 
-    // Switch to station 2 (uncached)
-    await engine.playStation(station2);
+    stored = null;
+    await switchingEngine.playStation(station2);
     expect(revokeObjectURLSpy).toHaveBeenCalledWith('blob:mock-uuid');
-    expect(engine.getCurrentBlobUrl()).toBeNull();
-    expect(engine.getState().isOffline).toBe(false);
+    expect(switchingEngine.getState().isOffline).toBe(false);
+    switchingEngine.destroy();
   });
 
   it('cycles to nextStation and previousStation wrapping around the list', async () => {
@@ -403,36 +471,234 @@ describe('RadioEngine Core Audio Player', () => {
     expect(engine.getState().currentStation?.id).toBe('radiox');
   });
 
-  it('seeks to target live epoch on loadedmetadata during nextStationSync', async () => {
-    const audio = engine.getAudioElement();
-    // Simulate initial zero currentTime before metadata loaded
-    engine.nextStationSync();
-    expect(engine.getState().currentStation?.id).toBe('radiox');
-
-    // Simulate loadedmetadata event from audio element
-    audio.dispatchEvent(new Event('loadedmetadata'));
-    expect(audio.currentTime).toBeGreaterThanOrEqual(0);
-  });
-
-  it('upgrades nextStationSync to offline cached blob in the background', async () => {
-    const station2 = mockStations[1];
-    const mockBlob = new Blob(['audio-data'], { type: 'audio/mp3' });
-    await saveStationAudio({
-      gameId: station2.gameId,
-      stationId: station2.id,
-      blob: mockBlob,
-      sizeBytes: mockBlob.size,
-      downloadedAt: Date.now(),
+  it('tunes the chunk source synchronously on the CarPlay path', () => {
+    const audio = createFakeAudio();
+    const syncEngine = new RadioEngine({
+      audio,
+      stations: mockStations,
+      sfx: mockSFX,
+      getChunkMeta: () => null,
+      chunkStorage: emptyStorage,
     });
 
-    await engine.playStation(mockStations[0]);
-    engine.nextStationSync(); // tunes to station 2
+    syncEngine.nextStationSync();
 
-    // Wait for async IndexedDB cache check to resolve
-    await new Promise((r) => setTimeout(r, 50));
+    // src is assigned before play(): both inside the user-activation tick.
+    const srcAt = audio.events.indexOf('src');
+    const playAt = audio.events.indexOf('play');
+    expect(srcAt).toBeGreaterThanOrEqual(0);
+    expect(playAt).toBeGreaterThan(srcAt);
+    expect(audio.src).toContain('/chunks/gtasa/radiox/');
+    expect(audio.loop).toBe(false);
+    // Adopted, not reloaded: exactly one source assignment for the tune.
+    expect(audio.events.filter((e) => e === 'src')).toHaveLength(1);
+    expect(syncEngine.getState().currentStation?.id).toBe('radiox');
+    syncEngine.destroy();
+  });
 
-    expect(createObjectURLSpy).toHaveBeenCalledWith(mockBlob);
-    expect(engine.getState().isOffline).toBe(true);
+  it('seeks to target live epoch on loadedmetadata during nextStationSync', () => {
+    const audio = createFakeAudio();
+    const syncEngine = new RadioEngine({
+      audio,
+      stations: mockStations,
+      sfx: mockSFX,
+      getChunkMeta: () => null,
+      chunkStorage: emptyStorage,
+    });
+
+    syncEngine.nextStationSync();
+    expect(syncEngine.getState().currentStation?.id).toBe('radiox');
+
+    audio.dispatchEvent(new Event('loadedmetadata'));
+    expect(audio.currentTime).toBeGreaterThanOrEqual(0);
+    syncEngine.destroy();
+  });
+
+  it('keeps the epoch position when metadata arrives after 1500 ms on the sync path', () => {
+    vi.useFakeTimers({
+      toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'Date'],
+    });
+    vi.setSystemTime(new Date(FIXED_CLOCK_MS));
+
+    const audio = createFakeAudio();
+    const syncEngine = new RadioEngine({
+      audio,
+      stations: mockStations,
+      sfx: mockSFX,
+      getChunkMeta: () => null,
+      chunkStorage: emptyStorage,
+    });
+
+    syncEngine.nextStationSync();
+    // Chunk 21 starts at 2520 s, the live second is 2550 -> chunk-local 30.
+    expect(audio.currentTime).toBeCloseTo(FIXED_CHUNK_OFFSET, 3);
+
+    // Metadata is 2.5 s away (and readyState is still 0). The old watchdog wrote 0 here.
+    vi.advanceTimersByTime(2500);
+    expect(audio.currentTime).not.toBe(0);
+    expect(audio.currentTime).toBeCloseTo(FIXED_CHUNK_OFFSET, 3);
+
+    audio.dispatchEvent(new Event('loadedmetadata'));
+    expect(audio.currentTime).toBeCloseTo(FIXED_CHUNK_OFFSET, 3);
+
+    const state = syncEngine.getState();
+    expect(Math.abs(state.currentTime - FIXED_LIVE_SECOND)).toBeLessThanOrEqual(3);
+    syncEngine.destroy();
+  });
+
+  it('does not reset position when readyState is 0 at the 1500 ms mark', async () => {
+    vi.useFakeTimers({
+      toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'Date'],
+    });
+    vi.setSystemTime(new Date(FIXED_CLOCK_MS));
+
+    const audio = createFakeAudio(); // readyState stays 0: metadata never arrives
+    const pendingEngine = new RadioEngine({
+      audio,
+      stations: mockStations,
+      sfx: mockSFX,
+      getChunkMeta: () => null,
+      chunkStorage: emptyStorage,
+    });
+
+    await pendingEngine.playStation(mockStations[0], true);
+    expect(audio.currentTime).toBeCloseTo(FIXED_CHUNK_OFFSET, 3);
+
+    vi.advanceTimersByTime(1600);
+    expect(audio.currentTime).toBeCloseTo(FIXED_CHUNK_OFFSET, 3);
+    expect(audio.currentTime).not.toBe(0);
+    expect(audio.writes).not.toContain(0);
+    expect(pendingEngine.getState().currentTime).toBeGreaterThan(1500);
+    pendingEngine.destroy();
+  });
+
+  it('never writes 0 to currentTime while a seek is pending', async () => {
+    vi.useFakeTimers({
+      toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'Date'],
+    });
+    vi.setSystemTime(new Date(FIXED_CLOCK_MS));
+
+    const audio = createFakeAudio();
+    const pendingEngine = new RadioEngine({
+      audio,
+      stations: mockStations,
+      sfx: mockSFX,
+      getChunkMeta: () => null,
+      chunkStorage: emptyStorage,
+    });
+
+    await pendingEngine.playStation(mockStations[0], true);
+    expect(audio.writes.length).toBeGreaterThan(0);
+    expect(audio.writes.every((written) => written !== 0)).toBe(true);
+
+    // The retry timer keeps re-applying the *planned* offset, never 0.
+    vi.advanceTimersByTime(3000);
+    expect(audio.writes.every((written) => written !== 0)).toBe(true);
+
+    // Metadata finally lands: the target is applied as-is and the seek settles.
+    audio.setReadyState(1);
+    audio.dispatchEvent(new Event('loadedmetadata'));
+    expect(audio.currentTime).toBeCloseTo(FIXED_CHUNK_OFFSET, 3);
+    expect(audio.writes).not.toContain(0);
+    pendingEngine.destroy();
+  });
+
+  it('plays the station tail that the catalog duration cannot address', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    // 2870 s = catalog duration (2810) + 60 s: the same tail the live probe uses.
+    vi.setSystemTime(new Date(MASTER_BROADCAST_EPOCH + 2_870_000));
+
+    const tailEngine = new RadioEngine({
+      stations: [playbackFm],
+      sfx: mockSFX,
+      getChunkMeta: (gameId, stationId) =>
+        gameId === 'gtasa' && stationId === 'playback-fm' ? PLAYBACK_FM_META : null,
+      chunkStorage: emptyStorage,
+    });
+
+    await tailEngine.playStation(playbackFm, true);
+
+    // Catalog geometry loops at 2810 s, so 2870 wraps to second 60 -> chunk 000.
+    // The manifest keeps the real 3168.054 s loop and addresses chunk 023.
+    const catalogTimeline = resolveTimeline(playbackFm, null);
+    expect(locate(catalogTimeline, 2870).index).toBe(0);
+    expect(locate(resolveTimeline(playbackFm, PLAYBACK_FM_META), 2870).index).toBe(23);
+
+    const audio = tailEngine.getAudioElement();
+    expect(audio.src).toBe('https://gta-media.pulsr.top/chunks/gtasa/playback-fm/023.mp3');
+    expect(audio.src).not.toContain('/000.mp3');
+    expect(tailEngine.getState().error).toBeNull();
+    expect(tailEngine.getState().currentTime).toBeCloseTo(2870, 3);
+    tailEngine.destroy();
+  });
+
+  it('uses the manifest duration for the live offset', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(MASTER_BROADCAST_EPOCH + 2_900_000));
+
+    const manifestEngine = new RadioEngine({
+      stations: [playbackFm],
+      sfx: mockSFX,
+      getChunkMeta: () => PLAYBACK_FM_META,
+      chunkStorage: emptyStorage,
+    });
+
+    await manifestEngine.playStation(playbackFm, true);
+    const state = manifestEngine.getState();
+
+    // 3168.054 s (ffprobe), not 2810 s (catalog): otherwise the offset wraps early.
+    expect(state.duration).toBeCloseTo(PLAYBACK_FM_META.duration, 3);
+    expect(state.duration).not.toBe(playbackFm.duration);
+    expect(state.currentTime).toBeCloseTo(2900, 3);
+    expect(state.currentTime).toBeLessThan(state.duration);
+    manifestEngine.destroy();
+  });
+
+  it('keeps state.currentTime absolute while audio.currentTime is chunk-local', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(new Date(FIXED_CLOCK_MS));
+
+    const audio = createFakeAudio();
+    const absoluteEngine = new RadioEngine({
+      audio,
+      stations: mockStations,
+      sfx: mockSFX,
+      getChunkMeta: () => null,
+      chunkStorage: emptyStorage,
+    });
+
+    await absoluteEngine.playStation(mockStations[0], true);
+    expect(audio.src).toContain('/021.mp3');
+
+    // Chunk-local 87 s inside chunk 21 == absolute 2607 s.
+    audio.currentTime = 87;
+    audio.dispatchEvent(new Event('timeupdate'));
+
+    const state = absoluteEngine.getState();
+    expect(state.currentTime).toBe(2607);
+    expect(state.currentCue?.song).toBe('Plush');
+    absoluteEngine.destroy();
+  });
+
+  it('falls back to the archive.org stream when the chunk request fails', async () => {
+    const station = mockStations[0];
+    await engine.playStation(station);
+
+    const audio = engine.getAudioElement();
+    expect(audio.src).toContain('/chunks/');
+
+    // 404 on the chunk: the element fires `error`.
+    audio.dispatchEvent(new Event('error'));
+    await new Promise((r) => setTimeout(r, 0));
+
+    expect(audio.src).toBe(station.audioUrl);
+    expect(engine.getState().error).toBeNull();
+    expect(audio.loop).toBe(true);
+
+    // Exactly one fallback: a second failure is surfaced, never retried.
+    audio.dispatchEvent(new Event('error'));
+    expect(audio.src).toBe(station.audioUrl);
+    expect(engine.getState().error).not.toBeNull();
   });
 
   it('handles pause, resume, and togglePlay lifecycle', async () => {
@@ -498,6 +764,20 @@ describe('RadioEngine Core Audio Player', () => {
     expect(engine.getState().currentCue?.song).toBe('Radio X DJ Banter');
   });
 
+  it('switches to the chunk that contains the seek target', async () => {
+    const station = mockStations[0];
+    await engine.playStation(station, false);
+    const audio = engine.getAudioElement();
+    expect(audio.src).toContain('/000.mp3');
+
+    engine.seek(3000);
+    await new Promise((r) => setTimeout(r, 0));
+
+    // 3000 s -> chunk 25, offset 0.
+    expect(audio.src).toContain('/025.mp3');
+    expect(engine.getState().currentTime).toBe(3000);
+  });
+
   it('subscribes to state updates and immediately receives initial state', async () => {
     const subscriber = vi.fn();
     const unsubscribe = engine.subscribe(subscriber);
@@ -518,7 +798,8 @@ describe('RadioEngine Core Audio Player', () => {
 
   it('updates currentCue and currentTime on audio timeupdate events', async () => {
     const station = mockStations[0];
-    await engine.playStation(station);
+    // Start at the top of the station so the chunk-local clock equals the absolute one.
+    await engine.playStation(station, false);
 
     const audio = engine.getAudioElement();
     audio.currentTime = 100;
@@ -552,131 +833,71 @@ describe('RadioEngine Core Audio Player', () => {
     expect(engine.getState().error).toBe('Network decode error');
   });
 
-  it('cleans up resources and revokes blob URL on destroy', async () => {
+  it('disposes the chunk controller and revokes its blob URL on destroy', async () => {
     const station = mockStations[0];
     const mockBlob = new Blob(['bytes'], { type: 'audio/mp3' });
-    await saveStationAudio({
-      gameId: station.gameId,
-      stationId: station.id,
-      blob: mockBlob,
-      sizeBytes: mockBlob.size,
-      downloadedAt: Date.now(),
+    const cachedEngine = new RadioEngine({
+      stations: mockStations,
+      sfx: mockSFX,
+      getChunkMeta: () => null,
+      chunkStorage: {
+        saveChunkBlob: async () => {},
+        getChunkBlob: async () => mockBlob,
+      },
     });
 
-    await engine.playStation(station);
-    expect(engine.getCurrentBlobUrl()).toBe('blob:mock-uuid');
+    await cachedEngine.playStation(station);
+    expect(cachedEngine.getAudioElement().src).toContain('blob:');
 
-    engine.destroy();
+    cachedEngine.destroy();
     expect(revokeObjectURLSpy).toHaveBeenCalledWith('blob:mock-uuid');
-    expect(engine.getCurrentBlobUrl()).toBeNull();
+    expect(cachedEngine.getCurrentBlobUrl()).toBeNull();
   });
 
-  it('keeps the planned broadcast second when the stream cannot seek yet (never restarts at 0)', async () => {
-    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval'] });
-    const mockAudio = createMockAudio();
-    Object.defineProperty(mockAudio, 'readyState', { value: 0, writable: true, configurable: true });
-    const engine = new RadioEngine({ audio: mockAudio });
-    const sampleStation = mockStations[0];
-
-    await engine.playStation(sampleStation, true);
-    const planned = engine.getState().currentTime;
-    expect(planned).toBeGreaterThan(0);
-
-    // No metadata for 5 s: the planned second survives instead of being
-    // replaced by 0 (the old watchdog behaviour).
-    vi.advanceTimersByTime(5000);
-    expect(mockAudio.currentTime).toBe(planned);
-    expect(engine.getState().currentTime).toBe(planned);
-
-    // Metadata finally arrives: the planned second is re-applied, never 0.
-    (mockAudio as unknown as { readyState: number }).readyState = 1;
-    mockAudio.dispatchEvent(new Event('canplay'));
-    expect(mockAudio.currentTime).toBe(planned);
-    expect(engine.getState().currentTime).toBe(planned);
-
-    engine.destroy();
-    vi.useRealTimers();
-  });
-
-  it('applies the broadcast second as soon as the element is seekable', async () => {
-    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval'] });
-    const mockAudio = createMockAudio();
-    const engine = new RadioEngine({ audio: mockAudio });
-
-    await engine.playStation(mockStations[0], true);
-    const planned = engine.getState().currentTime;
-    expect(planned).toBeGreaterThan(0);
-
-    vi.advanceTimersByTime(600);
-    expect(mockAudio.currentTime).toBeCloseTo(planned, 0);
-
-    engine.destroy();
-    vi.useRealTimers();
-  });
-
-  it('uses the measured loop length for the broadcast position, not the stale catalog duration', async () => {
-    vi.useFakeTimers({ toFake: ['Date'] });
-    const frozen = new Date('2026-10-30T00:00:00Z');
-    vi.setSystemTime(frozen);
-
-    // catalog says 6955 s, the shipped file is 7232.002 s (ffprobe)
-    const worldwideFm: Station = {
-      ...mockStations[0],
-      id: 'worldwide-fm',
-      gameId: 'gta5',
-      name: 'WorldWide FM',
-      duration: 6955,
-      initialOffset: 1080,
-      timestamps: [],
-    };
-    const mockAudio = createMockAudio();
-    const engine = new RadioEngine({ audio: mockAudio, stations: [worldwideFm] });
-
-    await engine.playStation(worldwideFm, true);
-    const state = engine.getState();
-
-    expect(state.duration).toBeCloseTo(7232.002, 3);
-    const expected = getStationSecondForDuration(worldwideFm, 7232.002, frozen.getTime());
-    expect(state.currentTime).toBeCloseTo(expected, 0);
-    // the catalog value would have put us ~1800 s away from the real timeline
-    const catalogSecond = getStationSecondForDuration(worldwideFm, 6955, frozen.getTime());
-    expect(Math.abs(catalogSecond - expected)).toBeGreaterThan(60);
-
-    engine.destroy();
-    vi.useRealTimers();
+  it('keeps audio.loop false while chunked', async () => {
+    await engine.playStation(mockStations[0]);
+    expect(engine.getAudioElement().loop).toBe(false);
   });
 
   it('starts continuous static hiss when connecting and stops with fade on playback', async () => {
-    const mockAudio = createMockAudio();
-    const mockSFX = new RadioSFX();
-    vi.spyOn(mockSFX, 'startStaticHiss');
-    vi.spyOn(mockSFX, 'stopStaticHiss');
-    const engine = new RadioEngine({ audio: mockAudio, sfx: mockSFX });
-    const sampleStation = mockStations[0];
+    const mockAudio = createFakeAudio();
+    const hissSFX = new RadioSFX();
+    vi.spyOn(hissSFX, 'startStaticHiss');
+    vi.spyOn(hissSFX, 'stopStaticHiss');
+    const hissEngine = new RadioEngine({
+      audio: mockAudio,
+      sfx: hissSFX,
+      getChunkMeta: () => null,
+      chunkStorage: emptyStorage,
+    });
 
-    await engine.playStation(sampleStation, true);
-    expect(mockSFX.startStaticHiss).toHaveBeenCalled();
+    await hissEngine.playStation(mockStations[0], true);
+    expect(hissSFX.startStaticHiss).toHaveBeenCalled();
 
     mockAudio.dispatchEvent(new Event('playing'));
-    expect(mockSFX.stopStaticHiss).toHaveBeenCalledWith(60);
+    expect(hissSFX.stopStaticHiss).toHaveBeenCalledWith(60);
 
-    engine.destroy();
+    hissEngine.destroy();
   });
 
   it('stops continuous static hiss immediately on pause or error', async () => {
-    const mockAudio = createMockAudio();
-    const mockSFX = new RadioSFX();
-    vi.spyOn(mockSFX, 'startStaticHiss');
-    vi.spyOn(mockSFX, 'stopStaticHiss');
-    const engine = new RadioEngine({ audio: mockAudio, sfx: mockSFX });
-    const sampleStation = mockStations[0];
+    const mockAudio = createFakeAudio();
+    const hissSFX = new RadioSFX();
+    vi.spyOn(hissSFX, 'startStaticHiss');
+    vi.spyOn(hissSFX, 'stopStaticHiss');
+    const hissEngine = new RadioEngine({
+      audio: mockAudio,
+      sfx: hissSFX,
+      getChunkMeta: () => null,
+      chunkStorage: emptyStorage,
+    });
 
-    await engine.playStation(sampleStation, true);
-    expect(mockSFX.startStaticHiss).toHaveBeenCalled();
+    await hissEngine.playStation(mockStations[0], true);
+    expect(hissSFX.startStaticHiss).toHaveBeenCalled();
 
-    engine.pause();
-    expect(mockSFX.stopStaticHiss).toHaveBeenCalledWith(0);
+    hissEngine.pause();
+    expect(hissSFX.stopStaticHiss).toHaveBeenCalledWith(0);
 
-    engine.destroy();
+    hissEngine.destroy();
   });
 });
