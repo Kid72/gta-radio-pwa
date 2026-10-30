@@ -1,9 +1,13 @@
 import { Station, TrackCue } from '../types/radio';
+import { getTimingsForLoop } from '../data/trackTimings';
 
 /**
  * The cue table is authored against the catalog `station.duration`, while the
  * audio that actually plays has its own (measured) length. Two numbers decide
  * what we can trust:
+ *
+ * A station with measured timings (`src/data/track-timings.json`) skips all of
+ * this: those boundaries already describe the shipped audio.
  *
  * - `CUE_EXACT_TOLERANCE`: table end and real loop are the same timeline.
  * - `CUE_SCALE_TOLERANCE`: same playlist, re-edited (fades, ad trims), so cue
@@ -18,7 +22,7 @@ export const CUE_EXACT_TOLERANCE = 0.02;
 export const CUE_SCALE_TOLERANCE = 0.12;
 
 /** Where a cue table sits relative to the audio loop. */
-export type CueTimelineSource = 'exact' | 'scaled' | 'partial' | 'untrusted';
+export type CueTimelineSource = 'measured' | 'exact' | 'scaled' | 'partial' | 'untrusted';
 
 export interface CueTimeline {
   /** Cues in *audio* seconds, ready to compare against `currentTime`. */
@@ -56,6 +60,13 @@ export function resolveCueTimeline(
 ): CueTimeline {
   const cues = station.timestamps ?? [];
   const loop = loopDuration > 0 ? loopDuration : 0;
+
+  // Measured timings win: they are the only table that describes this audio.
+  const measured = getTimingsForLoop(station.gameId, station.id, loop);
+  if (measured) {
+    return { cues: measured.cues, duration: loop, source: 'measured' };
+  }
+
   const catalog = station.duration > 0 ? station.duration : 0;
 
   if (cues.length === 0 || loop <= 0) {
