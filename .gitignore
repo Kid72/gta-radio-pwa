@@ -25,3 +25,6 @@ dist-ssr
 
 # TypeScript cache
 *.tsbuildinfo
+
+# Cover-index build cache (regenerable: node scripts/build-cover-index.mjs)
+.cache/
