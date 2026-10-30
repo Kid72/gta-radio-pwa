@@ -7,6 +7,7 @@ import { getChunkMeta as getManifestChunkMeta, type ChunkMeta } from '../data/ch
 import { ChunkedPlayback } from './chunkedPlayback';
 import { chunkUrl, locate, resolveTimeline, type StationTimeline } from './chunkedSource';
 import { sfx, RadioSFX } from './sfx';
+import { VolumeFader, SWITCH_FADE_IN_MS } from './volumeFade';
 
 export type { EngineState };
 
@@ -38,6 +39,8 @@ export class RadioEngine {
 
   private readonly getChunkMetaFn: (gameId: GameId, stationId: string) => ChunkMeta | null;
   private readonly chunkStorage: ChunkStorage;
+  /** Short volume duck/fade so a station switch is masked by the static burst. */
+  private fader: VolumeFader | null = null;
 
   private state: EngineState = {
     currentStation: null,
@@ -101,6 +104,8 @@ export class RadioEngine {
         options?.initialVolume !== undefined
           ? Math.max(0, Math.min(1, options.initialVolume))
           : 1;
+      this.fader = new VolumeFader(this.audio);
+      this.fader.apply(initVol, initVol === 0);
       this.audio.volume = initVol;
       this.state.volume = initVol;
       this.state.isMuted = initVol === 0;
@@ -382,8 +387,7 @@ export class RadioEngine {
     this.sfxInstance.stopStaticHiss(0);
 
     // Trigger authentic mechanical switch and static bursts
-    this.sfxInstance.playClick();
-    this.sfxInstance.playTuningStatic();
+    this.sfxInstance.playStationSwitch();
 
     this.ensureStationInList(station);
 
@@ -404,6 +408,9 @@ export class RadioEngine {
       this.notify();
       return;
     }
+
+    // Kill the old station under the static burst; the new one fades in on start
+    this.fader?.duck();
 
     // Mask connection latency with continuous soft static hiss
     this.sfxInstance.startStaticHiss();
@@ -434,6 +441,7 @@ export class RadioEngine {
     }
 
     if (reqId !== this.requestId || this.isDestroyed) return;
+    this.fader?.fadeIn(SWITCH_FADE_IN_MS);
     this.state.isOffline = controller.isOfflineSource();
     this.notify();
   }
@@ -452,8 +460,7 @@ export class RadioEngine {
 
     this.sfxInstance.stopStaticHiss(0);
 
-    this.sfxInstance.playClick();
-    this.sfxInstance.playTuningStatic();
+    this.sfxInstance.playStationSwitch();
 
     this.ensureStationInList(station);
 
@@ -474,6 +481,9 @@ export class RadioEngine {
       this.notify();
       return;
     }
+
+    // Kill the old station under the static burst; the new one fades in on start
+    this.fader?.duck();
 
     // Mask connection latency with continuous soft static hiss
     this.sfxInstance.startStaticHiss();
@@ -504,6 +514,7 @@ export class RadioEngine {
     // CarPlay contract: source and play() in this tick, before any async work.
     this.audio.loop = false;
     this.audio.src = source;
+    this.fader?.fadeIn(SWITCH_FADE_IN_MS);
 
     let playPromise: Promise<void> | undefined;
     try {
@@ -601,6 +612,7 @@ export class RadioEngine {
     const timeline = this.timelineFor(station);
 
     // Re-lock to the simulated universal live broadcast epoch
+    this.fader?.apply(this.state.volume, this.state.isMuted);
     const liveTime = getStationSecondForDuration(station, timeline.duration);
     this.state.duration = timeline.duration;
     this.state.currentTime = liveTime;
@@ -681,6 +693,8 @@ export class RadioEngine {
 
   setVolume(volume: number): void {
     const clamped = Math.max(0, Math.min(1, volume));
+    // Applies immediately: a slider drag cancels any station fade-in still in flight
+    this.fader?.apply(clamped, clamped === 0);
     if (this.audio) {
       this.audio.volume = clamped;
     }
@@ -694,6 +708,7 @@ export class RadioEngine {
   }
 
   setMuted(muted: boolean): void {
+    this.fader?.apply(this.state.volume, muted);
     if (this.audio) {
       this.audio.muted = muted;
     }
@@ -743,6 +758,7 @@ export class RadioEngine {
 
   destroy(): void {
     this.isDestroyed = true;
+    this.fader?.cancel();
     this.sfxInstance.stopStaticHiss(0);
     this.chunkMode = false;
     const controller = this.controller;

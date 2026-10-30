@@ -1,135 +1,341 @@
-import { describe, it, expect, vi } from 'vitest';
-import { RadioSFX } from './sfx';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { RadioSFX, TUNING_SWITCH } from './sfx';
 
+/** Minimal Web Audio mock: every create* call returns a fresh, inspectable node. */
 function createMockAudioContext() {
-  const mockGain = {
-    gain: {
-      setValueAtTime: vi.fn(),
-      exponentialRampToValueAtTime: vi.fn(),
-      linearRampToValueAtTime: vi.fn(),
-      cancelScheduledValues: vi.fn(),
-      value: 1,
-    },
-    connect: vi.fn(),
-    disconnect: vi.fn(),
+  const created = {
+    gains: [] as any[],
+    filters: [] as any[],
+    sources: [] as any[],
+    oscillators: [] as any[],
+    bufferSizes: [] as number[],
   };
 
-  const mockFilter = {
-    type: '',
-    frequency: { value: 0 },
-    Q: { value: 0 },
-    connect: vi.fn(),
-    disconnect: vi.fn(),
-  };
-
-  const mockBufferSource = {
-    buffer: null as any,
-    loop: false,
-    connect: vi.fn(),
-    disconnect: vi.fn(),
-    start: vi.fn(),
-    stop: vi.fn(),
-  };
-
-  const mockOscillator = {
-    type: '',
-    frequency: {
-      setValueAtTime: vi.fn(),
-      exponentialRampToValueAtTime: vi.fn(),
-    },
-    connect: vi.fn(),
-    disconnect: vi.fn(),
-    start: vi.fn(),
-    stop: vi.fn(),
-  };
-
-  const mockBuffer = {
-    getChannelData: vi.fn().mockReturnValue(new Float32Array(500)),
-  };
+  const makeParam = (initial = 0) => ({
+    value: initial,
+    setValueAtTime: vi.fn(),
+    linearRampToValueAtTime: vi.fn(),
+    exponentialRampToValueAtTime: vi.fn(),
+    cancelScheduledValues: vi.fn(),
+  });
 
   const ctx = {
     sampleRate: 44100,
     currentTime: 5.0,
     state: 'running',
     destination: {},
-    createBuffer: vi.fn().mockReturnValue(mockBuffer),
-    createBufferSource: vi.fn().mockReturnValue(mockBufferSource),
-    createBiquadFilter: vi.fn().mockReturnValue(mockFilter),
-    createGain: vi.fn().mockReturnValue(mockGain),
-    createOscillator: vi.fn().mockReturnValue(mockOscillator),
+    createBuffer: vi.fn((_channels: number, size: number, sampleRate: number) => {
+      created.bufferSizes.push(size);
+      return {
+        getChannelData: () => new Float32Array(size),
+        length: size,
+        sampleRate,
+      };
+    }),
+    createBufferSource: vi.fn(() => {
+      const node = {
+        buffer: null as any,
+        loop: false,
+        connect: vi.fn(),
+        disconnect: vi.fn(),
+        start: vi.fn(),
+        stop: vi.fn(),
+      };
+      created.sources.push(node);
+      return node;
+    }),
+    createBiquadFilter: vi.fn(() => {
+      const node = {
+        type: '',
+        frequency: makeParam(0),
+        Q: makeParam(0),
+        connect: vi.fn(),
+        disconnect: vi.fn(),
+      };
+      created.filters.push(node);
+      return node;
+    }),
+    createGain: vi.fn(() => {
+      const node = {
+        gain: makeParam(1),
+        connect: vi.fn(),
+        disconnect: vi.fn(),
+      };
+      created.gains.push(node);
+      return node;
+    }),
+    createOscillator: vi.fn(() => {
+      const node = {
+        type: '',
+        frequency: makeParam(0),
+        connect: vi.fn(),
+        disconnect: vi.fn(),
+        start: vi.fn(),
+        stop: vi.fn(),
+      };
+      created.oscillators.push(node);
+      return node;
+    }),
     resume: vi.fn().mockResolvedValue(undefined),
   } as unknown as AudioContext;
 
-  return { ctx, mockGain, mockFilter, mockBufferSource, mockOscillator, mockBuffer };
+  return { ctx, ...created };
 }
 
-describe('RadioSFX enhanced static effects', () => {
-  it('triggers playTuningStaticBurst without throwing error', () => {
-    const sfxInstance = new RadioSFX();
-    expect(() => sfxInstance.playTuningStaticBurst(280)).not.toThrow();
+function valueOf(call: any[]): number {
+  return call[0];
+}
+
+function timeOf(call: any[]): number {
+  return call[1];
+}
+
+afterEach(() => {
+  vi.useRealTimers();
+});
+
+describe('RadioSFX tuning switch burst', () => {
+  it('builds a static burst with a frequency sweep inside 400 ms', () => {
+    const m = createMockAudioContext();
+    const sfx = new RadioSFX(m.ctx);
+
+    sfx.playTuningStaticBurst(260);
+
+    const band = m.filters[0];
+    expect(band.type).toBe('bandpass');
+    expect(band.frequency.setValueAtTime).toHaveBeenCalledWith(TUNING_SWITCH.startHz, 5.0);
+
+    const sweep = band.frequency.exponentialRampToValueAtTime.mock.calls;
+    expect(sweep.length).toBeGreaterThanOrEqual(2);
+    // sweeps up to the peak, then settles back down (a "searching" sweep, not a static hiss)
+    expect(valueOf(sweep[0])).toBe(TUNING_SWITCH.peakHz);
+    expect(valueOf(sweep[0])).toBeGreaterThan(TUNING_SWITCH.startHz);
+    expect(valueOf(sweep[sweep.length - 1])).toBe(TUNING_SWITCH.endHz);
+    expect(valueOf(sweep[sweep.length - 1])).toBeLessThan(TUNING_SWITCH.peakHz);
+    expect(timeOf(sweep[sweep.length - 1])).toBeCloseTo(5.26, 5);
+
+    // everything scheduled — including node stop — finishes well inside the 400 ms window
+    for (const call of sweep) expect(timeOf(call)).toBeLessThanOrEqual(5.4);
+    const burstSource = m.sources[0];
+    expect(burstSource.stop.mock.calls[0][0]).toBeLessThanOrEqual(5.4);
+    expect(burstSource.start).toHaveBeenCalled();
   });
 
-  it('starts and stops continuous static hiss', () => {
-    const sfxInstance = new RadioSFX();
-    expect(() => sfxInstance.startStaticHiss()).not.toThrow();
-    expect(() => sfxInstance.stopStaticHiss(50)).not.toThrow();
+  it('ramps static gain down to silence after the switch window', () => {
+    const m = createMockAudioContext();
+    const sfx = new RadioSFX(m.ctx);
+
+    sfx.playTuningStatic();
+
+    const gain = m.gains[0].gain;
+    const lastRamp = gain.exponentialRampToValueAtTime.mock.calls.at(-1)!;
+    expect(valueOf(lastRamp)).toBeLessThanOrEqual(0.001);
+    expect(timeOf(lastRamp)).toBeCloseTo(5.26, 5);
+    expect(gain.linearRampToValueAtTime).toHaveBeenCalled();
   });
 
-  it('synthesizes white noise static burst via Web Audio API bandpass filter and gain envelope', () => {
-    const { ctx, mockFilter, mockGain, mockBufferSource } = createMockAudioContext();
-    const sfx = new RadioSFX(ctx);
+  it('keeps peak gain below full scale to avoid clipping', () => {
+    const m = createMockAudioContext();
+    const sfx = new RadioSFX(m.ctx);
 
-    sfx.playTuningStaticBurst(280);
+    sfx.playTuningStaticBurst(360);
+    sfx.playClick();
 
-    expect(ctx.createBuffer).toHaveBeenCalledWith(1, expect.any(Number), 44100);
-    expect(ctx.createBufferSource).toHaveBeenCalled();
-    expect(ctx.createBiquadFilter).toHaveBeenCalled();
-    expect(mockFilter.type).toBe('bandpass');
-    expect(mockFilter.frequency.value).toBe(1200);
-    expect(mockGain.gain.setValueAtTime).toHaveBeenCalledWith(0.2, 5.0);
-    expect(mockGain.gain.exponentialRampToValueAtTime).toHaveBeenCalledWith(
-      0.01,
-      5.0 + 0.28
-    );
-    expect(mockBufferSource.start).toHaveBeenCalled();
+    const scheduled = m.gains.flatMap((g) => [
+      ...g.gain.setValueAtTime.mock.calls,
+      ...g.gain.linearRampToValueAtTime.mock.calls,
+      ...g.gain.exponentialRampToValueAtTime.mock.calls,
+    ]);
+    expect(scheduled.length).toBeGreaterThan(0);
+    for (const call of scheduled) {
+      expect(valueOf(call)).toBeLessThan(1);
+      expect(valueOf(call)).toBeGreaterThanOrEqual(0);
+    }
+    // headroom: the burst envelope peaks at 0.6 (-4.4 dBFS), never at 1.0
+    expect(TUNING_SWITCH.peakGain).toBeLessThan(0.7);
   });
 
-  it('configures looping white noise source with gain 0.04 when starting static hiss', () => {
-    const { ctx, mockFilter, mockGain, mockBufferSource } = createMockAudioContext();
-    const sfx = new RadioSFX(ctx);
+  it('clamps burst length into the 100-360 ms window', () => {
+    const m = createMockAudioContext();
+    const sfx = new RadioSFX(m.ctx);
+
+    sfx.playTuningStaticBurst(50);
+    expect(m.bufferSizes[0]).toBe(Math.floor(44100 * (TUNING_SWITCH.minBurstMs / 1000)));
+
+    const m2 = createMockAudioContext();
+    const sfx2 = new RadioSFX(m2.ctx);
+    sfx2.playTuningStaticBurst(2000);
+    expect(m2.bufferSizes[0]).toBe(Math.floor(44100 * 0.36));
+  });
+});
+
+describe('RadioSFX switch click', () => {
+  it('plays a mechanical click shorter than 20 ms with a rapid pitch drop', () => {
+    const m = createMockAudioContext();
+    const sfx = new RadioSFX(m.ctx);
+
+    sfx.playClick();
+
+    const osc = m.oscillators[0];
+    expect(osc.type).toBe('triangle');
+    expect(osc.frequency.setValueAtTime).toHaveBeenCalledWith(220, 5.0);
+    const drop = osc.frequency.exponentialRampToValueAtTime.mock.calls[0];
+    expect(valueOf(drop)).toBe(55);
+    expect(timeOf(drop) - 5.0).toBeLessThanOrEqual(0.02);
+    expect(osc.stop.mock.calls[0][0]).toBeLessThanOrEqual(5.02);
+  });
+
+  it('plays one click per switch gesture even when UI and engine both fire', () => {
+    const m = createMockAudioContext();
+    const sfx = new RadioSFX(m.ctx);
+
+    sfx.playClick();
+    sfx.playClick();
+
+    expect(m.oscillators).toHaveLength(1);
+  });
+});
+
+describe('RadioSFX switch coalescing', () => {
+  it('coalesces duplicate tuning bursts inside the gap window', () => {
+    const m = createMockAudioContext();
+    const sfx = new RadioSFX(m.ctx);
+
+    // App wheel calls playTuningStaticBurst(220), then the engine calls playTuningStatic()
+    sfx.playTuningStaticBurst(220);
+    sfx.playTuningStatic();
+
+    expect(m.sources).toHaveLength(1);
+    expect(m.bufferSizes[0]).toBe(Math.floor(44100 * 0.22));
+  });
+
+  it('plays a new burst once the gap window has elapsed', () => {
+    vi.useFakeTimers({ toFake: ['performance', 'setTimeout', 'clearTimeout'] });
+    const m = createMockAudioContext();
+    const sfx = new RadioSFX(m.ctx);
+
+    sfx.playTuningStaticBurst(220);
+    vi.advanceTimersByTime(TUNING_SWITCH.minGapMs + 10);
+    sfx.playTuningStaticBurst(220);
+
+    expect(m.sources).toHaveLength(2);
+  });
+});
+
+describe('RadioSFX early burst cutoff', () => {
+  it('fades an in-flight burst out instead of hard-cutting it', () => {
+    const m = createMockAudioContext();
+    const sfx = new RadioSFX(m.ctx);
+
+    sfx.playTuningStaticBurst(220);
+    const burst = m.sources[0];
+    expect(sfx.isBursting()).toBe(true);
+
+    sfx.stopTuningBurst(40);
+
+    const lastStop = burst.stop.mock.calls.at(-1)!;
+    expect(lastStop[0]).toBeCloseTo(5.04, 5); // stopped after the 40 ms fade, not instantly
+    expect(m.gains[0].gain.exponentialRampToValueAtTime).toHaveBeenCalledWith(0.0005, 5.04);
+    expect(sfx.isBursting()).toBe(false);
+  });
+});
+
+describe('RadioSFX latency hiss', () => {
+  it('starts a looping, softened hiss that ducks instead of droning', () => {
+    const m = createMockAudioContext();
+    const sfx = new RadioSFX(m.ctx);
 
     sfx.startStaticHiss();
 
-    expect(ctx.createBufferSource).toHaveBeenCalled();
-    expect(mockBufferSource.loop).toBe(true);
-    expect(mockFilter.type).toBe('bandpass');
-    expect(mockGain.gain.setValueAtTime).toHaveBeenCalledWith(0.04, 5.0);
-    expect(mockBufferSource.start).toHaveBeenCalled();
+    expect(sfx.isHissing()).toBe(true);
+    expect(m.sources[0].loop).toBe(true);
+    const band = m.filters[0];
+    expect(band.type).toBe('bandpass');
+    expect(band.frequency.value).toBe(1100);
+    const gain = m.gains[0].gain;
+    expect(gain.setValueAtTime).toHaveBeenCalledWith(0.0001, 5.0);
+    expect(gain.linearRampToValueAtTime).toHaveBeenCalledWith(0.03, 5.05);
+    expect(gain.linearRampToValueAtTime).toHaveBeenCalledWith(0.012, 6.25);
   });
 
-  it('smoothly ramps gain down to 0 on stopStaticHiss and clamps gain anchor to avoid audio pops', () => {
-    const { ctx, mockGain } = createMockAudioContext();
-    mockGain.gain.value = 1.0; // High value simulating untracked gain spike
-    const sfx = new RadioSFX(ctx);
+  it('does not stack a second hiss while one is running', () => {
+    const m = createMockAudioContext();
+    const sfx = new RadioSFX(m.ctx);
 
     sfx.startStaticHiss();
+    sfx.startStaticHiss();
+
+    expect(m.sources).toHaveLength(1);
+  });
+
+  it('fades the hiss to silence on stop and clamps the anchor to avoid pops', () => {
+    const m = createMockAudioContext();
+    const sfx = new RadioSFX(m.ctx);
+
+    sfx.startStaticHiss();
+    m.gains[0].gain.value = 1.0; // untracked spike
     sfx.stopStaticHiss(60);
 
-    // Clamps gain anchor to Math.min(1.0, 0.04) -> 0.04
-    expect(mockGain.gain.setValueAtTime).toHaveBeenCalledWith(0.04, 5.0);
-    expect(mockGain.gain.linearRampToValueAtTime).toHaveBeenCalledWith(
-      0.0001,
-      5.0 + 0.06
-    );
+    const gain = m.gains[0].gain;
+    expect(gain.setValueAtTime).toHaveBeenCalledWith(0.03, 5.0);
+    expect(gain.linearRampToValueAtTime).toHaveBeenCalledWith(0.0001, 5.06);
+    expect(sfx.isHissing()).toBe(false);
   });
 
-  it('stops static hiss when disabled via setEnabled(false)', () => {
-    const { ctx, mockBufferSource } = createMockAudioContext();
-    const sfx = new RadioSFX(ctx);
+  it('stops the hiss when disabled via setEnabled(false)', () => {
+    const m = createMockAudioContext();
+    const sfx = new RadioSFX(m.ctx);
 
     sfx.startStaticHiss();
     sfx.setEnabled(false);
 
-    expect(mockBufferSource.stop).toHaveBeenCalled();
+    expect(m.sources[0].stop).toHaveBeenCalled();
+    expect(sfx.isHissing()).toBe(false);
+  });
+});
+
+describe('RadioSFX degradation and flags', () => {
+  it('does not throw when AudioContext is unavailable', () => {
+    const sfx = new RadioSFX();
+    sfx.setContext(null);
+
+    expect(() => {
+      sfx.playClick();
+      sfx.playTuningStatic();
+      sfx.playStationSwitch();
+      sfx.startStaticHiss();
+      sfx.stopStaticHiss(60);
+      sfx.stopTuningBurst(0);
+      sfx.dispose();
+    }).not.toThrow();
+    expect(sfx.isHissing()).toBe(false);
+    expect(sfx.isBursting()).toBe(false);
+  });
+
+  it('respects the enabled flag', () => {
+    const m = createMockAudioContext();
+    const sfx = new RadioSFX(m.ctx);
+
+    sfx.setEnabled(false);
+    expect(sfx.isEnabled()).toBe(false);
+
+    sfx.playClick();
+    sfx.playTuningStatic();
+    sfx.playStationSwitch(200);
+    sfx.startStaticHiss();
+
+    expect(m.oscillators).toHaveLength(0);
+    expect(m.sources).toHaveLength(0);
+    expect(m.bufferSizes).toHaveLength(0);
+  });
+
+  it('resumes a suspended AudioContext on trigger', () => {
+    const m = createMockAudioContext();
+    (m.ctx as any).state = 'suspended';
+    const sfx = new RadioSFX(m.ctx);
+
+    sfx.playClick();
+
+    expect(m.ctx.resume).toHaveBeenCalled();
   });
 });

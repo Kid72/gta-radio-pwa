@@ -174,15 +174,28 @@ function createMockAudioContext() {
       setValueAtTime: vi.fn(),
       exponentialRampToValueAtTime: vi.fn(),
       linearRampToValueAtTime: vi.fn(),
+      cancelScheduledValues: vi.fn(),
       value: 1,
     },
     connect: vi.fn(),
+    disconnect: vi.fn(),
   };
 
   const mockFilter = {
     type: '',
-    frequency: { value: 0 },
-    Q: { value: 0 },
+    frequency: {
+      value: 0,
+      setValueAtTime: vi.fn(),
+      linearRampToValueAtTime: vi.fn(),
+      exponentialRampToValueAtTime: vi.fn(),
+      cancelScheduledValues: vi.fn(),
+    },
+    Q: {
+      value: 0,
+      setValueAtTime: vi.fn(),
+      linearRampToValueAtTime: vi.fn(),
+      exponentialRampToValueAtTime: vi.fn(),
+    },
     connect: vi.fn(),
   };
 
@@ -224,7 +237,7 @@ function createMockAudioContext() {
 }
 
 describe('RadioSFX (Authentic Tuning Bursts and Switch Clicks)', () => {
-  it('synthesizes white noise static burst via Web Audio API bandpass filter and gain envelope', () => {
+  it('synthesizes a swept band-pass static burst with a self-terminating gain envelope', () => {
     const { ctx, mockFilter, mockGain, mockBufferSource } = createMockAudioContext();
     const sfx = new RadioSFX(ctx);
 
@@ -234,13 +247,18 @@ describe('RadioSFX (Authentic Tuning Bursts and Switch Clicks)', () => {
     expect(ctx.createBufferSource).toHaveBeenCalled();
     expect(ctx.createBiquadFilter).toHaveBeenCalled();
     expect(mockFilter.type).toBe('bandpass');
-    expect(mockFilter.frequency.value).toBe(1200);
-    expect(mockFilter.Q.value).toBe(3.0);
-    expect(mockGain.gain.setValueAtTime).toHaveBeenCalledWith(0.2, 5.0);
-    expect(mockGain.gain.exponentialRampToValueAtTime).toHaveBeenCalledWith(
-      0.01,
+    // frequency sweep: 800 Hz -> 3200 Hz (45% in) -> 1200 Hz (end of the burst)
+    expect(mockFilter.frequency.setValueAtTime).toHaveBeenCalledWith(800, 5.0);
+    expect(mockFilter.frequency.exponentialRampToValueAtTime).toHaveBeenCalledWith(
+      3200,
+      5.0 + 0.16 * 0.45
+    );
+    expect(mockFilter.frequency.exponentialRampToValueAtTime).toHaveBeenCalledWith(
+      1200,
       5.0 + 0.16
     );
+    expect(mockGain.gain.linearRampToValueAtTime).toHaveBeenCalled();
+    expect(mockGain.gain.exponentialRampToValueAtTime).toHaveBeenCalledWith(0.0008, 5.16);
     expect(mockBufferSource.start).toHaveBeenCalled();
   });
 
@@ -254,13 +272,13 @@ describe('RadioSFX (Authentic Tuning Bursts and Switch Clicks)', () => {
     expect(mockOscillator.type).toBe('triangle');
     expect(mockOscillator.frequency.setValueAtTime).toHaveBeenCalledWith(220, 5.0);
     expect(mockOscillator.frequency.exponentialRampToValueAtTime).toHaveBeenCalledWith(
-      40,
-      5.0 + 0.04
+      55,
+      5.0 + 0.012
     );
     expect(mockGain.gain.setValueAtTime).toHaveBeenCalledWith(0.15, 5.0);
-    expect(mockGain.gain.linearRampToValueAtTime).toHaveBeenCalledWith(0.001, 5.0 + 0.04);
+    expect(mockGain.gain.linearRampToValueAtTime).toHaveBeenCalledWith(0.001, 5.0 + 0.012);
     expect(mockOscillator.start).toHaveBeenCalled();
-    expect(mockOscillator.stop).toHaveBeenCalledWith(5.0 + 0.04);
+    expect(mockOscillator.stop).toHaveBeenCalledWith(5.0 + 0.012);
   });
 
   it('resumes suspended AudioContext on trigger', () => {
@@ -741,6 +759,26 @@ describe('RadioEngine Core Audio Player', () => {
     expect(engine.getVolume()).toBe(0);
     expect(audio.volume).toBe(0);
     expect(engine.getState().isMuted).toBe(true);
+  });
+
+  it('ducks the old station and fades the new one in without overriding user volume or mute', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    const audio = engine.getAudioElement();
+    engine.setVolume(0.6);
+
+    await engine.playStation(mockStations[0], false);
+    expect(audio.volume).toBe(0); // silence under the static burst
+
+    vi.advanceTimersByTime(400);
+    expect(audio.volume).toBeCloseTo(0.6, 5); // ramps to the user's level, never to 1
+
+    engine.setMuted(true);
+    await engine.playStation(mockStations[1], false);
+    vi.advanceTimersByTime(400);
+    expect(audio.volume).toBeCloseTo(0.6, 5);
+    expect(audio.muted).toBe(true);
+
+    vi.useRealTimers();
   });
 
   it('controls mute state via setMuted and toggleMute', () => {
