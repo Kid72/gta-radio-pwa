@@ -170,6 +170,46 @@ export class ChunkedPlayback {
     await this.playCurrent(generation);
   }
 
+  /**
+   * Take over a chunk the caller already put on the element.
+   *
+   * The CarPlay path has to call `play()` inside the user-activation tick, so the
+   * engine resolves the chunk synchronously (`locate` + `chunkUrl` + `audio.src`)
+   * before handing control here. Adopting only records the chunk and plans the
+   * offset — it must never re-assign `audio.src`, which would discard the
+   * synchronous start and reload the same chunk.
+   */
+  adopt(
+    station: Station,
+    absoluteSecond: number,
+    generation: number,
+    chunkIndex?: number,
+  ): boolean {
+    if (this.disposed) return false;
+
+    const meta = this.getChunkMeta ? this.getChunkMeta(station.gameId, station.id) : null;
+    const timeline = resolveTimeline(station, meta);
+    const position = locate(timeline, absoluteSecond);
+    const index =
+      typeof chunkIndex === 'number' && Number.isInteger(chunkIndex) && chunkIndex >= 0
+        ? chunkIndex
+        : position.index;
+
+    this.generation = generation;
+    this.station = station;
+    this.timeline = timeline;
+    this.index = index;
+    this.errorReported = false;
+    this.transition = null;
+    this.advancing = false;
+    this.playhead = null;
+    this.dropPrefetch();
+
+    this.audio.loop = false;
+    this.planOffset(index === position.index ? position.offset : 0);
+    return true;
+  }
+
   /** Pause without losing the position (no source, no offset change). */
   stop(): void {
     this.clearOffsetTimer();
