@@ -4,7 +4,11 @@ import type { GameId } from '../types/radio';
 /**
  * Stations whose shipped audio file is a byte-identical copy of another station's
  * file. The ID3 title of the file names the real owner, so the copy must not
- * claim a tracklist: until the audio is re-acquired it shows station-level info.
+ * claim a tracklist: while an entry exists it shows station-level info only.
+ *
+ * Empty since the five GTA V stations were re-acquired from the real station
+ * audio (see docs/media-reacquired.md). The mechanism stays: it is the guard
+ * for any future file whose ID3 title names a different station.
  *
  * Generated from the media set (chunk geometry + ffprobe tags), not hand-written.
  */

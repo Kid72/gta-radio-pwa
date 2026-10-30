@@ -28,14 +28,15 @@ describe('chunk manifest', () => {
     expect(channelX.count).toBe(24);
     expect(channelX.count).toBeGreaterThan(Math.ceil(2741 / 120));
 
-    // Catalog 24984 s -> 209 chunks; real file -> 140 (catalog overstates the length here).
-    expect(musicLocker.count).toBe(140);
-    expect(musicLocker.duration).toBeLessThan(24984);
+    // Catalog 24984 s -> 209 chunks; the real loop is 27245.517 s -> 228 chunks
+    // (the catalog understates this station by 2262 s).
+    expect(musicLocker.count).toBe(228);
+    expect(musicLocker.duration).toBeGreaterThan(24984);
 
-    // The shipped manifest describes 55 playable stations and 2408 chunks in total.
+    // The shipped manifest describes 55 playable stations and 2592 chunks in total.
     expect(Object.keys(CHUNK_MANIFEST)).toHaveLength(55);
     const totalChunks = Object.values(CHUNK_MANIFEST).reduce((sum, meta) => sum + meta.count, 0);
-    expect(totalChunks).toBe(2408);
+    expect(totalChunks).toBe(2592);
   });
 
   it('manifest is internally consistent', () => {

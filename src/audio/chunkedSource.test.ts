@@ -123,13 +123,13 @@ describe('locate', () => {
   it('never returns an offset past the end of its chunk', () => {
     const meta = getChunkMeta('gta5', 'the-music-locker');
     const timeline = resolveTimeline(station('the-music-locker', 'gta5'), meta);
-    expect(timeline.count).toBe(140);
+    expect(timeline.count).toBe(228);
 
-    // The last chunk is a remainder: 16730.548 - 139 * 120 = 50.548 s.
+    // The last chunk is a remainder: 27245.517 - 227 * 120 = 5.517 s.
     const last = locate(timeline, timeline.duration - 0.01);
-    expect(last.index).toBe(139);
-    expect(last.offset).toBeLessThanOrEqual(50.548 - 0.25);
-    expect(chunkBounds(timeline, 139)).toEqual({ start: 16680, end: timeline.duration });
+    expect(last.index).toBe(227);
+    expect(last.offset).toBeLessThanOrEqual(5.529 - 0.25);
+    expect(chunkBounds(timeline, 227)).toEqual({ start: 27240, end: timeline.duration });
   });
 });
 

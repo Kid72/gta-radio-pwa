@@ -7,7 +7,7 @@ import {
 } from './trackTimings';
 import { getStationLoopDuration, getChunkMeta } from './chunkManifest';
 import { GAMES } from './catalog';
-import { AUDIO_OWNER_OVERRIDES } from './audioOwners';
+import { AUDIO_OWNER_OVERRIDES, getAudioOwnerOverride, hasForeignAudio } from './audioOwners';
 import { resolveCueTimeline, getCurrentCue } from '../utils/trackCues';
 import type { Station } from '../types/radio';
 
@@ -105,26 +105,43 @@ describe('shipped track timings', () => {
 });
 
 describe('audio owner overrides', () => {
-  it('marks the five stations whose file is another station copy', () => {
-    const keys = Object.keys(AUDIO_OWNER_OVERRIDES).sort();
-    expect(keys).toEqual([
-      'gta5:kult-fm',
-      'gta5:motomami-los-santos',
-      'gta5:still-slipping-los-santos',
-      'gta5:the-lowdown-911',
-      'gta5:the-music-locker',
-    ]);
-    expect(AUDIO_OWNER_OVERRIDES['gta5:the-lowdown-911'].owner).toBe('gta5:space-1032');
+  it('ships no station whose file belongs to another station', () => {
+    expect(Object.keys(AUDIO_OWNER_OVERRIDES)).toEqual([]);
+    const foreign = ALL_STATIONS.filter((s) => hasForeignAudio(s.gameId, s.id)).map((s) =>
+      timingsKey(s.gameId, s.id),
+    );
+    expect(foreign).toEqual([]);
   });
 
-  it('never names a track for a station playing someone else audio', () => {
-    for (const key of Object.keys(AUDIO_OWNER_OVERRIDES)) {
+  it('still marks a station untrusted while an override names another owner', () => {
+    const key = 'gta5:kult-fm';
+    AUDIO_OWNER_OVERRIDES[key] = {
+      owner: 'gta5:radio-mirror-park',
+      ownerName: 'Radio Mirror Park',
+      fileTitle: 'Radio Mirror Park',
+    };
+    try {
       const station = byKey.get(key)!;
       const loop = getStationLoopDuration(station);
+
+      expect(hasForeignAudio(station.gameId, station.id)).toBe(true);
+      expect(getAudioOwnerOverride(station.gameId, station.id)?.ownerName).toBe('Radio Mirror Park');
+
       const timeline = resolveCueTimeline(station, loop);
-      expect(timeline.source, key).toBe('untrusted');
+      expect(timeline.source).toBe('untrusted');
+      expect(timeline.cues).toEqual([]);
       const cue = getCurrentCue(station, loop / 3, loop);
-      expect(cue.song, key).toBe(station.name);
+      expect(cue.song).toBe(station.name);
+    } finally {
+      delete AUDIO_OWNER_OVERRIDES[key];
     }
+  });
+
+  it('resolves cues again once the override is removed', () => {
+    const station = byKey.get('gta5:kult-fm')!;
+    const loop = getStationLoopDuration(station);
+
+    expect(hasForeignAudio(station.gameId, station.id)).toBe(false);
+    expect(resolveCueTimeline(station, loop).source).not.toBe('untrusted');
   });
 });
