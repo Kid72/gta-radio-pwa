@@ -1,7 +1,7 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef, useCallback, useEffect, useLayoutEffect } from 'react';
 import { Station, TrackCue } from '../../types/radio';
 import { sfx } from '../../audio/sfx';
-import { Radio, Disc3, VolumeX } from 'lucide-react';
+import { VolumeX } from 'lucide-react';
 
 export interface Gta5RadialWheelProps {
   stations: Station[];
@@ -11,54 +11,35 @@ export interface Gta5RadialWheelProps {
   currentCue?: TrackCue | null;
   coverArtUrl?: string | null;
   className?: string;
-  size?: number; // default 520
+  size?: number; // maximum disc size in px; the disc never exceeds 86vmin
 }
 
 export type GameHudProps = Gta5RadialWheelProps;
 
-export interface AnnularSectorParams {
-  cx: number;
-  cy: number;
-  rIn: number;
-  rOut: number;
-  startDeg: number;
-  endDeg: number;
-}
-
 export const GTA5_HUD_FONT =
   "'Chalet London 1960', 'Chalet Comprime 1960', 'Chalet', 'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
 
+/** Station badges sit on this ring, as a percentage of the disc half-size. */
+export const BADGE_RING_RADIUS_PERCENT = 42.5;
+
 /**
- * Computes SVG arc path for an annular pie wedge.
- * Uses formula:
- * M outerX1 outerY1 A outerR outerR 0 0 1 outerX2 outerY2 L innerX2 innerY2 A innerR innerR 0 0 0 innerX1 innerY1 Z
+ * Polar geometry of the wheel: station 0 sits at 12 o'clock and the ring
+ * walks clockwise. Returned values are percentages of the disc box.
  */
-export function calculateAnnularSectorPath({
-  cx,
-  cy,
-  rIn,
-  rOut,
-  startDeg,
-  endDeg,
-}: AnnularSectorParams): string {
-  const degToRad = (deg: number) => (deg * Math.PI) / 180;
-  const rad1 = degToRad(startDeg);
-  const rad2 = degToRad(endDeg);
+export function getBadgePosition(index: number, total: number): { x: number; y: number } {
+  if (total <= 0) return { x: 50, y: 50 };
+  const angle = -Math.PI / 2 + (index * 2 * Math.PI) / total;
+  return {
+    x: 50 + BADGE_RING_RADIUS_PERCENT * Math.cos(angle),
+    y: 50 + BADGE_RING_RADIUS_PERCENT * Math.sin(angle),
+  };
+}
 
-  const outerX1 = Number((cx + rOut * Math.sin(rad1)).toFixed(3));
-  const outerY1 = Number((cy - rOut * Math.cos(rad1)).toFixed(3));
-  const outerX2 = Number((cx + rOut * Math.sin(rad2)).toFixed(3));
-  const outerY2 = Number((cy - rOut * Math.cos(rad2)).toFixed(3));
-
-  const innerX2 = Number((cx + rIn * Math.sin(rad2)).toFixed(3));
-  const innerY2 = Number((cy - rIn * Math.cos(rad2)).toFixed(3));
-  const innerX1 = Number((cx + rIn * Math.sin(rad1)).toFixed(3));
-  const innerY1 = Number((cy - rIn * Math.cos(rad1)).toFixed(3));
-
-  const diff = ((endDeg - startDeg) % 360 + 360) % 360;
-  const largeArcFlag = diff > 180 ? 1 : 0;
-
-  return `M ${outerX1} ${outerY1} A ${rOut} ${rOut} 0 ${largeArcFlag} 1 ${outerX2} ${outerY2} L ${innerX2} ${innerY2} A ${rIn} ${rIn} 0 ${largeArcFlag} 0 ${innerX1} ${innerY1} Z`;
+/** Badges shrink as the roster grows so the ring stays a ring, not a smear. */
+export function getBadgeSizePercent(total: number): number {
+  if (total > 22) return 9.2;
+  if (total > 18) return 10;
+  return 11.5;
 }
 
 /**
@@ -98,6 +79,97 @@ export function triggerHaptic(duration = 10): void {
   }
 }
 
+/** Fallback mark shown when a station logo is missing or fails to load. */
+export function badgeInitials(name: string): string {
+  const words = name
+    .replace(/[^a-zA-Z0-9 ]/g, ' ')
+    .trim()
+    .split(/\s+/);
+  if (words.length === 0 || words[0] === '') return '?';
+  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
+  return (words[0][0] + words[1][0]).toUpperCase();
+}
+
+interface StationNodeProps {
+  station: Station;
+  index: number;
+  total: number;
+  isActive: boolean;
+  onSelect: () => void;
+  onHover: () => void;
+  onHoverEnd: () => void;
+}
+
+const StationNode: React.FC<StationNodeProps> = ({
+  station,
+  index,
+  total,
+  isActive,
+  onSelect,
+  onHover,
+  onHoverEnd,
+}) => {
+  const [logoFailed, setLogoFailed] = useState(false);
+  const { x, y } = getBadgePosition(index, total);
+  const size = getBadgeSizePercent(total);
+
+  return (
+    <button
+      type="button"
+      data-testid={`gta5-station-badge-${station.id}`}
+      data-station-index={index}
+      data-active={isActive ? 'true' : 'false'}
+      aria-label={station.name}
+      aria-pressed={isActive}
+      onClick={onSelect}
+      onMouseEnter={onHover}
+      onFocus={onHover}
+      onBlur={onHoverEnd}
+      style={{ left: `${x}%`, top: `${y}%`, width: `${size}%`, height: `${size}%` }}
+      className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center overflow-hidden outline-none select-none cursor-pointer transition-[transform,background-color,border-color,box-shadow] duration-200 ease-out motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-sky-300/70 ${
+        isActive
+          ? 'z-30 scale-[1.22] bg-black/95 border-2 border-sky-300 ring-2 ring-sky-400/40 shadow-[0_0_0_1px_rgba(56,189,248,0.8),0_0_28px_rgba(56,189,248,0.75)]'
+          : 'z-10 bg-black/60 border border-white/20 hover:bg-black/80 hover:border-white/60 hover:scale-105 shadow-[0_4px_14px_rgba(0,0,0,0.6)]'
+      }`}
+    >
+      {/* Inner bezel that keeps every logo inside the same optical circle */}
+      <span
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-[7%] rounded-full ${
+          isActive ? 'bg-sky-400/5' : 'bg-white/[0.03]'
+        }`}
+      />
+      {logoFailed && (
+        <span
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-0 flex items-center justify-center text-[clamp(7px,1.6vmin,11px)] font-bold uppercase tracking-tight ${
+            isActive ? 'text-sky-100' : 'text-zinc-300'
+          }`}
+        >
+          {badgeInitials(station.name)}
+        </span>
+      )}
+      {!logoFailed && (
+        <img
+          src={station.logoUrl}
+          alt=""
+          loading="lazy"
+          draggable={false}
+          onError={() => setLogoFailed(true)}
+          className="pointer-events-none relative z-10 w-[74%] h-[74%] object-contain"
+          style={{
+            mixBlendMode: 'screen',
+            opacity: isActive ? 1 : 0.7,
+            filter: isActive
+              ? 'grayscale(0.1) brightness(1.15) contrast(1.05)'
+              : 'grayscale(1) brightness(1.9) contrast(0.75)',
+          }}
+        />
+      )}
+    </button>
+  );
+};
+
 export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
   stations,
   currentStation,
@@ -106,18 +178,66 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
   currentCue = null,
   coverArtUrl = null,
   className = '',
-  size = 520,
+  size = 620,
 }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const discRef = useRef<HTMLDivElement>(null);
   const lastHighlightedIndexRef = useRef<number | null>(null);
   const lastWheelTimeRef = useRef<number>(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [shareState, setShareState] = useState<'idle' | 'copied'>('idle');
+  const [discSize, setDiscSize] = useState<number>(size);
+
+  // The design is a fixed 520px disc, but the HUD has to live between the app
+  // header and the player bar: measure the bounded scroll area and shrink the
+  // disc (never the badge geometry) so the whole ring stays on screen.
+  useLayoutEffect(() => {
+    const measure = () => {
+      const disc = discRef.current;
+      if (!disc || typeof window === 'undefined') return;
+      const bounded = disc.closest('main') as HTMLElement | null;
+      const availableWidth = Math.min(
+        disc.parentElement?.clientWidth || size,
+        window.innerWidth - 16,
+        size
+      );
+      let availableHeight = window.innerHeight - 220;
+      if (bounded) {
+        const styles = window.getComputedStyle(bounded);
+        const padY =
+          (parseFloat(styles.paddingTop) || 0) + (parseFloat(styles.paddingBottom) || 0);
+        // 46px = controller hint line + its top margin
+        availableHeight = bounded.clientHeight - padY - 46;
+      }
+      const next = Math.max(240, Math.floor(Math.min(availableWidth, availableHeight, size)));
+      setDiscSize(next);
+    };
+
+    measure();
+    window.addEventListener('resize', measure);
+    window.addEventListener('orientationchange', measure);
+
+    let observer: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== 'undefined' && discRef.current) {
+      const bounded = discRef.current.closest('main');
+      if (bounded) {
+        observer = new ResizeObserver(measure);
+        observer.observe(bounded);
+      }
+    }
+
+    return () => {
+      window.removeEventListener('resize', measure);
+      window.removeEventListener('orientationchange', measure);
+      observer?.disconnect();
+    };
+  }, [size]);
 
   const offIndex = stations.findIndex((s) => s.id === 'radio-off');
   const activeIndex = currentStation ? stations.findIndex((s) => s.id === currentStation.id) : -1;
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const total = stations.length;
 
   // Active or hovered station. When currentStation is null and no station hovered,
-  // default display to radio-off sector if present in stations
+  // default display to the radio-off node if present in stations
   const displayIndex =
     hoveredIndex !== null
       ? hoveredIndex
@@ -127,40 +247,13 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
       ? offIndex
       : -1;
   const activeStation = displayIndex >= 0 ? stations[displayIndex] : null;
+  const isRadioOff = !activeStation || activeStation.id === 'radio-off';
 
-  // The HUD is a fixed 520px disc by design; on phones that is wider than the
-  // screen and the wheel gets clipped. Shrink the geometry (never the design)
-  // to the space actually available.
-  const [autoSize, setAutoSize] = useState<number>(size);
+  // Reset the share affordance when the previewed station changes
+  const activeStationId = activeStation?.id;
   useEffect(() => {
-    const measure = () => {
-      const el = containerRef.current;
-      if (!el) return;
-      const avail = Math.min(
-        el.parentElement?.clientWidth || size,
-        typeof window !== 'undefined' ? window.innerWidth - 16 : size
-      );
-      if (avail > 0) setAutoSize(Math.max(260, Math.floor(Math.min(size, avail))));
-    };
-    measure();
-    if (typeof window === 'undefined') return;
-    window.addEventListener('resize', measure);
-    window.addEventListener('orientationchange', measure);
-    return () => {
-      window.removeEventListener('resize', measure);
-      window.removeEventListener('orientationchange', measure);
-    };
-  }, [size]);
-
-  // Geometry configuration
-  const scale = autoSize / 520;
-  const cx = autoSize / 2;
-  const cy = autoSize / 2;
-  const rIn = 110 * scale;
-  const rOutBase = 215 * scale;
-  const rOutActive = (215 + 14) * scale;
-  const total = stations.length;
-  const sliceAngle = total > 0 ? 360 / total : 360;
+    setShareState('idle');
+  }, [activeStationId]);
 
   // Select station with SFX, tuning burst and haptics
   const handleSelectStation = useCallback(
@@ -173,19 +266,32 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
     [onSelectStation]
   );
 
+  const highlightIndex = useCallback((index: number) => {
+    if (lastHighlightedIndexRef.current === index) return;
+    lastHighlightedIndexRef.current = index;
+    setHoveredIndex(index);
+    sfx.playClick();
+    triggerHaptic(10);
+  }, []);
+
+  const clearHighlight = useCallback(() => {
+    lastHighlightedIndexRef.current = null;
+    setHoveredIndex(null);
+  }, []);
+
   // Process pointer coordinates from clientX, clientY
   const processPointerInput = useCallback(
     (clientX: number, clientY: number, isDragging: boolean = false) => {
-      if (!containerRef.current || total === 0) return;
-      const rect = containerRef.current.getBoundingClientRect();
+      if (!discRef.current || total === 0) return;
+      const rect = discRef.current.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
       const dx = clientX - centerX;
       const dy = clientY - centerY;
-      const dist = Math.hypot(dx, dy);
 
-      // Deadzone check (~35px scaled)
-      if (dist < 35 * scale) {
+      // Deadzone check (~35px at the 520px reference size)
+      const scale = rect.width > 0 ? rect.width / 520 : 1;
+      if (Math.hypot(dx, dy) < 35 * scale) {
         return;
       }
 
@@ -193,10 +299,7 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
       const index = getStationIndexFromPolarAngle(angle, total);
 
       if (lastHighlightedIndexRef.current !== index) {
-        lastHighlightedIndexRef.current = index;
-        setHoveredIndex(index);
-        sfx.playClick();
-        triggerHaptic(10);
+        highlightIndex(index);
 
         // If pointer is down / dragging, select immediately
         if (isDragging && stations[index]) {
@@ -204,7 +307,7 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
         }
       }
     },
-    [scale, total, stations, onSelectStation]
+    [highlightIndex, total, stations, onSelectStation]
   );
 
   const handlePointerMove = useCallback(
@@ -229,11 +332,6 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
     [processPointerInput]
   );
 
-  const handlePointerLeave = useCallback(() => {
-    lastHighlightedIndexRef.current = null;
-    setHoveredIndex(null);
-  }, []);
-
   const handleTouchStart = useCallback(
     (e: React.TouchEvent<HTMLDivElement>) => {
       const touch = e.touches[0];
@@ -253,11 +351,6 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
     },
     [processPointerInput]
   );
-
-  const handleTouchEnd = useCallback(() => {
-    lastHighlightedIndexRef.current = null;
-    setHoveredIndex(null);
-  }, []);
 
   // Keyboard navigation
   const handleKeyDown = useCallback(
@@ -282,14 +375,17 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
         e.preventDefault();
         const prevIndex = activeIndex >= 0 ? (activeIndex - 1 + total) % total : total - 1;
         handleSelectStation(stations[prevIndex]);
+      } else if (e.key === 'Enter' && displayIndex >= 0) {
+        e.preventDefault();
+        handleSelectStation(stations[displayIndex]);
       }
     },
-    [total, activeIndex, stations, handleSelectStation]
+    [total, activeIndex, displayIndex, stations, handleSelectStation]
   );
 
-  // Mouse wheel station scrolling — use non-passive native listener so we can preventDefault
+  // Mouse wheel station scrolling — non-passive native listener so we can preventDefault
   useEffect(() => {
-    const el = containerRef.current;
+    const el = discRef.current;
     if (!el) return;
 
     const handleWheelNative = (e: WheelEvent) => {
@@ -313,16 +409,18 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
     return () => el.removeEventListener('wheel', handleWheelNative);
   }, [total, activeIndex, stations, handleSelectStation]);
 
-  // Frequency and Cue metadata resolution
-  const isRadioOff = activeStation?.id === 'radio-off' || activeStation === null;
-
+  // Frequency badge: catalog frequency, else one parsed from the name, else genre
   const frequencyBadge =
     activeStation?.frequency ||
     activeStation?.name.match(/\b\d{2,3}(?:\.\d)?\s*(?:FM|AM)?\b/i)?.[0] ||
-    null;
+    activeStation?.genre ||
+    '';
 
+  // Track metadata for the center readout
   let songTitle = 'Live Broadcast';
-  let artistOrInfo = activeStation?.genre || 'Broadcasting Live';
+  let artistOrInfo = activeStation?.host
+    ? `Hosted by ${activeStation.host}`
+    : activeStation?.genre || 'Broadcasting Live';
   if (currentCue) {
     if (currentCue.type === 'music') {
       songTitle = currentCue.song;
@@ -334,364 +432,217 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
       songTitle = currentCue.song || 'Commercial Break';
       artistOrInfo = 'Commercial Break';
     }
-  } else if (activeStation?.host) {
-    artistOrInfo = `Hosted by ${activeStation.host}`;
   }
+
+  const handleShare = useCallback(async () => {
+    if (!activeStation || isRadioOff) return;
+    const origin = typeof window !== 'undefined' ? window.location.origin : '';
+    const path = typeof window !== 'undefined' ? window.location.pathname : '/';
+    const url = `${origin}${path}#station=${activeStation.id}`;
+    const text = `${songTitle} — ${artistOrInfo}`;
+
+    try {
+      if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+        await navigator.share({ title: activeStation.name, text, url });
+      } else if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(url);
+        setShareState('copied');
+      }
+    } catch {
+      // Sharing was dismissed or blocked — keep the HUD silent.
+    }
+  }, [activeStation, isRadioOff, songTitle, artistOrInfo]);
 
   const effectiveCoverArt = coverArtUrl || currentCue?.coverArtUrl || null;
 
   return (
     <div
-      ref={containerRef}
-      tabIndex={0}
+      data-testid="gta5-radial-wheel"
       role="region"
       aria-label="GTA V Radio Wheel"
-      data-testid="gta5-radial-wheel"
-      onPointerMove={handlePointerMove}
-      onMouseMove={handlePointerMove}
-      onPointerLeave={handlePointerLeave}
-      onMouseLeave={handlePointerLeave}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
+      tabIndex={0}
       onKeyDown={handleKeyDown}
-      style={{
-        width: `${autoSize}px`,
-        height: `${autoSize}px`,
-        fontFamily: GTA5_HUD_FONT,
-      }}
-      className={`relative mx-auto flex items-center justify-center select-none touch-none outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full ${className}`}
+      style={{ fontFamily: GTA5_HUD_FONT }}
+      className={`flex flex-col items-center select-none outline-none focus-visible:ring-2 focus-visible:ring-sky-400/40 rounded-3xl ${className}`}
     >
-      {/* Authentic HUD Ambient Radial Vignette */}
       <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -inset-24 rounded-full opacity-60 transition-opacity duration-300"
-        style={{
-          background:
-            'radial-gradient(circle, rgba(0,0,0,0) 45%, rgba(0,0,0,0.65) 80%, rgba(0,0,0,0.92) 100%)',
-        }}
-      />
-
-      {/* SVG Annular Radial Wheel */}
-      <svg
-        data-testid="gta5-radial-svg"
-        viewBox={`0 0 ${autoSize} ${autoSize}`}
-        className="absolute inset-0 w-full h-full overflow-visible pointer-events-auto"
+        ref={discRef}
+        data-testid="gta5-wheel-disc"
+        onPointerMove={handlePointerMove}
+        onMouseMove={handlePointerMove}
+        onPointerLeave={clearHighlight}
+        onMouseLeave={clearHighlight}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={clearHighlight}
+        style={{ width: `${discSize}px`, height: `${discSize}px` }}
+        className="relative aspect-square touch-none"
       >
-        <defs>
-          {/* Authentic HUD soft glow filter for active wedge */}
-          <filter id="gta5-emerald-glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#ffffff" floodOpacity="0.6" />
-          </filter>
-
-          {/* Icon white-blend filter: makes opaque dark/gray backgrounds invisible on dark sectors */}
-          <filter id="gta5-icon-blend">
-            <feColorMatrix type="matrix"
-              values="1 0 0 0 0
-                      0 1 0 0 0
-                      0 0 1 0 0
-                      1 1 1 -1 0" />
-          </filter>
-
-          {/* Active icon glow */}
-          <filter id="gta5-icon-glow" x="-30%" y="-30%" width="160%" height="160%">
-            <feDropShadow dx="0" dy="0" stdDeviation="4" floodColor="#ffffff" floodOpacity="0.85" />
-          </filter>
-
-          {/* Active wedge authentic GTA V translucent white gradient */}
-          <linearGradient id="gta5-active-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="rgba(255, 255, 255, 0.55)" />
-            <stop offset="100%" stopColor="rgba(255, 255, 255, 0.32)" />
-          </linearGradient>
-
-          {/* Inactive wedge dark slate HUD glass */}
-          <linearGradient id="gta5-inactive-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="rgba(18, 25, 38, 0.88)" />
-            <stop offset="100%" stopColor="rgba(8, 12, 20, 0.84)" />
-          </linearGradient>
-        </defs>
-
-        {/* Outer subtle guide ring */}
-        <circle
-          cx={cx}
-          cy={cy}
-          r={rOutBase + 4}
-          fill="none"
-          stroke="rgba(255, 255, 255, 0.15)"
-          strokeWidth="1"
-          strokeDasharray="4 4"
+        {/* ── Night-highway HUD backdrop: vignette + CRT scanlines ── */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 rounded-full"
+          style={{
+            background:
+              'radial-gradient(circle at 50% 42%, rgba(30, 42, 56, 0.55) 0%, rgba(10, 16, 24, 0.78) 58%, rgba(0, 0, 0, 0.94) 100%)',
+          }}
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 rounded-full opacity-[0.08]"
+          style={{
+            backgroundImage:
+              'repeating-linear-gradient(180deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 1px, transparent 1px, transparent 4px)',
+          }}
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-[14%] bottom-[8%] h-[22%] blur-2xl opacity-30"
+          style={{ background: 'radial-gradient(ellipse at 50% 100%, #38bdf8 0%, transparent 70%)' }}
         />
 
-        {/* Inner hairline guide ring */}
-        <circle
-          cx={cx}
-          cy={cy}
-          r={rIn - 2}
-          fill="none"
-          stroke="rgba(255, 255, 255, 0.25)"
-          strokeWidth="1"
-        />
+        {/* ── Implied ring the badges hang on ── */}
+        <svg
+          data-testid="gta5-radial-svg"
+          viewBox="0 0 100 100"
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full"
+        >
+          <circle
+            cx={50}
+            cy={50}
+            r={BADGE_RING_RADIUS_PERCENT}
+            fill="none"
+            stroke="rgba(255,255,255,0.10)"
+            strokeWidth={0.3}
+            strokeDasharray="0.9 1.6"
+          />
+          <circle
+            cx={50}
+            cy={50}
+            r={BADGE_RING_RADIUS_PERCENT - 7}
+            fill="none"
+            stroke="rgba(255,255,255,0.06)"
+            strokeWidth={0.25}
+          />
+        </svg>
 
-        {/* Annular Sectors for each station */}
-        {stations.map((station, index) => {
-          const isActive = index === displayIndex;
-          const rOut = isActive ? rOutActive : rOutBase;
+        {/* ── Station badges on the ring ── */}
+        {stations.map((station, index) => (
+          <StationNode
+            key={station.id}
+            station={station}
+            index={index}
+            total={total}
+            isActive={index === displayIndex}
+            onSelect={() => handleSelectStation(station)}
+            onHover={() => highlightIndex(index)}
+            onHoverEnd={clearHighlight}
+          />
+        ))}
 
-          // Angular coordinates (gap of ~1.2 deg between slices)
-          const midDeg = index * sliceAngle;
-          const gap = total > 1 ? Math.min(1.2, sliceAngle * 0.05) : 0;
-          const startDeg = midDeg - sliceAngle / 2 + gap / 2;
-          const endDeg = midDeg + sliceAngle / 2 - gap / 2;
-
-          const pathD = calculateAnnularSectorPath({
-            cx,
-            cy,
-            rIn,
-            rOut,
-            startDeg,
-            endDeg,
-          });
-
-          // Station icon position at bisector radius
-          const rIcon = (rIn + rOut) / 2;
-          const radMid = (midDeg * Math.PI) / 180;
-          const iconX = cx + rIcon * Math.sin(radMid);
-          const iconY = cy - rIcon * Math.cos(radMid);
-          const iconSize = Math.max(30, 42 * scale);
-
-          return (
-            <g
-              key={station.id}
-              data-testid={`gta5-sector-${station.id}`}
-              data-active={isActive ? 'true' : 'false'}
-              data-station-index={index}
-              onClick={() => handleSelectStation(station)}
-              onMouseEnter={() => {
-                if (lastHighlightedIndexRef.current !== index) {
-                  lastHighlightedIndexRef.current = index;
-                  setHoveredIndex(index);
-                  sfx.playClick();
-                  triggerHaptic(10);
-                }
-              }}
-              className="cursor-pointer transition-all duration-150"
-            >
-              {/* Sector slice path */}
-              <path
-                d={pathD}
-                fill={isActive ? 'url(#gta5-active-gradient)' : 'url(#gta5-inactive-gradient)'}
-                stroke={isActive ? '#ffffff' : 'rgba(255, 255, 255, 0.16)'}
-                strokeWidth={isActive ? 2.5 : 1}
-                filter={isActive ? 'url(#gta5-emerald-glow)' : undefined}
-                className="transition-all duration-200"
-              />
-
-              {/* Station logo icon — screen blend so solid-bg logos blend with dark sector */}
-              <image
-                href={station.logoUrl}
-                x={iconX - iconSize / 2}
-                y={iconY - iconSize / 2}
-                width={iconSize}
-                height={iconSize}
-                preserveAspectRatio="xMidYMid meet"
-                filter={isActive ? 'url(#gta5-icon-glow)' : 'url(#gta5-icon-blend)'}
-                style={{
-                  mixBlendMode: 'screen',
-                  opacity: isActive ? 1 : 0.65,
-                  transformOrigin: `${iconX}px ${iconY}px`,
-                  transform: isActive ? 'scale(1.12)' : 'scale(1)',
-                  transition: 'opacity 200ms, transform 200ms',
-                }}
-                className="pointer-events-none"
-              />
-            </g>
-          );
-        })}
-
-        {/* Authentic GTA V selector needle pointer */}
-        {displayIndex >= 0 && (
-          <g data-testid="gta5-needle-pointer" className="pointer-events-none transition-all duration-150">
-            {/* Backward-compatible line and circle for existing tests */}
-            <line
-              x1={cx}
-              y1={cy}
-              x2={cx + (rIn - 6) * Math.sin((displayIndex * sliceAngle * Math.PI) / 180)}
-              y2={cy - (rIn - 6) * Math.cos((displayIndex * sliceAngle * Math.PI) / 180)}
-              stroke="#ffffff"
-              strokeWidth={2.5}
-              strokeLinecap="round"
-              opacity={0.95}
-            />
-            <circle cx={cx} cy={cy} r={3.5} fill="#ffffff" />
-
-            {/* Authentic Outer HUD Pointer Arrowhead bridging center hub to active sector */}
-            <polygon
-              points={`
-                ${cx + (rIn - 1) * Math.sin((displayIndex * sliceAngle * Math.PI) / 180)},
-                ${cy - (rIn - 1) * Math.cos((displayIndex * sliceAngle * Math.PI) / 180)}
-                ${cx + (rIn + 14 * scale) * Math.sin(((displayIndex * sliceAngle - 3.5) * Math.PI) / 180)},
-                ${cy - (rIn + 14 * scale) * Math.cos(((displayIndex * sliceAngle - 3.5) * Math.PI) / 180)}
-                ${cx + (rIn + 14 * scale) * Math.sin(((displayIndex * sliceAngle + 3.5) * Math.PI) / 180)},
-                ${cy - (rIn + 14 * scale) * Math.cos(((displayIndex * sliceAngle + 3.5) * Math.PI) / 180)}
-              `}
-              fill="#ffffff"
-              filter="url(#gta5-emerald-glow)"
-              opacity={0.95}
-            />
-          </g>
-        )}
-      </svg>
-
-      {/* Center Hub */}
-      {activeStation && !isRadioOff ? (
+        {/* ── Center readout: station, artist, song, share ── */}
         <div
           data-testid="gta5-center-hub"
-          style={{
-            width: `${(rIn - 6) * 2}px`,
-            height: `${(rIn - 6) * 2}px`,
-          }}
-          className="absolute inset-0 m-auto rounded-full flex flex-col items-center justify-center p-3 text-center bg-slate-950/94 backdrop-blur-2xl border border-white/20 shadow-[0_0_35px_rgba(0,0,0,0.95)] overflow-hidden select-none z-20 pointer-events-auto"
+          className="pointer-events-none absolute inset-0 z-20 flex flex-col items-center justify-center px-[10%] text-center"
         >
-          {/* Subtle vignette backdrop glow */}
-          <div
-            className="absolute inset-0 rounded-full opacity-20 pointer-events-none"
-            style={{
-              background: 'radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%)',
-            }}
-          />
-
-          {/* Optional Track Artwork backdrop */}
-          {effectiveCoverArt && (
-            <div className="absolute inset-0 rounded-full overflow-hidden opacity-30 pointer-events-none">
-              <img
-                src={effectiveCoverArt}
-                alt="Track Artwork"
-                data-testid="gta5-cover-art"
-                className="w-full h-full object-cover blur-[2px] scale-110"
-              />
-              <div className="absolute inset-0 bg-black/60" />
-            </div>
-          )}
-
-          {/* Frequency Badge */}
-          <div className="z-10 flex items-center gap-1.5 mb-1">
-            {frequencyBadge && (
-              <span
-                data-testid="gta5-station-frequency"
-                className="text-[9px] font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/10 text-neutral-200 border border-white/15 shadow-sm"
-              >
-                {frequencyBadge}
-              </span>
-            )}
-            <span
-              className={`h-1.5 w-1.5 rounded-full ${
-                isPlaying ? 'bg-white animate-ping' : 'bg-neutral-600'
-              }`}
-            />
-          </div>
-
-          {/* Station Logo Emblem */}
-          <div className="z-10 relative mb-1">
-            <img
-              src={activeStation.logoUrl}
-              alt={activeStation.name}
-              data-testid="gta5-station-emblem"
-              className="w-12 h-12 object-contain drop-shadow-[0_4px_12px_rgba(0,0,0,0.85)] transition-transform duration-200"
-              onError={(e) => {
-                (e.currentTarget as HTMLElement).style.opacity = '0.5';
-              }}
-            />
-          </div>
-
-          {/* Station Name & Genre in Chalet Style */}
-          <h2
-            data-testid="gta5-station-name"
-            className="z-10 text-xs font-black tracking-wide uppercase text-white truncate max-w-[90%] drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]"
-          >
-            {activeStation.name}
-          </h2>
-          <p className="z-10 text-[9px] text-neutral-400 font-semibold tracking-wider uppercase truncate max-w-[85%]">
-            {activeStation.genre}
-          </p>
-
-          {/* Track Title & Artist */}
-          <div className="z-10 mt-1 max-w-[90%] flex flex-col items-center">
-            <div className="flex items-center gap-1 max-w-full">
-              {currentCue?.type === 'music' ? (
-                <Disc3
-                  className={`w-3 h-3 text-white shrink-0 ${
-                    isPlaying ? 'animate-spin' : ''
-                  }`}
-                  style={{ animationDuration: '4s' }}
-                />
-              ) : (
-                <Radio className="w-3 h-3 text-white shrink-0" />
+          {activeStation && !isRadioOff ? (
+            <>
+              {effectiveCoverArt && (
+                <div className="pointer-events-none absolute inset-[18%] overflow-hidden rounded-full opacity-[0.18]">
+                  <img
+                    src={effectiveCoverArt}
+                    alt=""
+                    data-testid="gta5-cover-art"
+                    className="h-full w-full scale-110 object-cover blur-md"
+                  />
+                  <div className="absolute inset-0 bg-black/50" />
+                </div>
               )}
-              <span
+
+              <div className="relative z-10 mb-1.5 flex items-center gap-1.5">
+                {frequencyBadge && (
+                  <span
+                    data-testid="gta5-station-frequency"
+                    className="text-[clamp(9px,1.8vmin,12px)] font-mono font-semibold uppercase tracking-[0.28em] text-sky-300/90"
+                  >
+                    {frequencyBadge}
+                  </span>
+                )}
+                <span
+                  data-testid="gta5-playing-dot"
+                  data-playing={isPlaying ? 'true' : 'false'}
+                  aria-hidden="true"
+                  className={`h-1 w-1 rounded-full ${
+                    isPlaying ? 'bg-sky-400 animate-pulse' : 'bg-zinc-600'
+                  }`}
+                />
+              </div>
+
+              <h2
+                data-testid="gta5-station-name"
+                style={{ fontSize: 'clamp(15px, 3.4vmin, 27px)', lineHeight: 1.06 }}
+                className="relative z-10 max-w-full font-bold uppercase tracking-tight text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]"
+              >
+                {activeStation.name}
+              </h2>
+
+              <p
+                data-testid="gta5-track-artist"
+                style={{ fontSize: 'clamp(12px, 2.5vmin, 19px)', lineHeight: 1.2 }}
+                className="relative z-10 mt-2 max-w-full font-medium text-zinc-200 drop-shadow-[0_1px_4px_rgba(0,0,0,0.95)] line-clamp-2"
+              >
+                {artistOrInfo}
+              </p>
+
+              <p
                 data-testid="gta5-track-title"
-                className="text-[10px] font-bold text-neutral-100 truncate tracking-tight"
+                style={{ fontSize: 'clamp(10px, 2.1vmin, 16px)', lineHeight: 1.25 }}
+                className="relative z-10 max-w-full tracking-wide text-zinc-300 drop-shadow-[0_1px_4px_rgba(0,0,0,0.95)] line-clamp-2"
               >
                 {songTitle}
-              </span>
-            </div>
-            <span
-              data-testid="gta5-track-artist"
-              className="text-[9px] text-neutral-300 font-medium truncate max-w-full"
-            >
-              {artistOrInfo}
-            </span>
-          </div>
+              </p>
 
-          {/* Equalizer */}
-          <div
-            data-testid="gta5-equalizer"
-            data-playing={isPlaying ? 'true' : 'false'}
-            className="z-10 flex items-end justify-center gap-1 h-3 mt-1"
-          >
-            {[1, 2, 3, 4, 5].map((bar) => (
-              <span
-                key={bar}
-                className={`w-0.5 rounded-full transition-all duration-200 ${
-                  isPlaying ? 'bg-white animate-pulse h-2.5' : 'bg-neutral-600 h-1'
-                }`}
-                style={
-                  isPlaying
-                    ? {
-                        animationDuration: `${0.4 + (bar % 3) * 0.15}s`,
-                      }
-                    : undefined
-                }
-              />
-            ))}
-          </div>
-        </div>
-      ) : (
-        <div
-          data-testid="gta5-center-hub"
-          style={{
-            width: `${(rIn - 6) * 2}px`,
-            height: `${(rIn - 6) * 2}px`,
-          }}
-          className="absolute inset-0 m-auto rounded-full flex flex-col items-center justify-center p-3 text-center bg-slate-950/94 backdrop-blur-2xl border border-white/20 shadow-2xl z-20 pointer-events-auto select-none"
-        >
-          {activeStation?.logoUrl ? (
-            <img
-              src={activeStation.logoUrl}
-              alt="Radio Off"
-              data-testid="gta5-station-emblem"
-              className="w-10 h-10 object-contain mb-1.5 opacity-80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
-            />
+              <button
+                type="button"
+                onClick={handleShare}
+                data-testid="gta5-share-prompt"
+                aria-label={`Share ${activeStation.name}`}
+                className="pointer-events-auto relative z-10 mt-2.5 flex items-center gap-1.5 rounded-sm text-[clamp(9px,1.7vmin,11px)] font-semibold uppercase tracking-[0.24em] text-zinc-200 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/60"
+              >
+                <span>{shareState === 'copied' ? 'Copied' : 'Share'}</span>
+                <span className="flex h-[clamp(14px,2.8vmin,18px)] w-[clamp(14px,2.8vmin,18px)] items-center justify-center rounded-full border border-zinc-400 bg-slate-900 text-[clamp(7px,1.5vmin,10px)] font-bold leading-none text-sky-400">
+                  ✕
+                </span>
+              </button>
+            </>
           ) : (
-            <VolumeX className="w-8 h-8 text-neutral-400 mb-2 animate-pulse" />
+            <>
+              <VolumeX className="mb-2 h-[clamp(18px,4.4vmin,30px)] w-[clamp(18px,4.4vmin,30px)] text-zinc-500" />
+              <h2
+                style={{ fontSize: 'clamp(15px, 3.4vmin, 27px)', lineHeight: 1.06 }}
+                className="font-bold uppercase tracking-tight text-zinc-200 drop-shadow-[0_2px_6px_rgba(0,0,0,0.95)]"
+              >
+                Radio Off
+              </h2>
+              <p className="mt-2 text-[clamp(9px,1.9vmin,12px)] uppercase tracking-[0.22em] text-zinc-500">
+                Select a station
+              </p>
+            </>
           )}
-          <span className="text-xs font-bold tracking-widest uppercase text-neutral-200">
-            Radio Off
-          </span>
-          <span className="text-[10px] text-neutral-400 mt-1 uppercase tracking-wider">
-            Select Station
-          </span>
         </div>
-      )}
+      </div>
+
+      <p
+        data-testid="gta5-hud-hint"
+        className="mt-3 max-w-[92vw] text-center text-[9px] font-semibold uppercase leading-relaxed tracking-[0.22em] text-zinc-500 sm:text-[10px]"
+      >
+        Hold{' '}
+        <kbd className="rounded bg-white/10 px-1 py-0.5 font-mono text-[9px] normal-case tracking-normal text-zinc-300">
+          Q
+        </kbd>{' '}
+        • Move pointer or drag to select station • Release to tune
+      </p>
     </div>
   );
 };

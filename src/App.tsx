@@ -370,11 +370,6 @@ export default function App({
               currentCue={currentCue}
               coverArtUrl={coverArtUrl}
             />
-            <div className="mt-2 sm:mt-4 text-center px-2">
-              <span className="text-[11px] text-neutral-500 tracking-wider uppercase">
-                Tap or drag to tune • Press <kbd className="px-1 py-0.5 rounded bg-white/10 text-neutral-300 font-mono text-[10px]">Q</kbd> for quick select
-              </span>
-            </div>
           </div>
         ) : (
           <div className="w-full max-w-6xl mx-auto flex-1 min-h-0 flex flex-col justify-start">

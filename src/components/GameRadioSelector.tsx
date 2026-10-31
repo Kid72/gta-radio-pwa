@@ -19,7 +19,7 @@ export interface GameRadioSelectorProps {
  * Polymorphic radio station selector routing between game-authentic selector UIs:
  * - 'gtasa' ➔ GtaSaHorizontalReel (San Andreas 90s horizontal sliding reel)
  * - 'gta4'  ➔ Gta4VerticalTuner (GTA IV 2008 dark glass vertical dial)
- * - 'gta5'  ➔ Gta5RadialWheel (GTA V neon annular sector pie wheel)
+ * - 'gta5'  ➔ Gta5RadialWheel (GTA V radial wheel: circular station badges on a ring, center readout)
  */
 export const GameRadioSelector: React.FC<GameRadioSelectorProps> = ({
   gameId,
