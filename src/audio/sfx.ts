@@ -7,8 +7,8 @@
 //
 // No dependencies. If AudioContext is missing/blocked every method degrades to a no-op.
 //
-// The burst is synthesised unless `public/sfx/tune-switch.mp3` is published: that slot
-// takes a real recording (e.g. an extracted in-game switch) and is preferred when present.
+// Real recordings (switch, select, radio-on, radio-off) are loaded from `public/sfx/`
+// or the media host; anything missing falls back to the synthesiser below.
 
 /** Tunable shape of the switch sound. Frequencies in Hz, times in ms. */
 export interface TuningSwitchParams {
@@ -46,6 +46,13 @@ export const TUNING_SWITCH: TuningSwitchParams = {
   minGapMs: 100,
 };
 
+export type RadioSampleName = 'switch' | 'select' | 'radio-on' | 'radio-off';
+
+export const RADIO_SAMPLE_NAMES: RadioSampleName[] = ['switch', 'select', 'radio-on', 'radio-off'];
+
+/** UI kit hosted next to the radio chunks (served with CORS by gta-media). */
+export const SFX_SAMPLE_BASE = 'https://gta-media.pulsr.top/sfx/';
+
 const HISS_ATTACK_S = 0.05;
 const HISS_HOLD_S = 0.9;
 const HISS_DUCK_S = 1.25;
@@ -76,8 +83,8 @@ export class RadioSFX {
   private lastBurstAt = Number.NEGATIVE_INFINITY;
   private lastClickAt = Number.NEGATIVE_INFINITY;
   private params: TuningSwitchParams = { ...TUNING_SWITCH };
-  private switchSample: Maybe<AudioBuffer> = null;
-  private switchSampleTried = false;
+  private samples: Partial<Record<RadioSampleName, AudioBuffer>> = {};
+  private samplesRequested = false;
 
   constructor(ctx?: AudioContext) {
     if (ctx) this.ctx = ctx;
@@ -121,37 +128,62 @@ export class RadioSFX {
   }
 
   /**
-   * Optional real recording of the in-game switch. If `public/sfx/tune-switch.mp3`
-   * exists it replaces the synthesised burst (the synthesised one stays the
-   * default because Rockstar's asset cannot be redistributed).
+   * Loads the UI sound kit once. The app origin is tried first, so dropping files
+   * into `public/sfx/` overrides them; otherwise they come from the media host.
+   * Any missing file keeps its synthesised fallback.
    */
-  async loadSwitchSample(url?: string): Promise<void> {
-    if (this.switchSampleTried) return;
-    this.switchSampleTried = true;
-    try {
-      if (typeof fetch !== 'function') return;
-      const env = (import.meta as unknown as { env?: { BASE_URL?: string } }).env;
-      const base = env?.BASE_URL || '/';
-      const src = url || `${base}${base.endsWith('/') ? '' : '/'}sfx/tune-switch.mp3`;
-      const response = await fetch(src);
-      if (!response.ok) return;
-      const bytes = await response.arrayBuffer();
-      this.initCtx();
-      if (!this.ctx) return;
-      this.switchSample = await this.ctx.decodeAudioData(bytes.slice(0));
-    } catch {
-      // Nothing published at the slot: keep the synthesised burst.
+  async loadSamples(base?: string): Promise<void> {
+    if (this.samplesRequested) return;
+    this.samplesRequested = true;
+    if (typeof fetch !== 'function') return;
+    this.initCtx();
+    if (!this.ctx) return;
+
+    const env = (import.meta as unknown as { env?: { BASE_URL?: string } }).env;
+    const appBase = env?.BASE_URL || '/';
+    const bases = base
+      ? [base]
+      : [`${appBase}${appBase.endsWith('/') ? '' : '/'}sfx/`, SFX_SAMPLE_BASE];
+
+    for (const prefix of bases) {
+      const missing = RADIO_SAMPLE_NAMES.filter((name) => !this.samples[name]);
+      if (missing.length === 0) break;
+      await Promise.all(
+        missing.map(async (name) => {
+          try {
+            const response = await fetch(`${prefix}${name}.mp3`);
+            const type = response.headers.get('content-type') || '';
+            if (!response.ok || !type.startsWith('audio/')) return;
+            const bytes = await response.arrayBuffer();
+            if (!this.ctx) return;
+            this.samples[name] = await this.ctx.decodeAudioData(bytes.slice(0));
+          } catch {
+            // Missing or undecodable: the synthesised fallback stays.
+          }
+        })
+      );
     }
   }
 
   /** True when a real switch recording is loaded and used instead of the synth. */
   hasSwitchSample(): boolean {
-    return this.switchSample !== null;
+    return this.samples.switch !== undefined;
   }
 
-  /** Inject a decoded sample (hosts/tests); `null` restores the synth. */
+  /** True when the named recording from the kit is loaded. */
+  hasSample(name: RadioSampleName): boolean {
+    return this.samples[name] !== undefined;
+  }
+
+  /** Inject a decoded sample (hosts/tests); `null` restores the synthesiser. */
+  setSample(name: RadioSampleName, buffer: AudioBuffer | null): void {
+    if (buffer) this.samples[name] = buffer;
+    else delete this.samples[name];
+  }
+
+  /** Backwards-compatible alias for the switch slot. */
   setSwitchSample(buffer: AudioBuffer | null): void {
-    this.switchSample = buffer;
+    this.setSample('switch', buffer);
   }
 
   private now(): number {
@@ -214,7 +246,7 @@ export class RadioSFX {
         clamp(durationMs, this.params.minBurstMs, this.params.maxBurstMs) / 1000;
 
       const source = ctx.createBufferSource();
-      const sample = this.switchSample;
+      const sample = this.samples.switch;
       source.buffer = sample || this.createNoiseBuffer(ctx, durationSec);
 
       const band = ctx.createBiquadFilter();
@@ -411,6 +443,14 @@ export class RadioSFX {
     if (!this.enabled) return;
     try {
       this.initCtx();
+      const selectSample = this.samples.select;
+      if (selectSample && this.ctx) {
+        const clickedAt = wallClockMs();
+        if (clickedAt - this.lastClickAt < 40) return;
+        this.lastClickAt = clickedAt;
+        this.playSample(selectSample, 0.9);
+        return;
+      }
       const ctx = this.ctx;
       if (!ctx) return;
 
@@ -452,10 +492,61 @@ export class RadioSFX {
     }
   }
 
+  /** Plays a decoded kit sample through a short gain envelope. */
+  private playSample(buffer: AudioBuffer, level = 1): void {
+    const ctx = this.ctx;
+    if (!ctx) return;
+    try {
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+      const gain = ctx.createGain();
+      gain.gain.value = level;
+      source.connect(gain);
+      gain.connect(ctx.destination);
+      source.start(this.now());
+      source.onended = () => {
+        try {
+          source.disconnect();
+          gain.disconnect();
+        } catch {}
+      };
+    } catch {
+      // AudioContext unavailable: silence is better than a broken graph.
+    }
+  }
+
+  /** Radio power-on click (when tuning in from Radio Off). */
+  playRadioOn(): void {
+    if (!this.enabled) return;
+    try {
+      this.initCtx();
+      const sample = this.samples['radio-on'];
+      if (sample) {
+        this.playSample(sample, 0.85);
+        return;
+      }
+    } catch {}
+    this.playClick();
+  }
+
+  /** Radio power-off click (when the radio is switched off). */
+  playRadioOff(): void {
+    if (!this.enabled) return;
+    try {
+      this.initCtx();
+      const sample = this.samples['radio-off'];
+      if (sample) {
+        this.playSample(sample, 0.85);
+        return;
+      }
+    } catch {}
+    this.playClick();
+  }
+
   /** One call = one GTA-style switch: knob notch, static sweep, nothing else. */
   playStationSwitch(durationMs: number = this.params.burstMs): void {
     if (!this.enabled) return;
-    if (!this.switchSampleTried) void this.loadSwitchSample();
+    if (!this.samplesRequested) void this.loadSamples();
     this.playClick();
     this.playTuningStatic(durationMs);
   }

@@ -386,8 +386,15 @@ export class RadioEngine {
 
     this.sfxInstance.stopStaticHiss(0);
 
-    // Trigger authentic mechanical switch and static bursts
-    this.sfxInstance.playStationSwitch();
+    // Trigger authentic mechanical switch and static bursts; a tune-in from Radio
+    // Off also plays the power-on click, switching off plays the power-off one.
+    const wasOff = !this.state.currentStation || this.state.currentStation.id === 'radio-off';
+    if (station.id === 'radio-off') {
+      this.sfxInstance.playRadioOff();
+    } else {
+      this.sfxInstance.playStationSwitch();
+      if (wasOff) this.sfxInstance.playRadioOn();
+    }
 
     this.ensureStationInList(station);
 
@@ -460,7 +467,13 @@ export class RadioEngine {
 
     this.sfxInstance.stopStaticHiss(0);
 
-    this.sfxInstance.playStationSwitch();
+    const wasOff = !this.state.currentStation || this.state.currentStation.id === 'radio-off';
+    if (station.id === 'radio-off') {
+      this.sfxInstance.playRadioOff();
+    } else {
+      this.sfxInstance.playStationSwitch();
+      if (wasOff) this.sfxInstance.playRadioOn();
+    }
 
     this.ensureStationInList(station);
 
