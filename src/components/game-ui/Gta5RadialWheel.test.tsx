@@ -106,15 +106,15 @@ describe('Gta5RadialWheel', () => {
     it('places station 0 at twelve o clock and walks clockwise', () => {
       const first = getBadgePosition(0, 4);
       expect(first.x).toBeCloseTo(50, 5);
-      expect(first.y).toBeCloseTo(7.5, 5);
+      expect(first.y).toBeCloseTo(6, 5);
 
       const second = getBadgePosition(1, 4);
-      expect(second.x).toBeCloseTo(92.5, 5);
+      expect(second.x).toBeCloseTo(94, 5);
       expect(second.y).toBeCloseTo(50, 5);
 
       const third = getBadgePosition(2, 4);
       expect(third.x).toBeCloseTo(50, 5);
-      expect(third.y).toBeCloseTo(92.5, 5);
+      expect(third.y).toBeCloseTo(94, 5);
     });
 
     it('keeps every badge on the ring and never emits NaN', () => {
@@ -124,7 +124,7 @@ describe('Gta5RadialWheel', () => {
           const radius = Math.hypot(x - 50, y - 50);
           expect(Number.isNaN(x)).toBe(false);
           expect(Number.isNaN(y)).toBe(false);
-          expect(radius).toBeCloseTo(42.5, 5);
+          expect(radius).toBeCloseTo(44, 5);
         }
       }
     });

@@ -20,7 +20,7 @@ export const GTA5_HUD_FONT =
   "'Chalet London 1960', 'Chalet Comprime 1960', 'Chalet', 'Oswald', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
 
 /** Station badges sit on this ring, as a percentage of the disc half-size. */
-export const BADGE_RING_RADIUS_PERCENT = 42.5;
+export const BADGE_RING_RADIUS_PERCENT = 44;
 
 /**
  * Polar geometry of the wheel: station 0 sits at 12 o'clock and the ring
@@ -37,9 +37,9 @@ export function getBadgePosition(index: number, total: number): { x: number; y: 
 
 /** Badges shrink as the roster grows so the ring stays a ring, not a smear. */
 export function getBadgeSizePercent(total: number): number {
-  if (total > 22) return 9.2;
-  if (total > 18) return 10;
-  return 11.5;
+  if (total > 22) return 8.8;
+  if (total > 18) return 9.6;
+  return 11.2;
 }
 
 /**
@@ -128,7 +128,7 @@ const StationNode: React.FC<StationNodeProps> = ({
       style={{ left: `${x}%`, top: `${y}%`, width: `${size}%`, height: `${size}%` }}
       className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center overflow-hidden outline-none select-none cursor-pointer transition-[transform,background-color,border-color,box-shadow] duration-200 ease-out motion-reduce:transition-none focus-visible:ring-2 focus-visible:ring-sky-300/70 ${
         isActive
-          ? 'z-30 scale-[1.22] bg-black/95 border-2 border-sky-300 ring-2 ring-sky-400/40 shadow-[0_0_0_1px_rgba(56,189,248,0.8),0_0_28px_rgba(56,189,248,0.75)]'
+          ? 'z-30 scale-[1.12] bg-black/95 border-2 border-sky-300 ring-2 ring-sky-400/40 shadow-[0_0_0_1px_rgba(56,189,248,0.8),0_0_28px_rgba(56,189,248,0.75)]'
           : 'z-10 bg-black/60 border border-white/20 hover:bg-black/80 hover:border-white/60 hover:scale-105 shadow-[0_4px_14px_rgba(0,0,0,0.6)]'
       }`}
     >

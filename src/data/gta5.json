@@ -888,8 +888,8 @@
       {
         "start": 5260,
         "end": 5482,
-        "song": "It\u2019s a Vibe",
-        "artist": "2 Chainz feat. Ty Dolla $ign, Trey Songz & Jhen\u00e9 Aiko",
+        "song": "It’s a Vibe",
+        "artist": "2 Chainz feat. Ty Dolla $ign, Trey Songz & Jhené Aiko",
         "type": "music"
       },
       {
@@ -902,7 +902,7 @@
       {
         "start": 5726,
         "end": 5842,
-        "song": "Hoppin\u2019 Out",
+        "song": "Hoppin’ Out",
         "artist": "Mozzy feat. YG",
         "type": "music"
       },
@@ -1049,7 +1049,7 @@
       {
         "start": 10149,
         "end": 10324,
-        "song": "Let\u2019s Get It",
+        "song": "Let’s Get It",
         "artist": "NEZ feat. ScHoolboy Q",
         "type": "music"
       },
@@ -1886,14 +1886,14 @@
         "start": 256,
         "end": 349,
         "song": "Criminal Sound (El Hijo De La Cumbia Remix)",
-        "artist": "Ni\u00f1a Dioz",
+        "artist": "Niña Dioz",
         "type": "music"
       },
       {
         "start": 350,
         "end": 503,
         "song": "Radio Capital",
-        "artist": "La Vida Boh\u00e8me",
+        "artist": "La Vida Bohème",
         "type": "music"
       },
       {
@@ -1913,7 +1913,7 @@
       {
         "start": 839,
         "end": 987,
-        "song": "Se Me Perdi\u00f3 La Cadenita",
+        "song": "Se Me Perdió La Cadenita",
         "artist": "La Sonora Dinamita",
         "type": "music"
       },
@@ -1970,7 +1970,7 @@
         "start": 2345,
         "end": 2465,
         "song": "El Rey Y Yo",
-        "artist": "Los \u00c1ngeles Negros",
+        "artist": "Los Ángeles Negros",
         "type": "music"
       }
     ]
@@ -2276,6 +2276,1012 @@
     ]
   },
   {
+    "id": "the-music-locker",
+    "gameId": "gta5",
+    "name": "The Music Locker",
+    "genre": "Deep House & Club",
+    "host": "Moodymann / Keinemusik",
+    "logoUrl": "/logos/gta5/music-locker-radio.png",
+    "audioUrl": "https://archive.org/download/Radio-files-pause-menu/GTA%20Online%20%E2%80%94%20Music%20Locker%20Radio%20%EF%BD%9C%20Full%20radio%20station.mp3",
+    "duration": 24984,
+    "initialOffset": 1320,
+    "timestamps": [
+      {
+        "start": 1,
+        "end": 329,
+        "song": "White Noise Romantica",
+        "artist": "Adam Port",
+        "type": "music"
+      },
+      {
+        "start": 330,
+        "end": 610,
+        "song": "Deep Musique (Rampa Remix)",
+        "artist": "Pastaboys feat. Osunlade",
+        "type": "music"
+      },
+      {
+        "start": 611,
+        "end": 953,
+        "song": "After Dark",
+        "artist": "&ME",
+        "type": "music"
+      },
+      {
+        "start": 954,
+        "end": 1258,
+        "song": "It's Not You It's Me (Adam Port Remix)",
+        "artist": "Reznik & Good Guy Mikesh",
+        "type": "music"
+      },
+      {
+        "start": 1259,
+        "end": 1617,
+        "song": "Shadows",
+        "artist": "&ME",
+        "type": "music"
+      },
+      {
+        "start": 1618,
+        "end": 1874,
+        "song": "Enkidu (Adam Port Tulum By Night Edit)",
+        "artist": "Simple Symmetry",
+        "type": "music"
+      },
+      {
+        "start": 1875,
+        "end": 2171,
+        "song": "2000",
+        "artist": "Rampa",
+        "type": "music"
+      },
+      {
+        "start": 2172,
+        "end": 2358,
+        "song": "1995",
+        "artist": "&ME",
+        "type": "music"
+      },
+      {
+        "start": 2359,
+        "end": 2674,
+        "song": "Terrace",
+        "artist": "Rampa",
+        "type": "music"
+      },
+      {
+        "start": 2675,
+        "end": 2991,
+        "song": "Woods",
+        "artist": "&ME",
+        "type": "music"
+      },
+      {
+        "start": 2992,
+        "end": 3275,
+        "song": "Connection (Reznik & Good Guy Mikesh Remix)",
+        "artist": "Télépopmusik feat. Young & Sick",
+        "type": "music"
+      },
+      {
+        "start": 3276,
+        "end": 3626,
+        "song": "Want You (Adam Port Remix)",
+        "artist": "Bell Towers",
+        "type": "music"
+      },
+      {
+        "start": 3627,
+        "end": 3908,
+        "song": "Civilis",
+        "artist": "Keinemusik",
+        "type": "music"
+      },
+      {
+        "start": 3909,
+        "end": 4177,
+        "song": "Bimma",
+        "artist": "Rampa",
+        "type": "music"
+      },
+      {
+        "start": 4178,
+        "end": 4531,
+        "song": "Place",
+        "artist": "Adam Port & Stereo MCs",
+        "type": "music"
+      },
+      {
+        "start": 4532,
+        "end": 4735,
+        "song": "Thunda (Rampa Remix)",
+        "artist": "Honey Dijon & Tim K feat. John Mendelsohn",
+        "type": "music"
+      },
+      {
+        "start": 4736,
+        "end": 5078,
+        "song": "Solaris",
+        "artist": "&ME",
+        "type": "music"
+      },
+      {
+        "start": 5079,
+        "end": 5375,
+        "song": "Do You Still Think of Me?",
+        "artist": "Adam Port",
+        "type": "music"
+      },
+      {
+        "start": 5376,
+        "end": 5619,
+        "song": "Trilogy",
+        "artist": "&ME feat. Sabota",
+        "type": "music"
+      },
+      {
+        "start": 5620,
+        "end": 5874,
+        "song": "Purge",
+        "artist": "Rampa",
+        "type": "music"
+      },
+      {
+        "start": 5875,
+        "end": 6215,
+        "song": "Caught in a Wave",
+        "artist": "Simian Mobile Disco feat. Deep Throat Choir",
+        "type": "music"
+      },
+      {
+        "start": 6216,
+        "end": 6483,
+        "song": "Run Run Run (Adam Port Remix)",
+        "artist": "Yeah But No",
+        "type": "music"
+      },
+      {
+        "start": 6484,
+        "end": 6866,
+        "song": "528Hz",
+        "artist": "Rampa",
+        "type": "music"
+      },
+      {
+        "start": 6867,
+        "end": 7128,
+        "song": "I Can’t Kick This Feeling When It Hits",
+        "artist": "Moodymann",
+        "type": "music"
+      },
+      {
+        "start": 7129,
+        "end": 7293,
+        "song": "Pornoviewer",
+        "artist": "Dopplereffekt",
+        "type": "music"
+      },
+      {
+        "start": 7294,
+        "end": 7482,
+        "song": "Sharivari",
+        "artist": "The Dirtbombs",
+        "type": "music"
+      },
+      {
+        "start": 7483,
+        "end": 7824,
+        "song": "New for U (Live)",
+        "artist": "Andres",
+        "type": "music"
+      },
+      {
+        "start": 7825,
+        "end": 7972,
+        "song": "Zug Island",
+        "artist": "Kyle Hall & Kero",
+        "type": "music"
+      },
+      {
+        "start": 7973,
+        "end": 8262,
+        "song": "Cosmic Wave (Delano Smith Remix)",
+        "artist": "Norm Talley",
+        "type": "music"
+      },
+      {
+        "start": 8263,
+        "end": 8439,
+        "song": "My A.U.X. Mind",
+        "artist": "AUX 88",
+        "type": "music"
+      },
+      {
+        "start": 8440,
+        "end": 8568,
+        "song": "Cybonix Groove",
+        "artist": "Cybonix",
+        "type": "music"
+      },
+      {
+        "start": 8569,
+        "end": 8764,
+        "song": "I Think of Saturday",
+        "artist": "Moodymann",
+        "type": "music"
+      },
+      {
+        "start": 8765,
+        "end": 9051,
+        "song": "I’ll Provide",
+        "artist": "Moodymann",
+        "type": "music"
+      },
+      {
+        "start": 9052,
+        "end": 9281,
+        "song": "Oscillator",
+        "artist": "Paperclip People",
+        "type": "music"
+      },
+      {
+        "start": 9282,
+        "end": 9482,
+        "song": "When We Used to Play",
+        "artist": "Blake Baxter",
+        "type": "music"
+      },
+      {
+        "start": 9483,
+        "end": 9607,
+        "song": "JAN",
+        "artist": "Moodymann",
+        "type": "music"
+      },
+      {
+        "start": 9608,
+        "end": 9767,
+        "song": "I'm the Baddest Bitch",
+        "artist": "Norma Jean Bell",
+        "type": "music"
+      },
+      {
+        "start": 9768,
+        "end": 9973,
+        "song": "Runaway",
+        "artist": "Moodymann & Roberta Sweed",
+        "type": "music"
+      },
+      {
+        "start": 9974,
+        "end": 10212,
+        "song": "Formula for Passion",
+        "artist": "GMI/UHM",
+        "type": "music"
+      },
+      {
+        "start": 10213,
+        "end": 10492,
+        "song": "Power in Numbers",
+        "artist": "Waajeed",
+        "type": "music"
+      },
+      {
+        "start": 10493,
+        "end": 10687,
+        "song": "Time to Express",
+        "artist": "Eddie Fowlkes",
+        "type": "music"
+      },
+      {
+        "start": 10688,
+        "end": 10937,
+        "song": "Thinkin Bout You",
+        "artist": "Sheefy McFly",
+        "type": "music"
+      },
+      {
+        "start": 10938,
+        "end": 11181,
+        "song": "Over U",
+        "artist": "Amp Fiddler",
+        "type": "music"
+      },
+      {
+        "start": 11182,
+        "end": 11356,
+        "song": "We Almost Lost Detroit",
+        "artist": "Gil Scott-Heron",
+        "type": "music"
+      },
+      {
+        "start": 11357,
+        "end": 11448,
+        "song": "Get Back",
+        "artist": "Apollo Bronw feat. Planet Asia",
+        "type": "music"
+      },
+      {
+        "start": 11449,
+        "end": 11517,
+        "song": "Shhhh",
+        "artist": "EGB",
+        "type": "music"
+      },
+      {
+        "start": 11518,
+        "end": 11651,
+        "song": "Clout",
+        "artist": "EGB",
+        "type": "music"
+      },
+      {
+        "start": 11652,
+        "end": 11805,
+        "song": "Sinner",
+        "artist": "Moodymann",
+        "type": "music"
+      },
+      {
+        "start": 11806,
+        "end": 12008,
+        "song": "Love",
+        "artist": "Pirahnahead & Diviniti",
+        "type": "music"
+      },
+      {
+        "start": 12009,
+        "end": 12361,
+        "song": "Got Me Coming Back Rite Now",
+        "artist": "Moodymann",
+        "type": "music"
+      },
+      {
+        "start": 12362,
+        "end": 12490,
+        "song": "Soul Control",
+        "artist": "Theo Parrish",
+        "type": "music"
+      },
+      {
+        "start": 12491,
+        "end": 12583,
+        "song": "Red Dogon Star",
+        "artist": "Marcellus Pittman",
+        "type": "music"
+      },
+      {
+        "start": 12584,
+        "end": 12791,
+        "song": "Rectify",
+        "artist": "Moodymann",
+        "type": "music"
+      },
+      {
+        "start": 12792,
+        "end": 12935,
+        "song": "Runaway",
+        "artist": "Moodymann feat. Pitch Black City",
+        "type": "music"
+      },
+      {
+        "start": 12936,
+        "end": 13166,
+        "song": "Let Me Show You Love",
+        "artist": "Moodymann",
+        "type": "talk"
+      },
+      {
+        "start": 13167,
+        "end": 13414,
+        "song": "I Get Moody Sometimes",
+        "artist": "Amp Fiddler feat. Moodymann",
+        "type": "music"
+      },
+      {
+        "start": 13415,
+        "end": 13605,
+        "song": "No",
+        "artist": "Moodymann",
+        "type": "music"
+      },
+      {
+        "start": 13606,
+        "end": 13731,
+        "song": "It’s 2 Late 4 U and Me",
+        "artist": "Moodymann",
+        "type": "music"
+      },
+      {
+        "start": 13732,
+        "end": 13844,
+        "song": "Got 2 Make It 2 Heaven",
+        "artist": "Moodymann",
+        "type": "music"
+      },
+      {
+        "start": 13845,
+        "end": 14083,
+        "song": "Freeki Muthafucka",
+        "artist": "Moodymann",
+        "type": "music"
+      },
+      {
+        "start": 14084,
+        "end": 14278,
+        "song": "I Got Werk",
+        "artist": "Moodymann",
+        "type": "music"
+      },
+      {
+        "start": 14279,
+        "end": 14451,
+        "song": "1988",
+        "artist": "Moodymann",
+        "type": "music"
+      },
+      {
+        "start": 14452,
+        "end": 14720,
+        "song": "Newborn Soul",
+        "artist": "Rampa",
+        "type": "music"
+      },
+      {
+        "start": 14721,
+        "end": 14991,
+        "song": "The Rapture Pt.II",
+        "artist": "&ME",
+        "type": "music"
+      },
+      {
+        "start": 14992,
+        "end": 15264,
+        "song": "Crush (Unfinished) (Adam Port Edit)",
+        "artist": "Jai Paul",
+        "type": "music"
+      },
+      {
+        "start": 15265,
+        "end": 15522,
+        "song": "Tell Me Are We",
+        "artist": "Rampa & WhoMadeWho",
+        "type": "music"
+      },
+      {
+        "start": 15523,
+        "end": 15852,
+        "song": "Homeland (&ME Remix + Jinadu Vocals)",
+        "artist": "Joris Voorn",
+        "type": "music"
+      },
+      {
+        "start": 15853,
+        "end": 16149,
+        "song": "Underwater (Adam Port Remix)",
+        "artist": "RÜFÜS DU SOL",
+        "type": "music"
+      },
+      {
+        "start": 16150,
+        "end": 16451,
+        "song": "Garden",
+        "artist": "&ME",
+        "type": "music"
+      },
+      {
+        "start": 16452,
+        "end": 16673,
+        "song": "Ganesha Song",
+        "artist": "Adam Port",
+        "type": "music"
+      },
+      {
+        "start": 16674,
+        "end": 16933,
+        "song": "No War (Rampa Remix)",
+        "artist": "Âme",
+        "type": "music"
+      },
+      {
+        "start": 16934,
+        "end": 17218,
+        "song": "You Need the Drugs (&ME Remix)",
+        "artist": "WestBam feat. Richard Butler",
+        "type": "music"
+      },
+      {
+        "start": 17219,
+        "end": 17418,
+        "song": "Inside",
+        "artist": "Nomi & Rampa",
+        "type": "music"
+      },
+      {
+        "start": 17419,
+        "end": 17649,
+        "song": "No Dancers (Adam Port Remix)",
+        "artist": "Cubicolor",
+        "type": "music"
+      },
+      {
+        "start": 17650,
+        "end": 17876,
+        "song": "Won't Change (Rampa Retouch)",
+        "artist": "Manqo",
+        "type": "music"
+      },
+      {
+        "start": 17877,
+        "end": 18174,
+        "song": "Starting Again",
+        "artist": "&ME feat. Atelier",
+        "type": "music"
+      },
+      {
+        "start": 18175,
+        "end": 18434,
+        "song": "Faraway Place (Rampa Remix)",
+        "artist": "Xinobi",
+        "type": "music"
+      },
+      {
+        "start": 18435,
+        "end": 18798,
+        "song": "The Rapture",
+        "artist": "&ME",
+        "type": "music"
+      },
+      {
+        "start": 18799,
+        "end": 19115,
+        "song": "Muyè",
+        "artist": "Keinemusik",
+        "type": "music"
+      },
+      {
+        "start": 19116,
+        "end": 19464,
+        "song": "In Your Eyes",
+        "artist": "&ME",
+        "type": "music"
+      },
+      {
+        "start": 19465,
+        "end": 19735,
+        "song": "Sunday",
+        "artist": "Rampa",
+        "type": "music"
+      },
+      {
+        "start": 19736,
+        "end": 20159,
+        "song": "A State Nearby (Adam Port Calypso Remix)",
+        "artist": "NTEIBINT & Stella",
+        "type": "music"
+      },
+      {
+        "start": 20160,
+        "end": 20338,
+        "song": "Fair Child",
+        "artist": "&ME",
+        "type": "music"
+      },
+      {
+        "start": 20339,
+        "end": 20580,
+        "song": "For This",
+        "artist": "Rampa feat. Chiara Noriko",
+        "type": "music"
+      },
+      {
+        "start": 20581,
+        "end": 20715,
+        "song": "Professor 3",
+        "artist": "Professor Rhythm",
+        "type": "music"
+      },
+      {
+        "start": 20716,
+        "end": 20990,
+        "song": "Petu (Dub Mix)",
+        "artist": "Palms Trax",
+        "type": "music"
+      },
+      {
+        "start": 20991,
+        "end": 21197,
+        "song": "The MBO Theme (Single Version)",
+        "artist": "Klein & MBO",
+        "type": "music"
+      },
+      {
+        "start": 21198,
+        "end": 21320,
+        "song": "Beja Imperial (12“ Version)",
+        "artist": "Plastic Mode",
+        "type": "music"
+      },
+      {
+        "start": 21321,
+        "end": 21442,
+        "song": "Let´s Make Love Tonight",
+        "artist": "L´Amour feat. Krystal",
+        "type": "music"
+      },
+      {
+        "start": 21443,
+        "end": 21632,
+        "song": "Heat You Up (Melt You Down Mix)",
+        "artist": "Shirley Lites",
+        "type": "music"
+      },
+      {
+        "start": 21633,
+        "end": 21826,
+        "song": "Let the Music Play (Extended 12“Mix)",
+        "artist": "Shannon",
+        "type": "music"
+      },
+      {
+        "start": 21827,
+        "end": 21989,
+        "song": "Transdance (New York Disco Mix)",
+        "artist": "Night Moves",
+        "type": "music"
+      },
+      {
+        "start": 21990,
+        "end": 22342,
+        "song": "The Rule to Survive (Prins Thomas Diskomiks)",
+        "artist": "N.O.I.A",
+        "type": "music"
+      },
+      {
+        "start": 22343,
+        "end": 22486,
+        "song": "27 (Laser Mix)",
+        "artist": "Tobias Bernstrup",
+        "type": "music"
+      },
+      {
+        "start": 22487,
+        "end": 22608,
+        "song": "Happy Song",
+        "artist": "Baby´s Gang",
+        "type": "music"
+      },
+      {
+        "start": 22609,
+        "end": 22843,
+        "song": "New Dance",
+        "artist": "Masalo",
+        "type": "music"
+      },
+      {
+        "start": 22844,
+        "end": 23032,
+        "song": "Get Up (Club Mix)",
+        "artist": "Diva",
+        "type": "music"
+      },
+      {
+        "start": 23033,
+        "end": 23213,
+        "song": "Can You Feel It (Jackin Up the Dub 12“Mix",
+        "artist": "Mario Diaz feat. Mr Lee",
+        "type": "music"
+      },
+      {
+        "start": 23214,
+        "end": 23329,
+        "song": "Freeze (Limelight Mix)",
+        "artist": "Scrappy",
+        "type": "music"
+      },
+      {
+        "start": 23330,
+        "end": 23470,
+        "song": "For the Same Man",
+        "artist": "B Beat Girls",
+        "type": "music"
+      },
+      {
+        "start": 23471,
+        "end": 23722,
+        "song": "Got U on My Mind",
+        "artist": "Greg Lee",
+        "type": "music"
+      },
+      {
+        "start": 23723,
+        "end": 23929,
+        "song": "Visions (Frankie Knuckles & David Morales Mix)",
+        "artist": "Robert Owens",
+        "type": "music"
+      },
+      {
+        "start": 23930,
+        "end": 24228,
+        "song": "When I Call You (Tommy Musto & Frankie Bones British Telecom Mix)",
+        "artist": "Lisa Lee",
+        "type": "music"
+      },
+      {
+        "start": 24229,
+        "end": 24355,
+        "song": "Dream Girl (Wet Dream Mix)",
+        "artist": "Pierre´s Pfantasy Club",
+        "type": "music"
+      },
+      {
+        "start": 24356,
+        "end": 24519,
+        "song": "Show Me What You Got (Acid Mix Part 1)",
+        "artist": "S.L.F.",
+        "type": "talk"
+      },
+      {
+        "start": 24520,
+        "end": 24692,
+        "song": "String Free (12“ Club Leray Mix)",
+        "artist": "Phortune",
+        "type": "music"
+      },
+      {
+        "start": 24693,
+        "end": 24984,
+        "song": "Indaba Kabani",
+        "artist": "Kamazu",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "motomami-los-santos",
+    "gameId": "gta5",
+    "name": "Motomami Los Santos",
+    "genre": "Latin Pop & Reggaeton",
+    "host": "Rosalía & Arca",
+    "logoUrl": "/logos/gta5/motomami.svg",
+    "audioUrl": "https://archive.org/download/Radio-files-pause-menu/GTA%20Online%20%E2%80%94%20MOTOMAMI%20Los%20Santos%20%EF%BD%9C%20Full%20radio%20station.mp3",
+    "duration": 6906,
+    "initialOffset": 1440,
+    "timestamps": [
+      {
+        "start": 9,
+        "end": 239,
+        "song": "Bunny Is A Rider",
+        "artist": "Caroline Polachek",
+        "type": "music"
+      },
+      {
+        "start": 240,
+        "end": 408,
+        "song": "DI MI NOMBRE (Cap.8: Éxtasis)",
+        "artist": "ROSALÍA",
+        "type": "music"
+      },
+      {
+        "start": 409,
+        "end": 635,
+        "song": "Tumbando Fronte",
+        "artist": "Alberto Stylee",
+        "type": "music"
+      },
+      {
+        "start": 636,
+        "end": 766,
+        "song": "Linda",
+        "artist": "Tokischa & ROSALÍA",
+        "type": "music"
+      },
+      {
+        "start": 767,
+        "end": 962,
+        "song": "Tukuntazo",
+        "artist": "Tokischa, Haraca Kiko, El Cherry Scom",
+        "type": "music"
+      },
+      {
+        "start": 963,
+        "end": 1147,
+        "song": "Con Altura",
+        "artist": "ROSALÍA & J Balvin feat. El Guincho",
+        "type": "music"
+      },
+      {
+        "start": 1148,
+        "end": 1580,
+        "song": "Mystery of Love",
+        "artist": "Mr. Fingers",
+        "type": "music"
+      },
+      {
+        "start": 1581,
+        "end": 1774,
+        "song": "A La Mía",
+        "artist": "Bad Gyal",
+        "type": "music"
+      },
+      {
+        "start": 1775,
+        "end": 1980,
+        "song": "Skinny Jeans",
+        "artist": "Likkle Vybz & Likkle Addi",
+        "type": "music"
+      },
+      {
+        "start": 1981,
+        "end": 2144,
+        "song": "Vamos Pa’ La Disco",
+        "artist": "Las Guanábanas",
+        "type": "music"
+      },
+      {
+        "start": 2145,
+        "end": 2353,
+        "song": "Rockstar Made",
+        "artist": "Playboi Carti",
+        "type": "music"
+      },
+      {
+        "start": 2354,
+        "end": 2605,
+        "song": "Dos Locos",
+        "artist": "Monchy & Alexandra",
+        "type": "music"
+      },
+      {
+        "start": 2606,
+        "end": 2819,
+        "song": "Volando Voy",
+        "artist": "Camarón De La Isla",
+        "type": "music"
+      },
+      {
+        "start": 2820,
+        "end": 3069,
+        "song": "100% of Disin’ You",
+        "artist": "Armando",
+        "type": "music"
+      },
+      {
+        "start": 3070,
+        "end": 3366,
+        "song": "Salgo Pa’ La Calle",
+        "artist": "Daddy Yankee feat. Randy",
+        "type": "music"
+      },
+      {
+        "start": 3367,
+        "end": 3573,
+        "song": "Snap and Roll",
+        "artist": "Soulja Boy Tell ‘Em",
+        "type": "music"
+      },
+      {
+        "start": 3574,
+        "end": 3758,
+        "song": "Nubes",
+        "artist": "Rauw Alejandro",
+        "type": "music"
+      },
+      {
+        "start": 3759,
+        "end": 3994,
+        "song": "Mi Corazoncito",
+        "artist": "Aventura",
+        "type": "music"
+      },
+      {
+        "start": 3995,
+        "end": 4254,
+        "song": "KLK",
+        "artist": "Arca feat. ROSALÍA",
+        "type": "music"
+      },
+      {
+        "start": 4255,
+        "end": 4430,
+        "song": "Algo Como Tú",
+        "artist": "Kaydy Cain feat. Los Del Control",
+        "type": "music"
+      },
+      {
+        "start": 4431,
+        "end": 4616,
+        "song": "LA FAMA",
+        "artist": "ROSALÍA feat. The Weeknd",
+        "type": "music"
+      },
+      {
+        "start": 4617,
+        "end": 4808,
+        "song": "Body So Good",
+        "artist": "Popcaan",
+        "type": "music"
+      },
+      {
+        "start": 4809,
+        "end": 4997,
+        "song": "Take Me Where Your Heart Is",
+        "artist": "Q",
+        "type": "music"
+      },
+      {
+        "start": 4998,
+        "end": 5160,
+        "song": "Machote",
+        "artist": "Arca",
+        "type": "music"
+      },
+      {
+        "start": 5161,
+        "end": 5372,
+        "song": "418 (Bounce Mix)",
+        "artist": "DJ Slugo",
+        "type": "music"
+      },
+      {
+        "start": 5373,
+        "end": 5682,
+        "song": "Stress",
+        "artist": "Justice",
+        "type": "music"
+      },
+      {
+        "start": 5683,
+        "end": 5849,
+        "song": "Duro 2005",
+        "artist": "La Goony Chonga",
+        "type": "music"
+      },
+      {
+        "start": 5850,
+        "end": 5994,
+        "song": "Dominicana",
+        "artist": "Chucky73",
+        "type": "music"
+      },
+      {
+        "start": 5995,
+        "end": 6147,
+        "song": "Bounce N Break Yo Back",
+        "artist": "DJ Spinn",
+        "type": "music"
+      },
+      {
+        "start": 6148,
+        "end": 6334,
+        "song": "XULITA",
+        "artist": "Young Cister feat. Kaydy Cain",
+        "type": "music"
+      },
+      {
+        "start": 6335,
+        "end": 6452,
+        "song": "A Palé",
+        "artist": "ROSALÍA",
+        "type": "music"
+      },
+      {
+        "start": 6453,
+        "end": 6688,
+        "song": "Calle Luna Calle Sol",
+        "artist": "Willie Colón & Héctor Lavoe",
+        "type": "music"
+      },
+      {
+        "start": 6689,
+        "end": 6906,
+        "song": "Vacilar Contigo",
+        "artist": "Ñejo & Dalmata",
+        "type": "music"
+      }
+    ]
+  },
+  {
     "id": "the-blue-ark",
     "gameId": "gta5",
     "name": "The Blue Ark",
@@ -2339,7 +3345,7 @@
         "start": 1600,
         "end": 1860,
         "song": "I Am A Madman",
-        "artist": "Lee \u201cScratch\u201d Perry",
+        "artist": "Lee “Scratch” Perry",
         "type": "music"
       },
       {
@@ -2352,7 +3358,7 @@
       {
         "start": 2165,
         "end": 2382,
-        "song": "Grumblin\u2019 Dub",
+        "song": "Grumblin’ Dub",
         "artist": "The Upsetters",
         "type": "music"
       },
@@ -2416,14 +3422,14 @@
         "start": 4022,
         "end": 4319,
         "song": "Money Come & Money Go",
-        "artist": "Lee \u201cScratch\u201d Perry",
+        "artist": "Lee “Scratch” Perry",
         "type": "music"
       },
       {
         "start": 4320,
         "end": 4579,
         "song": "Roast Fish & Cornbread",
-        "artist": "Lee \u201cScratch\u201d Perry",
+        "artist": "Lee “Scratch” Perry",
         "type": "music"
       },
       {
@@ -2434,6 +3440,17 @@
         "type": "music"
       }
     ]
+  },
+  {
+    "id": "radio-off",
+    "gameId": "gta5",
+    "name": "Radio Off",
+    "genre": "Off",
+    "logoUrl": "/logos/gta5/radio-off.png",
+    "audioUrl": "",
+    "duration": 0,
+    "initialOffset": 1560,
+    "timestamps": []
   },
   {
     "id": "worldwide-fm",
@@ -2868,17 +3885,6 @@
     ]
   },
   {
-    "id": "radio-off",
-    "gameId": "gta5",
-    "name": "Radio Off",
-    "genre": "Off",
-    "logoUrl": "/logos/gta5/radio-off.png",
-    "audioUrl": "",
-    "duration": 0,
-    "initialOffset": 1560,
-    "timestamps": []
-  },
-  {
     "id": "the-lowdown-911",
     "gameId": "gta5",
     "name": "The Lowdown 91.1",
@@ -2900,7 +3906,7 @@
       {
         "start": 264,
         "end": 491,
-        "song": "Do It (\u2018Til You\u2019re Satisfied)",
+        "song": "Do It (‘Til You’re Satisfied)",
         "artist": "B.T. Express",
         "type": "music"
       },
@@ -2949,7 +3955,7 @@
       {
         "start": 1718,
         "end": 1988,
-        "song": "Ashley\u2019s Roachclip",
+        "song": "Ashley’s Roachclip",
         "artist": "The Soul Searchers",
         "type": "music"
       },
@@ -2985,7 +3991,7 @@
         "start": 3026,
         "end": 3232,
         "song": "Superman Lover",
-        "artist": "Johnny \u201cGuitar\u201d Watson",
+        "artist": "Johnny “Guitar” Watson",
         "type": "music"
       },
       {
@@ -3508,7 +4514,7 @@
         "start": 11782,
         "end": 12043,
         "song": "Smalltalk (Four Tet Remix)",
-        "artist": "Ultra\u00edsta",
+        "artist": "Ultraísta",
         "type": "music"
       },
       {
@@ -3530,6 +4536,251 @@
         "end": 12773,
         "song": "Blind",
         "artist": "Rainbow Arabia",
+        "type": "music"
+      }
+    ]
+  },
+  {
+    "id": "kult-fm",
+    "gameId": "gta5",
+    "name": "Kult FM",
+    "genre": "Post-Punk & New Wave",
+    "host": "Julian Casablancas",
+    "frequency": "99.1 FM",
+    "logoUrl": "/logos/gta5/kult-fm.webp",
+    "audioUrl": "https://archive.org/download/Radio-files-pause-menu/GTA%20Online%20%E2%80%94%20Kult%20FM%20%EF%BD%9C%20Full%20radio%20station.mp3",
+    "duration": 8200,
+    "initialOffset": 480,
+    "timestamps": [
+      {
+        "start": 35,
+        "end": 329,
+        "song": "Girls and Boys",
+        "artist": "Viagra Boys",
+        "type": "music"
+      },
+      {
+        "start": 330,
+        "end": 511,
+        "song": "Human Fly",
+        "artist": "The Cramps",
+        "type": "music"
+      },
+      {
+        "start": 512,
+        "end": 911,
+        "song": "Baby I Love You So",
+        "artist": "Colourbox",
+        "type": "music"
+      },
+      {
+        "start": 912,
+        "end": 1138,
+        "song": "Down on the Street",
+        "artist": "The Stooges",
+        "type": "music"
+      },
+      {
+        "start": 1139,
+        "end": 1437,
+        "song": "It's Yours",
+        "artist": "T La Rock",
+        "type": "music"
+      },
+      {
+        "start": 1438,
+        "end": 1590,
+        "song": "So It Goes",
+        "artist": "Nick Lowe",
+        "type": "music"
+      },
+      {
+        "start": 1591,
+        "end": 1901,
+        "song": "Age of Consent",
+        "artist": "New Order",
+        "type": "music"
+      },
+      {
+        "start": 1902,
+        "end": 2139,
+        "song": "Cycle",
+        "artist": "Icky Blossoms",
+        "type": "music"
+      },
+      {
+        "start": 2140,
+        "end": 2395,
+        "song": "Going Back To Cali",
+        "artist": "LL Cool J",
+        "type": "music"
+      },
+      {
+        "start": 2396,
+        "end": 2731,
+        "song": "On the Level",
+        "artist": "Mac Demarco",
+        "type": "music"
+      },
+      {
+        "start": 2732,
+        "end": 2981,
+        "song": "Liebe Auf Den Ersten Blick",
+        "artist": "DAF",
+        "type": "music"
+      },
+      {
+        "start": 2982,
+        "end": 3252,
+        "song": "Typical Girls",
+        "artist": "The Slits",
+        "type": "music"
+      },
+      {
+        "start": 3253,
+        "end": 3507,
+        "song": "Nightclubbing",
+        "artist": "Iggy Pop",
+        "type": "music"
+      },
+      {
+        "start": 3508,
+        "end": 3779,
+        "song": "Drab Measure",
+        "artist": "Crack Cloud",
+        "type": "music"
+      },
+      {
+        "start": 3780,
+        "end": 4042,
+        "song": "Four Shadows",
+        "artist": "Ariel Pink",
+        "type": "music"
+      },
+      {
+        "start": 4043,
+        "end": 4369,
+        "song": "Left Me Lonely",
+        "artist": "MC Shan feat. TJ Swan",
+        "type": "music"
+      },
+      {
+        "start": 4370,
+        "end": 4700,
+        "song": "The Adults Are Talking",
+        "artist": "The Strokes",
+        "type": "music"
+      },
+      {
+        "start": 4701,
+        "end": 4828,
+        "song": "Tainted Love",
+        "artist": "Gloria Jones",
+        "type": "music"
+      },
+      {
+        "start": 4829,
+        "end": 5100,
+        "song": "She's Lost Control",
+        "artist": "Joy Division",
+        "type": "music"
+      },
+      {
+        "start": 5101,
+        "end": 5234,
+        "song": "Many Tears Ago",
+        "artist": "Connie Francis",
+        "type": "music"
+      },
+      {
+        "start": 5235,
+        "end": 5417,
+        "song": "Time Bomb",
+        "artist": "Ramones",
+        "type": "music"
+      },
+      {
+        "start": 5418,
+        "end": 5676,
+        "song": "Alien Crime Lord",
+        "artist": "The Voidz",
+        "type": "music"
+      },
+      {
+        "start": 5677,
+        "end": 5879,
+        "song": "Pool Song",
+        "artist": "Lea Porcelain",
+        "type": "music"
+      },
+      {
+        "start": 5880,
+        "end": 6156,
+        "song": "Hard to Explain",
+        "artist": "The Strokes",
+        "type": "music"
+      },
+      {
+        "start": 6157,
+        "end": 6442,
+        "song": "This Is the Day",
+        "artist": "The The",
+        "type": "music"
+      },
+      {
+        "start": 6443,
+        "end": 6703,
+        "song": "Eisbär",
+        "artist": "Grauzone",
+        "type": "music"
+      },
+      {
+        "start": 6704,
+        "end": 6865,
+        "song": "TV Casualty",
+        "artist": "Misfits",
+        "type": "music"
+      },
+      {
+        "start": 6866,
+        "end": 7143,
+        "song": "Deep",
+        "artist": "Danzig",
+        "type": "music"
+      },
+      {
+        "start": 7144,
+        "end": 7447,
+        "song": "Raga Madhuvanti",
+        "artist": "Charanjit Singh",
+        "type": "music"
+      },
+      {
+        "start": 7448,
+        "end": 7583,
+        "song": "Faceless",
+        "artist": "A Certain Ratio",
+        "type": "music"
+      },
+      {
+        "start": 7584,
+        "end": 7820,
+        "song": "Where No Eagles Fly",
+        "artist": "The Voidz",
+        "type": "music"
+      },
+      {
+        "start": 7821,
+        "end": 8063,
+        "song": "Take Down the House",
+        "artist": "Promiseland",
+        "type": "music"
+      },
+      {
+        "start": 8064,
+        "end": 8200,
+        "song": "Too Much Money",
+        "artist": "Automatic",
         "type": "music"
       }
     ]
@@ -4736,1257 +5987,6 @@
     ]
   },
   {
-    "id": "motomami-los-santos",
-    "gameId": "gta5",
-    "name": "Motomami Los Santos",
-    "genre": "Latin Pop & Reggaeton",
-    "host": "Rosal\u00eda & Arca",
-    "logoUrl": "/logos/gta5/motomami.svg",
-    "audioUrl": "https://archive.org/download/Radio-files-pause-menu/GTA%20Online%20%E2%80%94%20MOTOMAMI%20Los%20Santos%20%EF%BD%9C%20Full%20radio%20station.mp3",
-    "duration": 6906,
-    "initialOffset": 1440,
-    "timestamps": [
-      {
-        "start": 9,
-        "end": 239,
-        "song": "Bunny Is A Rider",
-        "artist": "Caroline Polachek",
-        "type": "music"
-      },
-      {
-        "start": 240,
-        "end": 408,
-        "song": "DI MI NOMBRE (Cap.8: \u00c9xtasis)",
-        "artist": "ROSAL\u00cdA",
-        "type": "music"
-      },
-      {
-        "start": 409,
-        "end": 635,
-        "song": "Tumbando Fronte",
-        "artist": "Alberto Stylee",
-        "type": "music"
-      },
-      {
-        "start": 636,
-        "end": 766,
-        "song": "Linda",
-        "artist": "Tokischa & ROSAL\u00cdA",
-        "type": "music"
-      },
-      {
-        "start": 767,
-        "end": 962,
-        "song": "Tukuntazo",
-        "artist": "Tokischa, Haraca Kiko, El Cherry Scom",
-        "type": "music"
-      },
-      {
-        "start": 963,
-        "end": 1147,
-        "song": "Con Altura",
-        "artist": "ROSAL\u00cdA & J Balvin feat. El Guincho",
-        "type": "music"
-      },
-      {
-        "start": 1148,
-        "end": 1580,
-        "song": "Mystery of Love",
-        "artist": "Mr. Fingers",
-        "type": "music"
-      },
-      {
-        "start": 1581,
-        "end": 1774,
-        "song": "A La M\u00eda",
-        "artist": "Bad Gyal",
-        "type": "music"
-      },
-      {
-        "start": 1775,
-        "end": 1980,
-        "song": "Skinny Jeans",
-        "artist": "Likkle Vybz & Likkle Addi",
-        "type": "music"
-      },
-      {
-        "start": 1981,
-        "end": 2144,
-        "song": "Vamos Pa\u2019 La Disco",
-        "artist": "Las Guan\u00e1banas",
-        "type": "music"
-      },
-      {
-        "start": 2145,
-        "end": 2353,
-        "song": "Rockstar Made",
-        "artist": "Playboi Carti",
-        "type": "music"
-      },
-      {
-        "start": 2354,
-        "end": 2605,
-        "song": "Dos Locos",
-        "artist": "Monchy & Alexandra",
-        "type": "music"
-      },
-      {
-        "start": 2606,
-        "end": 2819,
-        "song": "Volando Voy",
-        "artist": "Camar\u00f3n De La Isla",
-        "type": "music"
-      },
-      {
-        "start": 2820,
-        "end": 3069,
-        "song": "100% of Disin\u2019 You",
-        "artist": "Armando",
-        "type": "music"
-      },
-      {
-        "start": 3070,
-        "end": 3366,
-        "song": "Salgo Pa\u2019 La Calle",
-        "artist": "Daddy Yankee feat. Randy",
-        "type": "music"
-      },
-      {
-        "start": 3367,
-        "end": 3573,
-        "song": "Snap and Roll",
-        "artist": "Soulja Boy Tell \u2018Em",
-        "type": "music"
-      },
-      {
-        "start": 3574,
-        "end": 3758,
-        "song": "Nubes",
-        "artist": "Rauw Alejandro",
-        "type": "music"
-      },
-      {
-        "start": 3759,
-        "end": 3994,
-        "song": "Mi Corazoncito",
-        "artist": "Aventura",
-        "type": "music"
-      },
-      {
-        "start": 3995,
-        "end": 4254,
-        "song": "KLK",
-        "artist": "Arca feat. ROSAL\u00cdA",
-        "type": "music"
-      },
-      {
-        "start": 4255,
-        "end": 4430,
-        "song": "Algo Como T\u00fa",
-        "artist": "Kaydy Cain feat. Los Del Control",
-        "type": "music"
-      },
-      {
-        "start": 4431,
-        "end": 4616,
-        "song": "LA FAMA",
-        "artist": "ROSAL\u00cdA feat. The Weeknd",
-        "type": "music"
-      },
-      {
-        "start": 4617,
-        "end": 4808,
-        "song": "Body So Good",
-        "artist": "Popcaan",
-        "type": "music"
-      },
-      {
-        "start": 4809,
-        "end": 4997,
-        "song": "Take Me Where Your Heart Is",
-        "artist": "Q",
-        "type": "music"
-      },
-      {
-        "start": 4998,
-        "end": 5160,
-        "song": "Machote",
-        "artist": "Arca",
-        "type": "music"
-      },
-      {
-        "start": 5161,
-        "end": 5372,
-        "song": "418 (Bounce Mix)",
-        "artist": "DJ Slugo",
-        "type": "music"
-      },
-      {
-        "start": 5373,
-        "end": 5682,
-        "song": "Stress",
-        "artist": "Justice",
-        "type": "music"
-      },
-      {
-        "start": 5683,
-        "end": 5849,
-        "song": "Duro 2005",
-        "artist": "La Goony Chonga",
-        "type": "music"
-      },
-      {
-        "start": 5850,
-        "end": 5994,
-        "song": "Dominicana",
-        "artist": "Chucky73",
-        "type": "music"
-      },
-      {
-        "start": 5995,
-        "end": 6147,
-        "song": "Bounce N Break Yo Back",
-        "artist": "DJ Spinn",
-        "type": "music"
-      },
-      {
-        "start": 6148,
-        "end": 6334,
-        "song": "XULITA",
-        "artist": "Young Cister feat. Kaydy Cain",
-        "type": "music"
-      },
-      {
-        "start": 6335,
-        "end": 6452,
-        "song": "A Pal\u00e9",
-        "artist": "ROSAL\u00cdA",
-        "type": "music"
-      },
-      {
-        "start": 6453,
-        "end": 6688,
-        "song": "Calle Luna Calle Sol",
-        "artist": "Willie Col\u00f3n & H\u00e9ctor Lavoe",
-        "type": "music"
-      },
-      {
-        "start": 6689,
-        "end": 6906,
-        "song": "Vacilar Contigo",
-        "artist": "\u00d1ejo & Dalmata",
-        "type": "music"
-      }
-    ]
-  },
-  {
-    "id": "the-music-locker",
-    "gameId": "gta5",
-    "name": "The Music Locker",
-    "genre": "Deep House & Club",
-    "host": "Moodymann / Keinemusik",
-    "logoUrl": "/logos/gta5/music-locker-radio.png",
-    "audioUrl": "https://archive.org/download/Radio-files-pause-menu/GTA%20Online%20%E2%80%94%20Music%20Locker%20Radio%20%EF%BD%9C%20Full%20radio%20station.mp3",
-    "duration": 24984,
-    "initialOffset": 1320,
-    "timestamps": [
-      {
-        "start": 1,
-        "end": 329,
-        "song": "White Noise Romantica",
-        "artist": "Adam Port",
-        "type": "music"
-      },
-      {
-        "start": 330,
-        "end": 610,
-        "song": "Deep Musique (Rampa Remix)",
-        "artist": "Pastaboys feat. Osunlade",
-        "type": "music"
-      },
-      {
-        "start": 611,
-        "end": 953,
-        "song": "After Dark",
-        "artist": "&ME",
-        "type": "music"
-      },
-      {
-        "start": 954,
-        "end": 1258,
-        "song": "It's Not You It's Me (Adam Port Remix)",
-        "artist": "Reznik & Good Guy Mikesh",
-        "type": "music"
-      },
-      {
-        "start": 1259,
-        "end": 1617,
-        "song": "Shadows",
-        "artist": "&ME",
-        "type": "music"
-      },
-      {
-        "start": 1618,
-        "end": 1874,
-        "song": "Enkidu (Adam Port Tulum By Night Edit)",
-        "artist": "Simple Symmetry",
-        "type": "music"
-      },
-      {
-        "start": 1875,
-        "end": 2171,
-        "song": "2000",
-        "artist": "Rampa",
-        "type": "music"
-      },
-      {
-        "start": 2172,
-        "end": 2358,
-        "song": "1995",
-        "artist": "&ME",
-        "type": "music"
-      },
-      {
-        "start": 2359,
-        "end": 2674,
-        "song": "Terrace",
-        "artist": "Rampa",
-        "type": "music"
-      },
-      {
-        "start": 2675,
-        "end": 2991,
-        "song": "Woods",
-        "artist": "&ME",
-        "type": "music"
-      },
-      {
-        "start": 2992,
-        "end": 3275,
-        "song": "Connection (Reznik & Good Guy Mikesh Remix)",
-        "artist": "T\u00e9l\u00e9popmusik feat. Young & Sick",
-        "type": "music"
-      },
-      {
-        "start": 3276,
-        "end": 3626,
-        "song": "Want You (Adam Port Remix)",
-        "artist": "Bell Towers",
-        "type": "music"
-      },
-      {
-        "start": 3627,
-        "end": 3908,
-        "song": "Civilis",
-        "artist": "Keinemusik",
-        "type": "music"
-      },
-      {
-        "start": 3909,
-        "end": 4177,
-        "song": "Bimma",
-        "artist": "Rampa",
-        "type": "music"
-      },
-      {
-        "start": 4178,
-        "end": 4531,
-        "song": "Place",
-        "artist": "Adam Port & Stereo MCs",
-        "type": "music"
-      },
-      {
-        "start": 4532,
-        "end": 4735,
-        "song": "Thunda (Rampa Remix)",
-        "artist": "Honey Dijon & Tim K feat. John Mendelsohn",
-        "type": "music"
-      },
-      {
-        "start": 4736,
-        "end": 5078,
-        "song": "Solaris",
-        "artist": "&ME",
-        "type": "music"
-      },
-      {
-        "start": 5079,
-        "end": 5375,
-        "song": "Do You Still Think of Me?",
-        "artist": "Adam Port",
-        "type": "music"
-      },
-      {
-        "start": 5376,
-        "end": 5619,
-        "song": "Trilogy",
-        "artist": "&ME feat. Sabota",
-        "type": "music"
-      },
-      {
-        "start": 5620,
-        "end": 5874,
-        "song": "Purge",
-        "artist": "Rampa",
-        "type": "music"
-      },
-      {
-        "start": 5875,
-        "end": 6215,
-        "song": "Caught in a Wave",
-        "artist": "Simian Mobile Disco feat. Deep Throat Choir",
-        "type": "music"
-      },
-      {
-        "start": 6216,
-        "end": 6483,
-        "song": "Run Run Run (Adam Port Remix)",
-        "artist": "Yeah But No",
-        "type": "music"
-      },
-      {
-        "start": 6484,
-        "end": 6866,
-        "song": "528Hz",
-        "artist": "Rampa",
-        "type": "music"
-      },
-      {
-        "start": 6867,
-        "end": 7128,
-        "song": "I Can\u2019t Kick This Feeling When It Hits",
-        "artist": "Moodymann",
-        "type": "music"
-      },
-      {
-        "start": 7129,
-        "end": 7293,
-        "song": "Pornoviewer",
-        "artist": "Dopplereffekt",
-        "type": "music"
-      },
-      {
-        "start": 7294,
-        "end": 7482,
-        "song": "Sharivari",
-        "artist": "The Dirtbombs",
-        "type": "music"
-      },
-      {
-        "start": 7483,
-        "end": 7824,
-        "song": "New for U (Live)",
-        "artist": "Andres",
-        "type": "music"
-      },
-      {
-        "start": 7825,
-        "end": 7972,
-        "song": "Zug Island",
-        "artist": "Kyle Hall & Kero",
-        "type": "music"
-      },
-      {
-        "start": 7973,
-        "end": 8262,
-        "song": "Cosmic Wave (Delano Smith Remix)",
-        "artist": "Norm Talley",
-        "type": "music"
-      },
-      {
-        "start": 8263,
-        "end": 8439,
-        "song": "My A.U.X. Mind",
-        "artist": "AUX 88",
-        "type": "music"
-      },
-      {
-        "start": 8440,
-        "end": 8568,
-        "song": "Cybonix Groove",
-        "artist": "Cybonix",
-        "type": "music"
-      },
-      {
-        "start": 8569,
-        "end": 8764,
-        "song": "I Think of Saturday",
-        "artist": "Moodymann",
-        "type": "music"
-      },
-      {
-        "start": 8765,
-        "end": 9051,
-        "song": "I\u2019ll Provide",
-        "artist": "Moodymann",
-        "type": "music"
-      },
-      {
-        "start": 9052,
-        "end": 9281,
-        "song": "Oscillator",
-        "artist": "Paperclip People",
-        "type": "music"
-      },
-      {
-        "start": 9282,
-        "end": 9482,
-        "song": "When We Used to Play",
-        "artist": "Blake Baxter",
-        "type": "music"
-      },
-      {
-        "start": 9483,
-        "end": 9607,
-        "song": "JAN",
-        "artist": "Moodymann",
-        "type": "music"
-      },
-      {
-        "start": 9608,
-        "end": 9767,
-        "song": "I'm the Baddest Bitch",
-        "artist": "Norma Jean Bell",
-        "type": "music"
-      },
-      {
-        "start": 9768,
-        "end": 9973,
-        "song": "Runaway",
-        "artist": "Moodymann & Roberta Sweed",
-        "type": "music"
-      },
-      {
-        "start": 9974,
-        "end": 10212,
-        "song": "Formula for Passion",
-        "artist": "GMI/UHM",
-        "type": "music"
-      },
-      {
-        "start": 10213,
-        "end": 10492,
-        "song": "Power in Numbers",
-        "artist": "Waajeed",
-        "type": "music"
-      },
-      {
-        "start": 10493,
-        "end": 10687,
-        "song": "Time to Express",
-        "artist": "Eddie Fowlkes",
-        "type": "music"
-      },
-      {
-        "start": 10688,
-        "end": 10937,
-        "song": "Thinkin Bout You",
-        "artist": "Sheefy McFly",
-        "type": "music"
-      },
-      {
-        "start": 10938,
-        "end": 11181,
-        "song": "Over U",
-        "artist": "Amp Fiddler",
-        "type": "music"
-      },
-      {
-        "start": 11182,
-        "end": 11356,
-        "song": "We Almost Lost Detroit",
-        "artist": "Gil Scott-Heron",
-        "type": "music"
-      },
-      {
-        "start": 11357,
-        "end": 11448,
-        "song": "Get Back",
-        "artist": "Apollo Bronw feat. Planet Asia",
-        "type": "music"
-      },
-      {
-        "start": 11449,
-        "end": 11517,
-        "song": "Shhhh",
-        "artist": "EGB",
-        "type": "music"
-      },
-      {
-        "start": 11518,
-        "end": 11651,
-        "song": "Clout",
-        "artist": "EGB",
-        "type": "music"
-      },
-      {
-        "start": 11652,
-        "end": 11805,
-        "song": "Sinner",
-        "artist": "Moodymann",
-        "type": "music"
-      },
-      {
-        "start": 11806,
-        "end": 12008,
-        "song": "Love",
-        "artist": "Pirahnahead & Diviniti",
-        "type": "music"
-      },
-      {
-        "start": 12009,
-        "end": 12361,
-        "song": "Got Me Coming Back Rite Now",
-        "artist": "Moodymann",
-        "type": "music"
-      },
-      {
-        "start": 12362,
-        "end": 12490,
-        "song": "Soul Control",
-        "artist": "Theo Parrish",
-        "type": "music"
-      },
-      {
-        "start": 12491,
-        "end": 12583,
-        "song": "Red Dogon Star",
-        "artist": "Marcellus Pittman",
-        "type": "music"
-      },
-      {
-        "start": 12584,
-        "end": 12791,
-        "song": "Rectify",
-        "artist": "Moodymann",
-        "type": "music"
-      },
-      {
-        "start": 12792,
-        "end": 12935,
-        "song": "Runaway",
-        "artist": "Moodymann feat. Pitch Black City",
-        "type": "music"
-      },
-      {
-        "start": 12936,
-        "end": 13166,
-        "song": "Let Me Show You Love",
-        "artist": "Moodymann",
-        "type": "talk"
-      },
-      {
-        "start": 13167,
-        "end": 13414,
-        "song": "I Get Moody Sometimes",
-        "artist": "Amp Fiddler feat. Moodymann",
-        "type": "music"
-      },
-      {
-        "start": 13415,
-        "end": 13605,
-        "song": "No",
-        "artist": "Moodymann",
-        "type": "music"
-      },
-      {
-        "start": 13606,
-        "end": 13731,
-        "song": "It\u2019s 2 Late 4 U and Me",
-        "artist": "Moodymann",
-        "type": "music"
-      },
-      {
-        "start": 13732,
-        "end": 13844,
-        "song": "Got 2 Make It 2 Heaven",
-        "artist": "Moodymann",
-        "type": "music"
-      },
-      {
-        "start": 13845,
-        "end": 14083,
-        "song": "Freeki Muthafucka",
-        "artist": "Moodymann",
-        "type": "music"
-      },
-      {
-        "start": 14084,
-        "end": 14278,
-        "song": "I Got Werk",
-        "artist": "Moodymann",
-        "type": "music"
-      },
-      {
-        "start": 14279,
-        "end": 14451,
-        "song": "1988",
-        "artist": "Moodymann",
-        "type": "music"
-      },
-      {
-        "start": 14452,
-        "end": 14720,
-        "song": "Newborn Soul",
-        "artist": "Rampa",
-        "type": "music"
-      },
-      {
-        "start": 14721,
-        "end": 14991,
-        "song": "The Rapture Pt.II",
-        "artist": "&ME",
-        "type": "music"
-      },
-      {
-        "start": 14992,
-        "end": 15264,
-        "song": "Crush (Unfinished) (Adam Port Edit)",
-        "artist": "Jai Paul",
-        "type": "music"
-      },
-      {
-        "start": 15265,
-        "end": 15522,
-        "song": "Tell Me Are We",
-        "artist": "Rampa & WhoMadeWho",
-        "type": "music"
-      },
-      {
-        "start": 15523,
-        "end": 15852,
-        "song": "Homeland (&ME Remix + Jinadu Vocals)",
-        "artist": "Joris Voorn",
-        "type": "music"
-      },
-      {
-        "start": 15853,
-        "end": 16149,
-        "song": "Underwater (Adam Port Remix)",
-        "artist": "R\u00dcF\u00dcS DU SOL",
-        "type": "music"
-      },
-      {
-        "start": 16150,
-        "end": 16451,
-        "song": "Garden",
-        "artist": "&ME",
-        "type": "music"
-      },
-      {
-        "start": 16452,
-        "end": 16673,
-        "song": "Ganesha Song",
-        "artist": "Adam Port",
-        "type": "music"
-      },
-      {
-        "start": 16674,
-        "end": 16933,
-        "song": "No War (Rampa Remix)",
-        "artist": "\u00c2me",
-        "type": "music"
-      },
-      {
-        "start": 16934,
-        "end": 17218,
-        "song": "You Need the Drugs (&ME Remix)",
-        "artist": "WestBam feat. Richard Butler",
-        "type": "music"
-      },
-      {
-        "start": 17219,
-        "end": 17418,
-        "song": "Inside",
-        "artist": "Nomi & Rampa",
-        "type": "music"
-      },
-      {
-        "start": 17419,
-        "end": 17649,
-        "song": "No Dancers (Adam Port Remix)",
-        "artist": "Cubicolor",
-        "type": "music"
-      },
-      {
-        "start": 17650,
-        "end": 17876,
-        "song": "Won't Change (Rampa Retouch)",
-        "artist": "Manqo",
-        "type": "music"
-      },
-      {
-        "start": 17877,
-        "end": 18174,
-        "song": "Starting Again",
-        "artist": "&ME feat. Atelier",
-        "type": "music"
-      },
-      {
-        "start": 18175,
-        "end": 18434,
-        "song": "Faraway Place (Rampa Remix)",
-        "artist": "Xinobi",
-        "type": "music"
-      },
-      {
-        "start": 18435,
-        "end": 18798,
-        "song": "The Rapture",
-        "artist": "&ME",
-        "type": "music"
-      },
-      {
-        "start": 18799,
-        "end": 19115,
-        "song": "Muy\u00e8",
-        "artist": "Keinemusik",
-        "type": "music"
-      },
-      {
-        "start": 19116,
-        "end": 19464,
-        "song": "In Your Eyes",
-        "artist": "&ME",
-        "type": "music"
-      },
-      {
-        "start": 19465,
-        "end": 19735,
-        "song": "Sunday",
-        "artist": "Rampa",
-        "type": "music"
-      },
-      {
-        "start": 19736,
-        "end": 20159,
-        "song": "A State Nearby (Adam Port Calypso Remix)",
-        "artist": "NTEIBINT & Stella",
-        "type": "music"
-      },
-      {
-        "start": 20160,
-        "end": 20338,
-        "song": "Fair Child",
-        "artist": "&ME",
-        "type": "music"
-      },
-      {
-        "start": 20339,
-        "end": 20580,
-        "song": "For This",
-        "artist": "Rampa feat. Chiara Noriko",
-        "type": "music"
-      },
-      {
-        "start": 20581,
-        "end": 20715,
-        "song": "Professor 3",
-        "artist": "Professor Rhythm",
-        "type": "music"
-      },
-      {
-        "start": 20716,
-        "end": 20990,
-        "song": "Petu (Dub Mix)",
-        "artist": "Palms Trax",
-        "type": "music"
-      },
-      {
-        "start": 20991,
-        "end": 21197,
-        "song": "The MBO Theme (Single Version)",
-        "artist": "Klein & MBO",
-        "type": "music"
-      },
-      {
-        "start": 21198,
-        "end": 21320,
-        "song": "Beja Imperial (12\u201c Version)",
-        "artist": "Plastic Mode",
-        "type": "music"
-      },
-      {
-        "start": 21321,
-        "end": 21442,
-        "song": "Let\u00b4s Make Love Tonight",
-        "artist": "L\u00b4Amour feat. Krystal",
-        "type": "music"
-      },
-      {
-        "start": 21443,
-        "end": 21632,
-        "song": "Heat You Up (Melt You Down Mix)",
-        "artist": "Shirley Lites",
-        "type": "music"
-      },
-      {
-        "start": 21633,
-        "end": 21826,
-        "song": "Let the Music Play (Extended 12\u201cMix)",
-        "artist": "Shannon",
-        "type": "music"
-      },
-      {
-        "start": 21827,
-        "end": 21989,
-        "song": "Transdance (New York Disco Mix)",
-        "artist": "Night Moves",
-        "type": "music"
-      },
-      {
-        "start": 21990,
-        "end": 22342,
-        "song": "The Rule to Survive (Prins Thomas Diskomiks)",
-        "artist": "N.O.I.A",
-        "type": "music"
-      },
-      {
-        "start": 22343,
-        "end": 22486,
-        "song": "27 (Laser Mix)",
-        "artist": "Tobias Bernstrup",
-        "type": "music"
-      },
-      {
-        "start": 22487,
-        "end": 22608,
-        "song": "Happy Song",
-        "artist": "Baby\u00b4s Gang",
-        "type": "music"
-      },
-      {
-        "start": 22609,
-        "end": 22843,
-        "song": "New Dance",
-        "artist": "Masalo",
-        "type": "music"
-      },
-      {
-        "start": 22844,
-        "end": 23032,
-        "song": "Get Up (Club Mix)",
-        "artist": "Diva",
-        "type": "music"
-      },
-      {
-        "start": 23033,
-        "end": 23213,
-        "song": "Can You Feel It (Jackin Up the Dub 12\u201cMix",
-        "artist": "Mario Diaz feat. Mr Lee",
-        "type": "music"
-      },
-      {
-        "start": 23214,
-        "end": 23329,
-        "song": "Freeze (Limelight Mix)",
-        "artist": "Scrappy",
-        "type": "music"
-      },
-      {
-        "start": 23330,
-        "end": 23470,
-        "song": "For the Same Man",
-        "artist": "B Beat Girls",
-        "type": "music"
-      },
-      {
-        "start": 23471,
-        "end": 23722,
-        "song": "Got U on My Mind",
-        "artist": "Greg Lee",
-        "type": "music"
-      },
-      {
-        "start": 23723,
-        "end": 23929,
-        "song": "Visions (Frankie Knuckles & David Morales Mix)",
-        "artist": "Robert Owens",
-        "type": "music"
-      },
-      {
-        "start": 23930,
-        "end": 24228,
-        "song": "When I Call You (Tommy Musto & Frankie Bones British Telecom Mix)",
-        "artist": "Lisa Lee",
-        "type": "music"
-      },
-      {
-        "start": 24229,
-        "end": 24355,
-        "song": "Dream Girl (Wet Dream Mix)",
-        "artist": "Pierre\u00b4s Pfantasy Club",
-        "type": "music"
-      },
-      {
-        "start": 24356,
-        "end": 24519,
-        "song": "Show Me What You Got (Acid Mix Part 1)",
-        "artist": "S.L.F.",
-        "type": "talk"
-      },
-      {
-        "start": 24520,
-        "end": 24692,
-        "song": "String Free (12\u201c Club Leray Mix)",
-        "artist": "Phortune",
-        "type": "music"
-      },
-      {
-        "start": 24693,
-        "end": 24984,
-        "song": "Indaba Kabani",
-        "artist": "Kamazu",
-        "type": "music"
-      }
-    ]
-  },
-  {
-    "id": "kult-fm",
-    "gameId": "gta5",
-    "name": "Kult FM",
-    "genre": "Post-Punk & New Wave",
-    "host": "Julian Casablancas",
-    "frequency": "99.1 FM",
-    "logoUrl": "/logos/gta5/kult-fm.webp",
-    "audioUrl": "https://archive.org/download/Radio-files-pause-menu/GTA%20Online%20%E2%80%94%20Kult%20FM%20%EF%BD%9C%20Full%20radio%20station.mp3",
-    "duration": 8200,
-    "initialOffset": 480,
-    "timestamps": [
-      {
-        "start": 35,
-        "end": 329,
-        "song": "Girls and Boys",
-        "artist": "Viagra Boys",
-        "type": "music"
-      },
-      {
-        "start": 330,
-        "end": 511,
-        "song": "Human Fly",
-        "artist": "The Cramps",
-        "type": "music"
-      },
-      {
-        "start": 512,
-        "end": 911,
-        "song": "Baby I Love You So",
-        "artist": "Colourbox",
-        "type": "music"
-      },
-      {
-        "start": 912,
-        "end": 1138,
-        "song": "Down on the Street",
-        "artist": "The Stooges",
-        "type": "music"
-      },
-      {
-        "start": 1139,
-        "end": 1437,
-        "song": "It's Yours",
-        "artist": "T La Rock",
-        "type": "music"
-      },
-      {
-        "start": 1438,
-        "end": 1590,
-        "song": "So It Goes",
-        "artist": "Nick Lowe",
-        "type": "music"
-      },
-      {
-        "start": 1591,
-        "end": 1901,
-        "song": "Age of Consent",
-        "artist": "New Order",
-        "type": "music"
-      },
-      {
-        "start": 1902,
-        "end": 2139,
-        "song": "Cycle",
-        "artist": "Icky Blossoms",
-        "type": "music"
-      },
-      {
-        "start": 2140,
-        "end": 2395,
-        "song": "Going Back To Cali",
-        "artist": "LL Cool J",
-        "type": "music"
-      },
-      {
-        "start": 2396,
-        "end": 2731,
-        "song": "On the Level",
-        "artist": "Mac Demarco",
-        "type": "music"
-      },
-      {
-        "start": 2732,
-        "end": 2981,
-        "song": "Liebe Auf Den Ersten Blick",
-        "artist": "DAF",
-        "type": "music"
-      },
-      {
-        "start": 2982,
-        "end": 3252,
-        "song": "Typical Girls",
-        "artist": "The Slits",
-        "type": "music"
-      },
-      {
-        "start": 3253,
-        "end": 3507,
-        "song": "Nightclubbing",
-        "artist": "Iggy Pop",
-        "type": "music"
-      },
-      {
-        "start": 3508,
-        "end": 3779,
-        "song": "Drab Measure",
-        "artist": "Crack Cloud",
-        "type": "music"
-      },
-      {
-        "start": 3780,
-        "end": 4042,
-        "song": "Four Shadows",
-        "artist": "Ariel Pink",
-        "type": "music"
-      },
-      {
-        "start": 4043,
-        "end": 4369,
-        "song": "Left Me Lonely",
-        "artist": "MC Shan feat. TJ Swan",
-        "type": "music"
-      },
-      {
-        "start": 4370,
-        "end": 4700,
-        "song": "The Adults Are Talking",
-        "artist": "The Strokes",
-        "type": "music"
-      },
-      {
-        "start": 4701,
-        "end": 4828,
-        "song": "Tainted Love",
-        "artist": "Gloria Jones",
-        "type": "music"
-      },
-      {
-        "start": 4829,
-        "end": 5100,
-        "song": "She's Lost Control",
-        "artist": "Joy Division",
-        "type": "music"
-      },
-      {
-        "start": 5101,
-        "end": 5234,
-        "song": "Many Tears Ago",
-        "artist": "Connie Francis",
-        "type": "music"
-      },
-      {
-        "start": 5235,
-        "end": 5417,
-        "song": "Time Bomb",
-        "artist": "Ramones",
-        "type": "music"
-      },
-      {
-        "start": 5418,
-        "end": 5676,
-        "song": "Alien Crime Lord",
-        "artist": "The Voidz",
-        "type": "music"
-      },
-      {
-        "start": 5677,
-        "end": 5879,
-        "song": "Pool Song",
-        "artist": "Lea Porcelain",
-        "type": "music"
-      },
-      {
-        "start": 5880,
-        "end": 6156,
-        "song": "Hard to Explain",
-        "artist": "The Strokes",
-        "type": "music"
-      },
-      {
-        "start": 6157,
-        "end": 6442,
-        "song": "This Is the Day",
-        "artist": "The The",
-        "type": "music"
-      },
-      {
-        "start": 6443,
-        "end": 6703,
-        "song": "Eisb\u00e4r",
-        "artist": "Grauzone",
-        "type": "music"
-      },
-      {
-        "start": 6704,
-        "end": 6865,
-        "song": "TV Casualty",
-        "artist": "Misfits",
-        "type": "music"
-      },
-      {
-        "start": 6866,
-        "end": 7143,
-        "song": "Deep",
-        "artist": "Danzig",
-        "type": "music"
-      },
-      {
-        "start": 7144,
-        "end": 7447,
-        "song": "Raga Madhuvanti",
-        "artist": "Charanjit Singh",
-        "type": "music"
-      },
-      {
-        "start": 7448,
-        "end": 7583,
-        "song": "Faceless",
-        "artist": "A Certain Ratio",
-        "type": "music"
-      },
-      {
-        "start": 7584,
-        "end": 7820,
-        "song": "Where No Eagles Fly",
-        "artist": "The Voidz",
-        "type": "music"
-      },
-      {
-        "start": 7821,
-        "end": 8063,
-        "song": "Take Down the House",
-        "artist": "Promiseland",
-        "type": "music"
-      },
-      {
-        "start": 8064,
-        "end": 8200,
-        "song": "Too Much Money",
-        "artist": "Automatic",
-        "type": "music"
-      }
-    ]
-  },
-  {
     "id": "still-slipping-los-santos",
     "gameId": "gta5",
     "name": "Still Slipping Los Santos",
@@ -6021,7 +6021,7 @@
       {
         "start": 334,
         "end": 519,
-        "song": "The Devil\u2019s Dance",
+        "song": "The Devil’s Dance",
         "artist": "Josi Devi l",
         "type": "music"
       },
@@ -6091,7 +6091,7 @@
       {
         "start": 1965,
         "end": 2088,
-        "song": "Shipp\u016bden",
+        "song": "Shippūden",
         "artist": "Blanco",
         "type": "music"
       },
@@ -6112,7 +6112,7 @@
       {
         "start": 2340,
         "end": 2528,
-        "song": "Operation + Kay-O \u2014 WHIP (Acapella)",
+        "song": "Operation + Kay-O — WHIP (Acapella)",
         "artist": "Instinct (UK)",
         "type": "music"
       },
@@ -6148,7 +6148,7 @@
         "start": 3133,
         "end": 3252,
         "song": "Wealthy Humans",
-        "artist": "C\u00e9line Gillain",
+        "artist": "Céline Gillain",
         "type": "music"
       },
       {
