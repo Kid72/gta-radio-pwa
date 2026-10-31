@@ -637,11 +637,11 @@ export const Gta5RadialWheel: React.FC<Gta5RadialWheelProps> = ({
         data-testid="gta5-hud-hint"
         className="mt-3 max-w-[92vw] text-center text-[9px] font-semibold uppercase leading-relaxed tracking-[0.22em] text-zinc-500 sm:text-[10px]"
       >
-        Hold{' '}
+        Drag to select station • Release to tune •{' '}
         <kbd className="rounded bg-white/10 px-1 py-0.5 font-mono text-[9px] normal-case tracking-normal text-zinc-300">
           Q
         </kbd>{' '}
-        • Move pointer or drag to select station • Release to tune
+        cycles
       </p>
     </div>
   );
