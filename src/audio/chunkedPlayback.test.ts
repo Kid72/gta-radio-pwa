@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach, vi } from 'vitest';
-import { CHUNK_TRANSITION_GUARD, ChunkedPlayback } from './chunkedPlayback';
+import { ChunkedPlayback } from './chunkedPlayback';
 import { chunkUrl } from './chunkedSource';
 import type { ChunkMeta } from '../data/chunkManifest';
 import type { ChunkStorage, GameId, Station } from '../types/radio';
@@ -205,7 +205,7 @@ describe('ChunkedPlayback', () => {
     playback.dispose();
   });
 
-  it('advances to the next chunk at the end guard and keeps playing', async () => {
+  it('never switches early: the old chunk plays to its last second', async () => {
     const audio = createFakeAudio();
     audio.setReadyState(4);
     const onChunkChange = vi.fn();
@@ -215,15 +215,22 @@ describe('ChunkedPlayback', () => {
     audio.emit('loadedmetadata');
     expect(audio.currentTime).toBeCloseTo(87, 5);
 
-    audio.currentTime = 120 - CHUNK_TRANSITION_GUARD / 2;
+    // 0.2 s before the end of chunk 51: still the same chunk, still playing.
+    audio.currentTime = 119.8;
     audio.emit('timeupdate');
+    await flush();
+
+    expect(playback.getChunkIndex()).toBe(51);
+    expect(audio.src).toBe(url('gtasa', 'k-rose', 51));
+    expect(onChunkChange).toHaveBeenLastCalledWith(51);
+
+    // The element reaches its natural end: now the next chunk starts at 0.
+    audio.emit('ended');
     await flush();
 
     expect(playback.getChunkIndex()).toBe(52);
     expect(audio.src).toBe(url('gtasa', 'k-rose', 52));
     expect(audio.writes[audio.writes.length - 1]).toBe(0);
-    expect(audio.play).toHaveBeenCalledTimes(2);
-    expect(audio.paused).toBe(false);
     expect(onChunkChange).toHaveBeenLastCalledWith(52);
 
     playback.dispose();
@@ -263,6 +270,10 @@ describe('ChunkedPlayback', () => {
     audio.emit('timeupdate');
     await flush();
     expect(onTransition).not.toHaveBeenCalled();
+
+    nowSpy.mockReturnValue(1_000_000);
+    audio.emit('ended');
+    await flush();
 
     nowSpy.mockReturnValue(1_000_042);
     audio.emit('playing');

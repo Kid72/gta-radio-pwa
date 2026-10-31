@@ -1,7 +1,6 @@
 import type { ChunkStorage, GameId, Station } from '../types/radio';
 import type { ChunkMeta } from '../data/chunkManifest';
 import {
-  CHUNK_END_GUARD,
   chunkBounds,
   chunkUrl,
   locate,
@@ -29,12 +28,6 @@ export interface ChunkedPlaybackOptions {
   onError?: (message: string) => void;
   onChunkChange?: (index: number) => void;
 }
-
-/**
- * Switch this far from the end of a chunk. Slightly wider than `CHUNK_END_GUARD`
- * (the clamp used when seeking) so the switch fires before playback hits EOF.
- */
-export const CHUNK_TRANSITION_GUARD = Math.max(CHUNK_END_GUARD, 0.35);
 
 /** Warm the next chunk when this many seconds are left in the current one. */
 export const PREFETCH_LEAD_SECONDS = 20;
@@ -298,7 +291,10 @@ export class ChunkedPlayback {
     const chunkLength = Math.max(0, end - start);
     const remaining = chunkLength - local;
 
-    if (remaining < CHUNK_TRANSITION_GUARD) {
+    // Never switch before the chunk ends: an early switch truncates music (the
+    // old 0.35 s guard was audible every two minutes). `ended` is the switch;
+    // this 20 ms fallback only covers an element that misses the event.
+    if (remaining <= 0.02) {
       void this.advance();
       return;
     }

@@ -6,6 +6,9 @@
 // Everything is self-terminating inside ~380 ms so the station is never masked.
 //
 // No dependencies. If AudioContext is missing/blocked every method degrades to a no-op.
+//
+// The burst is synthesised unless `public/sfx/tune-switch.mp3` is published: that slot
+// takes a real recording (e.g. an extracted in-game switch) and is preferred when present.
 
 /** Tunable shape of the switch sound. Frequencies in Hz, times in ms. */
 export interface TuningSwitchParams {
@@ -73,6 +76,8 @@ export class RadioSFX {
   private lastBurstAt = Number.NEGATIVE_INFINITY;
   private lastClickAt = Number.NEGATIVE_INFINITY;
   private params: TuningSwitchParams = { ...TUNING_SWITCH };
+  private switchSample: Maybe<AudioBuffer> = null;
+  private switchSampleTried = false;
 
   constructor(ctx?: AudioContext) {
     if (ctx) this.ctx = ctx;
@@ -113,6 +118,40 @@ export class RadioSFX {
 
   getParams(): TuningSwitchParams {
     return { ...this.params };
+  }
+
+  /**
+   * Optional real recording of the in-game switch. If `public/sfx/tune-switch.mp3`
+   * exists it replaces the synthesised burst (the synthesised one stays the
+   * default because Rockstar's asset cannot be redistributed).
+   */
+  async loadSwitchSample(url?: string): Promise<void> {
+    if (this.switchSampleTried) return;
+    this.switchSampleTried = true;
+    try {
+      if (typeof fetch !== 'function') return;
+      const env = (import.meta as unknown as { env?: { BASE_URL?: string } }).env;
+      const base = env?.BASE_URL || '/';
+      const src = url || `${base}${base.endsWith('/') ? '' : '/'}sfx/tune-switch.mp3`;
+      const response = await fetch(src);
+      if (!response.ok) return;
+      const bytes = await response.arrayBuffer();
+      this.initCtx();
+      if (!this.ctx) return;
+      this.switchSample = await this.ctx.decodeAudioData(bytes.slice(0));
+    } catch {
+      // Nothing published at the slot: keep the synthesised burst.
+    }
+  }
+
+  /** True when a real switch recording is loaded and used instead of the synth. */
+  hasSwitchSample(): boolean {
+    return this.switchSample !== null;
+  }
+
+  /** Inject a decoded sample (hosts/tests); `null` restores the synth. */
+  setSwitchSample(buffer: AudioBuffer | null): void {
+    this.switchSample = buffer;
   }
 
   private now(): number {
@@ -175,7 +214,8 @@ export class RadioSFX {
         clamp(durationMs, this.params.minBurstMs, this.params.maxBurstMs) / 1000;
 
       const source = ctx.createBufferSource();
-      source.buffer = this.createNoiseBuffer(ctx, durationSec);
+      const sample = this.switchSample;
+      source.buffer = sample || this.createNoiseBuffer(ctx, durationSec);
 
       const band = ctx.createBiquadFilter();
       band.type = 'bandpass';
@@ -193,12 +233,18 @@ export class RadioSFX {
       gain.gain.linearRampToValueAtTime(this.params.peakGain * 0.84, now + durationSec * 0.55);
       gain.gain.exponentialRampToValueAtTime(0.0008, now + durationSec);
 
-      source.connect(band);
-      band.connect(gain);
+      // A real recording already carries its own spectrum; only the synth is swept.
+      if (sample) {
+        source.connect(gain);
+      } else {
+        source.connect(band);
+        band.connect(gain);
+      }
       gain.connect(ctx.destination);
 
+      const playFor = sample ? Math.min(sample.duration, durationSec) : durationSec;
       source.start(now);
-      source.stop(now + durationSec + 0.01);
+      source.stop(now + playFor + 0.01);
 
       this.lastBurstAt = startedAt;
       this.burstSource = source;
@@ -409,6 +455,7 @@ export class RadioSFX {
   /** One call = one GTA-style switch: knob notch, static sweep, nothing else. */
   playStationSwitch(durationMs: number = this.params.burstMs): void {
     if (!this.enabled) return;
+    if (!this.switchSampleTried) void this.loadSwitchSample();
     this.playClick();
     this.playTuningStatic(durationMs);
   }

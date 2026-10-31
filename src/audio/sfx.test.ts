@@ -339,3 +339,15 @@ describe('RadioSFX degradation and flags', () => {
     expect(m.ctx.resume).toHaveBeenCalled();
   });
 });
+
+describe('RadioSFX switch sample slot', () => {
+  it('defaults to the synthesiser and accepts an injected recording', () => {
+    const sfx = new RadioSFX();
+    expect(sfx.hasSwitchSample()).toBe(false);
+    const fake = { duration: 0.28, length: 12345, numberOfChannels: 2 } as unknown as AudioBuffer;
+    sfx.setSwitchSample(fake);
+    expect(sfx.hasSwitchSample()).toBe(true);
+    sfx.setSwitchSample(null);
+    expect(sfx.hasSwitchSample()).toBe(false);
+  });
+});
